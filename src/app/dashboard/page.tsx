@@ -7,6 +7,7 @@ const Dashboard = async () => {
     <main>
       Dashboard
       <p>{JSON.stringify(session?.user, null, 2)}</p>
+      <a href="/api/auth/logout">Logout</a>
     </main>
   );
 };
