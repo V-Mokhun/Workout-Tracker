@@ -8,6 +8,20 @@
       "when": 1712574107375,
       "tag": "0000_parallel_wind_dancer",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1712575688417,
+      "tag": "0001_slim_malice",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1712575967461,
+      "tag": "0002_outgoing_fat_cobra",
+      "breakpoints": true
     }
   ]
 }

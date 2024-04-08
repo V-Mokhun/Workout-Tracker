@@ -19,7 +19,7 @@ export const workout = pgTable("workout", {
   duration: integer("duration"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-  user_id: integer("user_id")
+  userId: integer("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
 });
@@ -27,12 +27,12 @@ export const workout = pgTable("workout", {
 export const workoutExercise = pgTable(
   "workout_exercise",
   {
-    workout_id: integer("workout_id")
+    workoutId: integer("workout_id")
       .references(() => workout.id, {
         onDelete: "cascade",
       })
       .notNull(),
-    exercise_id: integer("exercise_id")
+    exerciseId: integer("exercise_id")
       .references(() => exercise.id)
       .notNull(),
     position: integer("position").notNull(),
@@ -41,7 +41,7 @@ export const workoutExercise = pgTable(
   },
   (table) => {
     return {
-      pk: primaryKey({ columns: [table.workout_id, table.exercise_id] }),
+      pk: primaryKey({ columns: [table.workoutId, table.exerciseId] }),
     };
   }
 );
@@ -50,8 +50,8 @@ export const workoutExerciseSet = pgTable(
   "workout_exercise_set",
   {
     id: serial("id").primaryKey(),
-    workout_id: integer("workout_id").notNull(),
-    exercise_id: integer("exercise_id").notNull(),
+    workoutId: integer("workout_id").notNull(),
+    exerciseId: integer("exercise_id").notNull(),
     position: integer("position").notNull(),
     reps: integer("reps"),
     rpe: integer("rpe"),
@@ -63,10 +63,10 @@ export const workoutExerciseSet = pgTable(
   (table) => {
     return {
       workoutExerciseReference: foreignKey({
-        columns: [table.workout_id, table.exercise_id],
+        columns: [table.workoutId, table.exerciseId],
         foreignColumns: [
-          workoutExercise.workout_id,
-          workoutExercise.exercise_id,
+          workoutExercise.workoutId,
+          workoutExercise.exerciseId,
         ],
         name: "fk_workout_exercise_set",
       }).onDelete("cascade"),

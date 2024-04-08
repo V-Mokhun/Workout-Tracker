@@ -1,0 +1,540 @@
+{
+  "id": "ea96a8f4-6c37-4b78-ac02-0dc5eb7b716f",
+  "prevId": "39f892f2-1a8b-48c1-af0a-797b34e526c6",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "exercise": {
+      "name": "exercise",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "target_muscle": {
+          "name": "target_muscle",
+          "type": "target_muscle",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "name": "type",
+          "type": "exercise_type",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "equipment": {
+          "name": "equipment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mechanics": {
+          "name": "mechanics",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "force_type": {
+          "name": "force_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "experience_level": {
+          "name": "experience_level",
+          "type": "exercise_experience",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "secondary_muscles": {
+          "name": "secondary_muscles",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "overview": {
+          "name": "overview",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "instructions": {
+          "name": "instructions",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tips": {
+          "name": "tips",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "userId": {
+          "name": "userId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_notes": {
+          "name": "user_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "exercise_userId_user_id_fk": {
+          "name": "exercise_userId_user_id_fk",
+          "tableFrom": "exercise",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "workout": {
+      "name": "workout",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "duration": {
+          "name": "duration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "userId": {
+          "name": "userId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "workout_userId_user_id_fk": {
+          "name": "workout_userId_user_id_fk",
+          "tableFrom": "workout",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "workout_exercise": {
+      "name": "workout_exercise",
+      "schema": "",
+      "columns": {
+        "workoutId": {
+          "name": "workoutId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "exerciseId": {
+          "name": "exerciseId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "workout_exercise_workoutId_workout_id_fk": {
+          "name": "workout_exercise_workoutId_workout_id_fk",
+          "tableFrom": "workout_exercise",
+          "tableTo": "workout",
+          "columnsFrom": [
+            "workoutId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "workout_exercise_exerciseId_exercise_id_fk": {
+          "name": "workout_exercise_exerciseId_exercise_id_fk",
+          "tableFrom": "workout_exercise",
+          "tableTo": "exercise",
+          "columnsFrom": [
+            "exerciseId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "workout_exercise_workoutId_exerciseId_pk": {
+          "name": "workout_exercise_workoutId_exerciseId_pk",
+          "columns": [
+            "workoutId",
+            "exerciseId"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "workout_exercise_set": {
+      "name": "workout_exercise_set",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "workoutId": {
+          "name": "workoutId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "exerciseId": {
+          "name": "exerciseId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reps": {
+          "name": "reps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rpe": {
+          "name": "rpe",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "duration": {
+          "name": "duration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "weight": {
+          "name": "weight",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "fk_workout_exercise_set": {
+          "name": "fk_workout_exercise_set",
+          "tableFrom": "workout_exercise_set",
+          "tableTo": "workout_exercise",
+          "columnsFrom": [
+            "workoutId",
+            "exerciseId"
+          ],
+          "columnsTo": [
+            "workoutId",
+            "exerciseId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user": {
+      "name": "user",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar": {
+          "name": "avatar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "birthdate": {
+          "name": "birthdate",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "weight_metric": {
+          "name": "weight_metric",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "weight_imperial": {
+          "name": "weight_imperial",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "height_metric": {
+          "name": "height_metric",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "height_imperial": {
+          "name": "height_imperial",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gender": {
+          "name": "gender",
+          "type": "gender",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "units": {
+          "name": "units",
+          "type": "units",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_email_unique": {
+          "name": "user_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {
+    "exercise_experience": {
+      "name": "exercise_experience",
+      "values": {
+        "beginner": "beginner",
+        "intermediate": "intermediate",
+        "advanced": "advanced"
+      }
+    },
+    "exercise_type": {
+      "name": "exercise_type",
+      "values": {
+        "strength": "strength",
+        "plyometrics": "plyometrics",
+        "warmup": "warmup",
+        "smr": "smr",
+        "conditioning": "conditioning",
+        "activation": "activation",
+        "powerlifting": "powerlifting",
+        "olympic-weightlifting": "olympic-weightlifting"
+      }
+    },
+    "gender": {
+      "name": "gender",
+      "values": {
+        "male": "male",
+        "female": "female"
+      }
+    },
+    "target_muscle": {
+      "name": "target_muscle",
+      "values": {
+        "abductors": "abductors",
+        "abs": "abs",
+        "adductors": "adductors",
+        "biceps": "biceps",
+        "calves": "calves",
+        "chest": "chest",
+        "forearms": "forearms",
+        "glutes": "glutes",
+        "hamstrings": "hamstrings",
+        "hip-flexors": "hip-flexors",
+        "lats": "lats",
+        "lower-back": "lower-back",
+        "upper-back": "upper-back",
+        "neck": "neck",
+        "obliques": "obliques",
+        "quads": "quads",
+        "shoulders": "shoulders",
+        "traps": "traps",
+        "triceps": "triceps"
+      }
+    },
+    "units": {
+      "name": "units",
+      "values": {
+        "metric": "metric",
+        "imperial": "imperial"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
