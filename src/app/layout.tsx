@@ -19,7 +19,9 @@ export default function RootLayout({
   return (
     <html className="h-full" lang="en" dir="ltr">
       <UserProvider>
-        <body className={`${inter.className} flex flex-col h-full`}>
+        <body
+          className={`${inter.className} flex flex-col h-full font-normal text-base leading-normal`}
+        >
           <LocalizedStringProvider locale="en" />
           {children}
         </body>

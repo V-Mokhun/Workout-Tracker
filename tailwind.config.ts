@@ -1,4 +1,6 @@
 import type { Config } from "tailwindcss";
+import reactAriaPlugin from "tailwindcss-react-aria-components";
+import animatePlugin from "tailwindcss-animate";
 
 const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
@@ -15,6 +17,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [reactAriaPlugin, animatePlugin],
 };
 export default config;
