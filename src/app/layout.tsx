@@ -17,9 +17,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir="ltr">
+    <html className="h-full" lang="en" dir="ltr">
       <UserProvider>
-        <body className={inter.className}>
+        <body className={`${inter.className} flex flex-col h-full`}>
           <LocalizedStringProvider locale="en" />
           {children}
         </body>
