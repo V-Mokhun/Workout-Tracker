@@ -24,7 +24,6 @@ const config = {
         ring: "hsl(var(--ring))",
         background: {
           DEFAULT: "hsl(var(--background))",
-          hover: "hsl(var(--background-hover))",
         },
         foreground: "hsl(var(--foreground))",
         primary: {
