@@ -1,10 +1,11 @@
 import { UserProvider } from "@auth0/nextjs-auth0/client";
-import { LocalizedStringProvider } from "react-aria-components/i18n";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
 import "./global.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const fontSans = FontSans({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Workout Planner",
@@ -20,9 +21,8 @@ export default function RootLayout({
     <html className="h-full" lang="en" dir="ltr">
       <UserProvider>
         <body
-          className={`${inter.className} flex flex-col h-full font-normal text-base leading-normal`}
+          className={`${fontSans.className} flex flex-col h-full bg-background text-foreground antialiased font-normal text-base leading-normal`}
         >
-          <LocalizedStringProvider locale="en" />
           {children}
         </body>
       </UserProvider>
