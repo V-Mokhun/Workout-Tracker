@@ -1,5 +1,7 @@
 "use client";
 
+import { PERSONAL_EXERCISES_ROUTE, PROFILE_ROUTE } from "@/shared/consts";
+import { Dumbbell, LogOut, UserRound } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -7,8 +9,10 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Separator,
 } from "@/shared/ui";
 import Image from "next/image";
+import Link from "next/link";
 
 interface HeaderProfileProps {
   user: any;
@@ -27,10 +31,38 @@ export const HeaderProfile = ({ user }: HeaderProfileProps) => {
       </PopoverTrigger>
       <PopoverContent>
         <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
+          <li>
+            <Link
+              href={PROFILE_ROUTE}
+              className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-background-hover transition-colors"
+            >
+              <UserRound className="w-4 h-4" />
+              <span>Profile</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href={PERSONAL_EXERCISES_ROUTE}
+              className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-background-hover transition-colors"
+            >
+              <Dumbbell className="w-4 h-4" />
+              <span>Your Exercises and Plans</span>
+            </Link>
+          </li>
+
+          <Separator className="my-2" />
+          <li>
+						
+					</li>
+          <li>
+            <a
+              href="/api/auth/logout"
+              className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-background-hover transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Logout</span>
+            </a>
+          </li>
         </ul>
       </PopoverContent>
     </Popover>
