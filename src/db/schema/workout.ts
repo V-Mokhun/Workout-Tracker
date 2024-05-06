@@ -64,10 +64,7 @@ export const workoutExerciseSet = pgTable(
     return {
       workoutExerciseReference: foreignKey({
         columns: [table.workoutId, table.exerciseId],
-        foreignColumns: [
-          workoutExercise.workoutId,
-          workoutExercise.exerciseId,
-        ],
+        foreignColumns: [workoutExercise.workoutId, workoutExercise.exerciseId],
         name: "fk_workout_exercise_set",
       }).onDelete("cascade"),
     };

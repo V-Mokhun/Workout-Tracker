@@ -1,5 +1,4 @@
-import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
-import { user } from "./user";
+import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import {
   exerciseExperienceEnum,
   exerciseTypeEnum,
@@ -22,8 +21,4 @@ export const exercise = pgTable("exercise", {
   tips: text("tips"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-  userId: integer("user_id").references(() => user.id, {
-    onDelete: "cascade",
-  }),
-  userNotes: text("user_notes"),
 });
