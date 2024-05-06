@@ -1,16 +1,14 @@
 "use client";
 
+import { Monitor, MoonStar, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue
 } from "../primitives";
-import { Monitor, MoonStar, Sun } from "lucide-react";
 
 interface ThemePickerProps {}
 

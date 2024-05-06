@@ -14,9 +14,10 @@ import {
 } from "@/shared/ui";
 import Image from "next/image";
 import Link from "next/link";
+import { User } from "@/shared/api";
 
 interface HeaderProfileProps {
-  user: any;
+  user: User;
 }
 
 export const HeaderProfile = ({ user }: HeaderProfileProps) => {

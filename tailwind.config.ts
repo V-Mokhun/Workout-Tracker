@@ -7,7 +7,7 @@ const config = {
   prefix: "",
   theme: {
     screens: {
-      xs: "475px",
+      xs: "479px",
       ...defaultTheme.screens,
     },
     container: {
@@ -73,6 +73,17 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      screens: {
+        xs: "479px",
+      },
+      fontFamily: {
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+      },
+      fontSize: {
+        "clamp-heading-big": "clamp(2rem, 6.5vw, 3rem)",
+        "clamp-heading": "clamp(1.75rem, 5vw, 2.25rem)",
+        "clamp-heading-sm": "clamp(1.375rem, 5vw, 1.75rem)",
       },
     },
   },

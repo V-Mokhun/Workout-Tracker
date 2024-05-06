@@ -2,18 +2,17 @@ import { DASHBOARD_ROUTE, EXERCISES_ROUTE } from "@/shared/consts";
 import { getSession } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { HeaderProfile } from "./header-profile";
-import { linkVariants } from "@/shared/ui";
+import { Container, linkVariants } from "@/shared/ui";
+import { User } from "@/shared/api";
 
-interface HeaderProps {}
-
-export const Header = async ({}: HeaderProps) => {
+export const Header = async () => {
   const session = await getSession();
 
   if (!session) return null;
 
   return (
     <header className="py-4">
-      <div className="container">
+      <Container>
         <div className="flex justify-between items-center gap-4">
           <Link href={DASHBOARD_ROUTE}>LOGO</Link>
           <nav>
@@ -36,9 +35,9 @@ export const Header = async ({}: HeaderProps) => {
               </li>
             </ul>
           </nav>
-          <HeaderProfile user={session.user} />
+          <HeaderProfile user={session.user as User} />
         </div>
-      </div>
+      </Container>
     </header>
   );
 };
