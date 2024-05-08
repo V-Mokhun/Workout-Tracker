@@ -1,9 +1,81 @@
 {
-  "id": "39f892f2-1a8b-48c1-af0a-797b34e526c6",
+  "id": "196633e6-9d1d-4f57-a153-4c0a3e618e9c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
+    "exercise_target_muscle": {
+      "name": "exercise_target_muscle",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "exercise_target_muscle_slug_unique": {
+          "name": "exercise_target_muscle_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      }
+    },
+    "exercise_type": {
+      "name": "exercise_type",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "exercise_type_slug_unique": {
+          "name": "exercise_type_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      }
+    },
     "exercise": {
       "name": "exercise",
       "schema": "",
@@ -26,17 +98,17 @@
           "primaryKey": false,
           "notNull": false
         },
-        "target_muscle": {
-          "name": "target_muscle",
-          "type": "target_muscle",
+        "target_muscle_id": {
+          "name": "target_muscle_id",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
-        "type": {
-          "name": "type",
-          "type": "exercise_type",
+        "exercise_type_id": {
+          "name": "exercise_type_id",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "equipment": {
           "name": "equipment",
@@ -99,25 +171,194 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        }
+      },
+      "indexes": {
+        "exercise_name_index": {
+          "name": "exercise_name_index",
+          "columns": [
+            "name"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "exercise_target_muscle_id_exercise_target_muscle_id_fk": {
+          "name": "exercise_target_muscle_id_exercise_target_muscle_id_fk",
+          "tableFrom": "exercise",
+          "tableTo": "exercise_target_muscle",
+          "columnsFrom": [
+            "target_muscle_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "exercise_exercise_type_id_exercise_type_id_fk": {
+          "name": "exercise_exercise_type_id_exercise_type_id_fk",
+          "tableFrom": "exercise",
+          "tableTo": "exercise_type",
+          "columnsFrom": [
+            "exercise_type_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user": {
+      "name": "user",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar": {
+          "name": "avatar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "birthdate": {
+          "name": "birthdate",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "weight_metric": {
+          "name": "weight_metric",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "weight_imperial": {
+          "name": "weight_imperial",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "height_metric": {
+          "name": "height_metric",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "height_imperial": {
+          "name": "height_imperial",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gender": {
+          "name": "gender",
+          "type": "gender",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "units": {
+          "name": "units",
+          "type": "units",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_email_unique": {
+          "name": "user_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    },
+    "user_exercise": {
+      "name": "user_exercise",
+      "schema": "",
+      "columns": {
+        "exercise_id": {
+          "name": "exercise_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "user_notes": {
           "name": "user_notes",
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "is_favorite": {
+          "name": "is_favorite",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "exercise_user_id_user_id_fk": {
-          "name": "exercise_user_id_user_id_fk",
-          "tableFrom": "exercise",
+        "user_exercise_exercise_id_exercise_id_fk": {
+          "name": "user_exercise_exercise_id_exercise_id_fk",
+          "tableFrom": "user_exercise",
+          "tableTo": "exercise",
+          "columnsFrom": [
+            "exercise_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "user_exercise_user_id_user_id_fk": {
+          "name": "user_exercise_user_id_user_id_fk",
+          "tableFrom": "user_exercise",
           "tableTo": "user",
           "columnsFrom": [
             "user_id"
@@ -129,7 +370,15 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "user_exercise_user_id_exercise_id_pk": {
+          "name": "user_exercise_user_id_exercise_id_pk",
+          "columns": [
+            "user_id",
+            "exercise_id"
+          ]
+        }
+      },
       "uniqueConstraints": {}
     },
     "workout": {
@@ -329,9 +578,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "weight": {
-          "name": "weight",
-          "type": "integer",
+        "weight_metric": {
+          "name": "weight_metric",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "weight_imperial": {
+          "name": "weight_imperial",
+          "type": "real",
           "primaryKey": false,
           "notNull": false
         },
@@ -370,104 +625,6 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
-    },
-    "user": {
-      "name": "user",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "avatar": {
-          "name": "avatar",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "birthdate": {
-          "name": "birthdate",
-          "type": "varchar(10)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "weight_metric": {
-          "name": "weight_metric",
-          "type": "real",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "weight_imperial": {
-          "name": "weight_imperial",
-          "type": "real",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "height_metric": {
-          "name": "height_metric",
-          "type": "real",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "height_imperial": {
-          "name": "height_imperial",
-          "type": "real",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "gender": {
-          "name": "gender",
-          "type": "gender",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "units": {
-          "name": "units",
-          "type": "units",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "user_email_unique": {
-          "name": "user_email_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
-        }
-      }
     }
   },
   "enums": {
@@ -479,48 +636,11 @@
         "advanced": "advanced"
       }
     },
-    "exercise_type": {
-      "name": "exercise_type",
-      "values": {
-        "strength": "strength",
-        "plyometrics": "plyometrics",
-        "warmup": "warmup",
-        "smr": "smr",
-        "conditioning": "conditioning",
-        "activation": "activation",
-        "powerlifting": "powerlifting",
-        "olympic-weightlifting": "olympic-weightlifting"
-      }
-    },
     "gender": {
       "name": "gender",
       "values": {
         "male": "male",
         "female": "female"
-      }
-    },
-    "target_muscle": {
-      "name": "target_muscle",
-      "values": {
-        "abductors": "abductors",
-        "abs": "abs",
-        "adductors": "adductors",
-        "biceps": "biceps",
-        "calves": "calves",
-        "chest": "chest",
-        "forearms": "forearms",
-        "glutes": "glutes",
-        "hamstrings": "hamstrings",
-        "hip-flexors": "hip-flexors",
-        "lats": "lats",
-        "lower-back": "lower-back",
-        "upper-back": "upper-back",
-        "neck": "neck",
-        "obliques": "obliques",
-        "quads": "quads",
-        "shoulders": "shoulders",
-        "traps": "traps",
-        "triceps": "triceps"
       }
     },
     "units": {

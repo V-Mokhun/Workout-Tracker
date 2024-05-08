@@ -7,6 +7,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { exercise } from "./exercise";
 import { user } from "./user";
+import { relations } from "drizzle-orm";
 
 export const userExercise = pgTable(
   "user_exercise",
@@ -26,3 +27,11 @@ export const userExercise = pgTable(
     };
   }
 );
+
+export const userExerciseRelations = relations(userExercise, ({ one }) => ({
+  user: one(user, { fields: [userExercise.userId], references: [user.id] }),
+  exercise: one(exercise, {
+    fields: [userExercise.exerciseId],
+    references: [exercise.id],
+  }),
+}));

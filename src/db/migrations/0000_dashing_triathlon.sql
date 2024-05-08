@@ -5,19 +5,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- CREATE TYPE "exercise_type" AS ENUM('strength', 'plyometrics', 'warmup', 'smr', 'conditioning', 'activation', 'powerlifting', 'olympic-weightlifting');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
  CREATE TYPE "gender" AS ENUM('male', 'female');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "target_muscle" AS ENUM('abductors', 'abs', 'adductors', 'biceps', 'calves', 'chest', 'forearms', 'glutes', 'hamstrings', 'hip-flexors', 'lats', 'lower-back', 'upper-back', 'neck', 'obliques', 'quads', 'shoulders', 'traps', 'triceps');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -28,12 +16,26 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "exercise_target_muscle" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"slug" text NOT NULL,
+	CONSTRAINT "exercise_target_muscle_slug_unique" UNIQUE("slug")
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "exercise_type" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"slug" text NOT NULL,
+	CONSTRAINT "exercise_type_slug_unique" UNIQUE("slug")
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "exercise" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"image" text,
-	"target_muscle" "target_muscle",
-	"type" "exercise_type",
+	"target_muscle_id" integer NOT NULL,
+	"exercise_type_id" integer NOT NULL,
 	"equipment" text,
 	"mechanics" text,
 	"force_type" text,
@@ -43,9 +45,32 @@ CREATE TABLE IF NOT EXISTS "exercise" (
 	"instructions" text,
 	"tips" text,
 	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "user" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"email" varchar(255) NOT NULL,
+	"name" varchar(255),
+	"avatar" text,
+	"birthdate" varchar(10),
+	"weight_metric" real,
+	"weight_imperial" real,
+	"height_metric" real,
+	"height_imperial" real,
+	"gender" "gender",
+	"units" "units",
+	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
-	"user_id" integer,
-	"user_notes" text
+	CONSTRAINT "user_email_unique" UNIQUE("email")
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "user_exercise" (
+	"exercise_id" integer NOT NULL,
+	"user_id" integer NOT NULL,
+	"user_notes" text,
+	"is_favorite" boolean DEFAULT false,
+	CONSTRAINT "user_exercise_user_id_exercise_id_pk" PRIMARY KEY("user_id","exercise_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "workout" (
@@ -76,30 +101,33 @@ CREATE TABLE IF NOT EXISTS "workout_exercise_set" (
 	"reps" integer,
 	"rpe" integer,
 	"duration" integer,
-	"weight" integer,
+	"weight_metric" real,
+	"weight_imperial" real,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "user" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"email" varchar(255) NOT NULL,
-	"name" varchar(255),
-	"avatar" text,
-	"birthdate" varchar(10),
-	"weight_metric" real,
-	"weight_imperial" real,
-	"height_metric" real,
-	"height_imperial" real,
-	"gender" "gender",
-	"units" "units",
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT "user_email_unique" UNIQUE("email")
-);
+CREATE INDEX IF NOT EXISTS "exercise_name_index" ON "exercise" ("name");--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "exercise" ADD CONSTRAINT "exercise_target_muscle_id_exercise_target_muscle_id_fk" FOREIGN KEY ("target_muscle_id") REFERENCES "exercise_target_muscle"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "exercise" ADD CONSTRAINT "exercise_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "exercise" ADD CONSTRAINT "exercise_exercise_type_id_exercise_type_id_fk" FOREIGN KEY ("exercise_type_id") REFERENCES "exercise_type"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_exercise" ADD CONSTRAINT "user_exercise_exercise_id_exercise_id_fk" FOREIGN KEY ("exercise_id") REFERENCES "exercise"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_exercise" ADD CONSTRAINT "user_exercise_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

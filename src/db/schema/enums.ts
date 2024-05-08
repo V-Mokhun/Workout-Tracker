@@ -1,8 +1,22 @@
+import { z } from "zod";
 import { pgEnum } from "drizzle-orm/pg-core";
 
 export const unitsEnum = pgEnum("units", ["metric", "imperial"]);
-export const genderEnum = pgEnum("gender", ["male", "female"]);
+export const unitsEnumSchema = z.enum(unitsEnum.enumValues);
 
+export const genderEnum = pgEnum("gender", ["male", "female"]);
+export const genderEnumSchema = z.enum(genderEnum.enumValues);
+
+export const exerciseExperienceEnum = pgEnum("exercise_experience", [
+  "beginner",
+  "intermediate",
+  "advanced",
+]);
+export const exerciseExperienceEnumSchema = z.enum(
+  exerciseExperienceEnum.enumValues
+);
+
+/*
 export const targetMuscleEnum = pgEnum("target_muscle", [
   "abductors",
   "abs",
@@ -24,6 +38,7 @@ export const targetMuscleEnum = pgEnum("target_muscle", [
   "traps",
   "triceps",
 ]);
+
 export const exerciseTypeEnum = pgEnum("exercise_type", [
   "strength",
   "plyometrics",
@@ -34,8 +49,4 @@ export const exerciseTypeEnum = pgEnum("exercise_type", [
   "powerlifting",
   "olympic-weightlifting",
 ]);
-export const exerciseExperienceEnum = pgEnum("exercise_experience", [
-  "beginner",
-  "intermediate",
-  "advanced",
-]);
+*/
