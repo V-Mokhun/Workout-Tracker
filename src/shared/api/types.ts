@@ -1,9 +1,8 @@
-export type User = {
+export type AuthUser = {
   name: string;
-  nickname: string;
-  picture: string;
-	email?: string
-	email_verified?: boolean
-	first_name?: string
-	last_name?: string
+  user_id: string;
+  nickname?: string;
+  picture?: string;
+  email?: string;
+  email_verified?: boolean;
 };

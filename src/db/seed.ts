@@ -11,6 +11,12 @@ import {
   workoutExerciseSet,
   exerciseEquipment,
 } from "./schema";
+import {
+  seedExerciseEquipments,
+  seedExerciseTargetMuscles,
+  seedExerciseTypes,
+  seedExercises,
+} from "./seeds";
 
 async function resetTable(table: Table) {
   return db.execute(
@@ -35,6 +41,11 @@ const main = async () => {
     ]) {
       await resetTable(table);
     }
+
+    await seedExerciseEquipments(db);
+    await seedExerciseTargetMuscles(db);
+    await seedExerciseTypes(db);
+    await seedExercises(db);
 
     console.log("Seeding complete!");
   } catch (error) {

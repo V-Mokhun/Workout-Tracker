@@ -11,12 +11,12 @@ import { user } from "./user";
 import { relations } from "drizzle-orm";
 
 export const userExercise = pgTable(
-  "user_exercise",
+  "user_exercises",
   {
     exerciseId: integer("exercise_id")
       .notNull()
       .references(() => exercise.id, { onDelete: "cascade" }),
-    userId: integer("user_id")
+    userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     userNotes: text("user_notes"),

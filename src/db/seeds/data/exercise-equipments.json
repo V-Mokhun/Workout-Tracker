@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Dumbbell",
+    "slug": "dumbbell",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/dumbbell.jpg"
+  },
+  {
+    "name": "Barbell",
+    "slug": "barbell",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/barbell.jpg"
+  },
+  {
+    "name": "Cable",
+    "slug": "cable",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/cable.jpg"
+  },
+  {
+    "name": "Machine",
+    "slug": "machine",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/machine.jpg"
+  },
+  {
+    "name": "Bodyweight",
+    "slug": "bodyweight",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/bodyweight.jpg"
+  },
+  {
+    "name": "Other",
+    "slug": "other",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/other.jpg"
+  },
+  {
+    "name": "Trap Bar",
+    "slug": "trap-bar",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/trap-bar.jpg"
+  },
+  {
+    "name": "Landmine",
+    "slug": "landmine",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/landmine.jpg"
+  },
+  {
+    "name": "Kettle Bells",
+    "slug": "kettle-bells",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/kettle-bells.jpg"
+  },
+  {
+    "name": "Chains",
+    "slug": "chains",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/chains.jpg"
+  },
+  {
+    "name": "Bench",
+    "slug": "bench",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/bench.jpg"
+  },
+  {
+    "name": "Bands",
+    "slug": "bands",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/bands.jpg"
+  },
+  {
+    "name": "Medicine Ball",
+    "slug": "medicine-ball",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/medicine-ball.jpg"
+  },
+  {
+    "name": "Box",
+    "slug": "box",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/box.jpg"
+  },
+  {
+    "name": "Sled",
+    "slug": "sled",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/sled.jpg"
+  },
+  {
+    "name": "Exercise Ball",
+    "slug": "exercise-ball",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/exercise-ball.jpg"
+  },
+  {
+    "name": "Rings",
+    "slug": "rings",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/rings.jpg"
+  },
+  {
+    "name": "Safety Bar",
+    "slug": "safety-bar",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/safety-bar.jpg"
+  },
+  {
+    "name": "Jump Rope",
+    "slug": "jump-rope",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/jump-rope.jpg"
+  },
+  {
+    "name": "Rope",
+    "slug": "rope",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/rope.jpg"
+  },
+  {
+    "name": "EZ Bar",
+    "slug": "ez-bar",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/ez-bar.jpg"
+  },
+  {
+    "name": "Fat Bar",
+    "slug": "fat-bar",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/fat-bar.jpg"
+  },
+  {
+    "name": "Valslide",
+    "slug": "valslide",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/valslide.jpg"
+  },
+  {
+    "name": "Tire",
+    "slug": "tire",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/tire.jpg"
+  },
+  {
+    "name": "Hip Thruster",
+    "slug": "hip-thruster",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/hip-thruster.jpg"
+  },
+  {
+    "name": "Lacrosse Ball",
+    "slug": "lacrosse-ball",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/lacrosse-ball.jpg"
+  },
+  {
+    "name": "Tiger Tail",
+    "slug": "tiger-tail",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/tiger-tail.jpg"
+  },
+  {
+    "name": "Foam Roll",
+    "slug": "foam-roll",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/equipment/foam-roll.jpg"
+  }
+]

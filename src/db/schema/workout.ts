@@ -10,9 +10,9 @@ import {
 import { user } from "./user";
 import { workoutExercise } from "./workout-exercise";
 
-export const workout = pgTable("workout", {
+export const workout = pgTable("workouts", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id")
+  userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   name: text("name").notNull(),

@@ -10710,21 +10710,6 @@
     "tips": "<ul>\n<li>Do not swing the weight up by arching your back.&#160;This is cheating! Your body must remain fixed throughout the movement.</li>\n<li>Keep your elbows in at the side and do not allow them to come forward when curling the weight up. Focus on keeping all movement in your forearms.</li>\n</ul>\n"
   },
   {
-    "name": "Plantar Fascia Lacrosse Ball",
-    "image": "https://res.cloudinary.com/dci425ss5/image/upload/exercises/plantar-fascia-lacrosse-ball.jpg",
-    "slug": "plantar-fascia-lacrosse-ball",
-    "targetMuscle": "Plantar Fascia",
-    "type": "SMR",
-    "equipment": "Lacrosse Ball",
-    "mechanics": "Isolation",
-    "forceType": "Compression",
-    "experienceLevel": "Intermediate",
-    "secondaryMuscles": "None",
-    "overview": "<p>Using a lacrosse ball to perform smr on your plantar fascia is a great way to warm up and cool down for your <a href=\"/workout-routines\">workout</a>, especially if you plan to perform lower body exercises that require the feet to be more mobile.</p>\n<p>When you perform smr on the plantar fascia, or any muscle group for that matter, you alleviate some of the tension that is built up during the day and your workouts.</p>\n",
-    "instructions": "<ol>\n<li>\nIn a standing position, place the lacrosse ball directly underneath the bottom of your foot and apply pressure via your bodyweight.</li>\n<li>\nSlowly roll the plantar region for 20-30 seconds.</li>\n<li>\nRepeat on the other side.</li>\n</ol>\n",
-    "tips": "<ol>\n<li>\nThe most important thing you can remember with any soft tissue work: KEEP BREATHING. Don’t hold your breath, you want to release tension, not generate it.</li>\n<li>\nUse your free hand to stabilize yourself while holding onto something.</li>\n<li>\nDo not allow yourself to fall into overextension, keep tension through the abs.</li>\n<li>\nIf you find a tender spot, pause for 5-6 seconds and focus on slow, deep breaths and try to relax.</li>\n<li>\nDo not roll the front of the shoulder directly as this can cause irritation to the biceps tendon and anterior capsule.</li>\n<li>\nPerforming SMR may be uncomfortable but that’s not an excuse to avoid it. It hurts because there may be physiological or neurological influences generating a pain response. The more you roll the better it’ll feel provided there’s no serious underlying mechanism.</li>\n<li>\nIf you notice any burning, numbness, or tingling, keep moving past that area. It’s likely a nerve and pausing on it for any length of time would not be a good idea.</li>\n<li>\nIf you find a sensitive spot, pause for a second and take the joint through flexion and extension. This a method of active release known as “tack and floss”.</li>\n</ol>\n"
-  },
-  {
     "name": "Machine Tricep Extension",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/exercises/machine-tricep-extension.jpg",
     "slug": "machine-tricep-extension",
@@ -11578,21 +11563,6 @@
     "overview": "",
     "instructions": "<ol>\n<li>\nSet up for the single leg curl by selecting the weight you want to use on the stack and adjusting the padding to suit your leg length.</li>\n<li>\nLay face down on the machine. The padding should be positioned just above the back of your ankles. If it's higher than that, adjust the length.</li>\n<li>\nTense up the hamstrings by taking the weight slightly off the stack. This is the starting position for the exercise.</li>\n<li>\nSqueeze the hamstrings and curl the weight up as far as possible using your left leg only.</li>\n<li>\nSqueeze the hamstring hard, and then slowly lower the weight back to the starting position.</li>\n<li>\nRepeat for desired reps and then repeat with your right leg.</li>\n</ol>\n<h3>\nExercise Tips:</h3>\n<ol>\n<li>\nCommon mistakes with the leg curl are; moving the weight up and down too fast and not using a full range of motion.</li>\n<li>\nAlways control the weight throughout the set. Don't use momentum to move the weight up, and don't allow it to drop back down quickly.</li>\n<li>\nAlways use a full range of motion by curling the weight up as far as possible and lowering it as far as possible without the weight dropping on the stack.</li>\n</ol>\n",
     "tips": ""
-  },
-  {
-    "name": "Palmar Fascia Lacrosse Ball",
-    "image": "https://res.cloudinary.com/dci425ss5/image/upload/exercises/palmar-fascia-lacrosse-ball.jpg",
-    "slug": "palmar-fascia-lacrosse-ball",
-    "targetMuscle": "Palmar Fascia",
-    "type": "SMR",
-    "equipment": "Lacrosse Ball",
-    "mechanics": "Isolation",
-    "forceType": "Compression",
-    "experienceLevel": "Intermediate",
-    "secondaryMuscles": "None",
-    "overview": "<p>Using a lacrosse ball to perform smr on your palmar fascia is a great way to warm up and cool down for your <a href=\"/workout-routines\">workout</a>, especially if you plan to perform upper body exercises that require the hands to be more mobile.</p>\n<p>When you perform smr on the palmar fascia, or any muscle group for that matter, you alleviate some of the tension that is built up during the day and your workouts.</p>\n",
-    "instructions": "<ol>\n<li>\nPlace the lacrosse ball directly underneath the palm of your hand and apply pressure via your bodyweight.</li>\n<li>\nSlowly roll the palmar region for 20-30 seconds.</li>\n<li>\nRepeat on the other side.</li>\n</ol>\n",
-    "tips": "<ol>\n<li>\nThe most important thing you can remember with any soft tissue work: KEEP BREATHING. Don’t hold your breath, you want to release tension, not generate it.</li>\n<li>\nDo not allow yourself to fall into overextension, keep tension through the abs.</li>\n<li>\nIf you find a tender spot, pause for 5-6 seconds and focus on slow, deep breaths and try to relax.</li>\n<li>\nPerforming SMR may be uncomfortable but that’s not an excuse to avoid it. It hurts because there may be physiological or neurological influences generating a pain response. The more you roll the better it’ll feel provided there’s no serious underlying mechanism.</li>\n<li>\nIf you notice any burning, numbness, or tingling, keep moving past that area. It’s likely a nerve and pausing on it for any length of time would not be a good idea.</li>\n<li>\nIf you find a sensitive spot, pause for a second and take the joint through flexion and extension. This a method of active release known as “tack and floss”.</li>\n</ol>\n"
   },
   {
     "name": "Lateral Pulldown Bicep Curl",

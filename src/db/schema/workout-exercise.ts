@@ -1,21 +1,11 @@
-import {
-  date,
-  foreignKey,
-  integer,
-  pgTable,
-  primaryKey,
-  serial,
-  text,
-  timestamp,
-} from "drizzle-orm/pg-core";
-import { user } from "./user";
-import { exercise } from "./exercise";
 import { relations } from "drizzle-orm";
+import { integer, pgTable, primaryKey, timestamp } from "drizzle-orm/pg-core";
+import { exercise } from "./exercise";
 import { workout } from "./workout";
 import { workoutExerciseSet } from "./workout-exercise-set";
 
 export const workoutExercise = pgTable(
-  "workout_exercise",
+  "workout_exercises",
   {
     workoutId: integer("workout_id")
       .references(() => workout.id, {

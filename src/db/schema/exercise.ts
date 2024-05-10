@@ -7,7 +7,7 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { exerciseExperienceEnum } from "./enums";
+import { exerciseExperience } from "./enums";
 import { exerciseTargetMuscle } from "./exercise-target-muscle";
 import { exerciseType } from "./exercise-type";
 import { userExercise } from "./user-exercise";
@@ -15,23 +15,24 @@ import { workoutExercise } from "./workout-exercise";
 import { exerciseEquipment } from "./exercise-equipment";
 
 export const exercise = pgTable(
-  "exercise",
+  "exercises",
   {
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
+    slug: text("slug").notNull().unique(),
     image: text("image"),
-    targetMuscle: text("target_muscle")
+    targetMuscleId: integer("target_muscle_id")
       .notNull()
-      .references(() => exerciseTargetMuscle.name),
-    type: text("type")
+      .references(() => exerciseTargetMuscle.id),
+    typeId: integer("type_id")
       .notNull()
-      .references(() => exerciseType.name),
-    equipment: text("equipment")
+      .references(() => exerciseType.id),
+    equipmentId: integer("equipment_id")
       .notNull()
-      .references(() => exerciseEquipment.name),
+      .references(() => exerciseEquipment.id),
     mechanics: text("mechanics"),
     forceType: text("force_type"),
-    experienceLevel: exerciseExperienceEnum("experience_level"),
+    experienceLevel: exerciseExperience("experience_level"),
     secondaryMuscles: text("secondary_muscles"),
     overview: text("overview"),
     instructions: text("instructions"),
@@ -58,15 +59,15 @@ export const exerciseRelations = relations(exercise, ({ one, many }) => ({
   workoutExercises: many(workoutExercise),
   userExercises: many(userExercise),
   targetMuscle: one(exerciseTargetMuscle, {
-    fields: [exercise.targetMuscle],
-    references: [exerciseTargetMuscle.name],
+    fields: [exercise.targetMuscleId],
+    references: [exerciseTargetMuscle.id],
   }),
   type: one(exerciseType, {
-    fields: [exercise.type],
-    references: [exerciseType.name],
+    fields: [exercise.typeId],
+    references: [exerciseType.id],
   }),
   equipment: one(exerciseEquipment, {
-    fields: [exercise.equipment],
-    references: [exerciseEquipment.name],
+    fields: [exercise.equipmentId],
+    references: [exerciseEquipment.id],
   }),
 }));

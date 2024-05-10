@@ -2,11 +2,12 @@ import { relations } from "drizzle-orm";
 import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { exercise } from "./exercise";
 
-export const exerciseTargetMuscle = pgTable("exercise_target_muscle", {
+export const exerciseTargetMuscle = pgTable("exercise_target_muscles", {
   id: serial("id").primaryKey(),
   name: text("name").notNull().unique(),
   slug: text("slug").notNull().unique(),
   image: text("image").notNull(),
+  fullImage: text("full_image").notNull(),
   createdAt: timestamp("created_at", { mode: "date", precision: 3 })
     .notNull()
     .defaultNow(),

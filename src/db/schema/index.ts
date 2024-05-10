@@ -1,8 +1,5 @@
-export {
-  exerciseExperienceEnumSchema,
-  genderEnumSchema,
-  unitsEnumSchema
-} from "./enums";
+export { exerciseExperienceSchema, genderSchema, unitsSchema } from "./enums";
+export type { ExerciseExperience, Gender, Units } from "./enums";
 export * from "./exercise";
 export * from "./exercise-equipment";
 export * from "./exercise-target-muscle";
@@ -12,4 +9,3 @@ export * from "./user-exercise";
 export * from "./workout";
 export * from "./workout-exercise";
 export * from "./workout-exercise-set";
-

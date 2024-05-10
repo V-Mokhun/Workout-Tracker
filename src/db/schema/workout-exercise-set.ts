@@ -10,7 +10,7 @@ import { workoutExercise } from "./workout-exercise";
 import { relations } from "drizzle-orm";
 
 export const workoutExerciseSet = pgTable(
-  "workout_exercise_set",
+  "workout_exercise_sets",
   {
     id: serial("id").primaryKey(),
     workoutId: integer("workout_id").notNull(),

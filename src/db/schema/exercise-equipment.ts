@@ -2,7 +2,7 @@ import { relations } from "drizzle-orm";
 import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { exercise } from "./exercise";
 
-export const exerciseEquipment = pgTable("exercise_equipment", {
+export const exerciseEquipment = pgTable("exercise_equipments", {
   id: serial("id").primaryKey(),
   name: text("name").notNull().unique(),
   slug: text("slug").notNull().unique(),

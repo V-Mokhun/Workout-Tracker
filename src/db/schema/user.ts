@@ -6,14 +6,14 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { genderEnum, unitsEnum } from "./enums";
+import { gender, units } from "./enums";
 import { relations } from "drizzle-orm";
 import { workout } from "./workout";
 import { userExercise } from "./user-exercise";
 
-export const user = pgTable("user", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
+export const user = pgTable("users", {
+  id: text("id").primaryKey(),
+  email: varchar("email", { length: 255 }),
   name: varchar("name", { length: 255 }),
   avatar: text("avatar"),
   birthdate: varchar("birthdate", { length: 10 }),
@@ -21,8 +21,8 @@ export const user = pgTable("user", {
   weightImperial: real("weight_imperial"),
   heightMetric: real("height_metric"),
   heightImperial: real("height_imperial"),
-  gender: genderEnum("gender"),
-  units: unitsEnum("units"),
+  gender: gender("gender"),
+  units: units("units").default("metric"),
   createdAt: timestamp("created_at", { mode: "date", precision: 3 })
     .notNull()
     .defaultNow(),
