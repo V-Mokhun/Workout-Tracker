@@ -9,6 +9,7 @@ import {
   userExercise,
   workoutExercise,
   workoutExerciseSet,
+  exerciseEquipment,
 } from "./schema";
 
 async function resetTable(table: Table) {
@@ -30,6 +31,7 @@ const main = async () => {
       user,
       exerciseType,
       exerciseTargetMuscle,
+      exerciseEquipment,
     ]) {
       await resetTable(table);
     }

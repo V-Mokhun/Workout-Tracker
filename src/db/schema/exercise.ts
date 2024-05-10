@@ -12,6 +12,7 @@ import { exerciseTargetMuscle } from "./exercise-target-muscle";
 import { exerciseType } from "./exercise-type";
 import { userExercise } from "./user-exercise";
 import { workoutExercise } from "./workout-exercise";
+import { exerciseEquipment } from "./exercise-equipment";
 
 export const exercise = pgTable(
   "exercise",
@@ -19,13 +20,15 @@ export const exercise = pgTable(
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
     image: text("image"),
-    targetMuscleId: integer("target_muscle_id")
+    targetMuscle: text("target_muscle")
       .notNull()
-      .references(() => exerciseTargetMuscle.id),
-    typeId: integer("exercise_type_id")
+      .references(() => exerciseTargetMuscle.name),
+    type: text("type")
       .notNull()
-      .references(() => exerciseType.id),
-    equipment: text("equipment"),
+      .references(() => exerciseType.name),
+    equipment: text("equipment")
+      .notNull()
+      .references(() => exerciseEquipment.name),
     mechanics: text("mechanics"),
     forceType: text("force_type"),
     experienceLevel: exerciseExperienceEnum("experience_level"),
@@ -50,11 +53,15 @@ export const exerciseRelations = relations(exercise, ({ one, many }) => ({
   workoutExercises: many(workoutExercise),
   userExercises: many(userExercise),
   targetMuscle: one(exerciseTargetMuscle, {
-    fields: [exercise.targetMuscleId],
-    references: [exerciseTargetMuscle.id],
+    fields: [exercise.targetMuscle],
+    references: [exerciseTargetMuscle.name],
   }),
   type: one(exerciseType, {
-    fields: [exercise.typeId],
-    references: [exerciseType.id],
+    fields: [exercise.type],
+    references: [exerciseType.name],
+  }),
+  equipment: one(exerciseEquipment, {
+    fields: [exercise.equipment],
+    references: [exerciseEquipment.name],
   }),
 }));

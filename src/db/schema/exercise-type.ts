@@ -4,7 +4,7 @@ import { exercise } from "./exercise";
 
 export const exerciseType = pgTable("exercise_type", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
+  name: text("name").notNull().unique(),
   slug: text("slug").notNull().unique(),
 });
 
