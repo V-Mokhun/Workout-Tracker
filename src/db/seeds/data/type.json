@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Strength",
+    "slug": "strength"
+  },
+  {
+    "name": "Warmup",
+    "slug": "warmup"
+  },
+  {
+    "name": "Plyometrics",
+    "slug": "plyometrics"
+  },
+  {
+    "name": "Activation",
+    "slug": "activation"
+  },
+  {
+    "name": "Olympic Weightlifting",
+    "slug": "olympic-weightlifting"
+  },
+  {
+    "name": "Powerlifting",
+    "slug": "powerlifting"
+  },
+  {
+    "name": "Conditioning",
+    "slug": "conditioning"
+  },
+  {
+    "name": "SMR",
+    "slug": "smr"
+  },
+  {
+    "name": "Strongman",
+    "slug": "strongman"
+  },
+  {
+    "name": "Stretching",
+    "slug": "stretching"
+  }
+]

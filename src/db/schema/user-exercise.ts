@@ -4,6 +4,7 @@ import {
   pgTable,
   primaryKey,
   text,
+  timestamp,
 } from "drizzle-orm/pg-core";
 import { exercise } from "./exercise";
 import { user } from "./user";
@@ -20,6 +21,13 @@ export const userExercise = pgTable(
       .references(() => user.id, { onDelete: "cascade" }),
     userNotes: text("user_notes"),
     isFavorite: boolean("is_favorite").default(false),
+    createdAt: timestamp("created_at", { mode: "date", precision: 3 })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date", precision: 3 })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
   },
   (table) => {
     return {

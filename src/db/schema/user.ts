@@ -23,8 +23,13 @@ export const user = pgTable("user", {
   heightImperial: real("height_imperial"),
   gender: genderEnum("gender"),
   units: unitsEnum("units"),
-  createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { mode: "date", precision: 3 })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date", precision: 3 })
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 });
 
 export const userRelations = relations(user, ({ one, many }) => ({

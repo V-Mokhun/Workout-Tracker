@@ -21,12 +21,13 @@ export const workoutExerciseSet = pgTable(
     duration: integer("duration"),
     weightMetric: real("weight_metric"),
     weightImperial: real("weight_imperial"),
-    createdAt: timestamp("created_at", { mode: "string" })
+    createdAt: timestamp("created_at", { mode: "date", precision: 3 })
       .notNull()
       .defaultNow(),
-    updatedAt: timestamp("updated_at", { mode: "string" })
+    updatedAt: timestamp("updated_at", { mode: "date", precision: 3 })
       .notNull()
-      .defaultNow(),
+      .defaultNow()
+      .$onUpdate(() => new Date()),
   },
   (table) => {
     return {

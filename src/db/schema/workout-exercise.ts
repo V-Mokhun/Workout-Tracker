@@ -26,12 +26,13 @@ export const workoutExercise = pgTable(
       .references(() => exercise.id)
       .notNull(),
     position: integer("position").notNull(),
-    createdAt: timestamp("created_at", { mode: "string" })
+    createdAt: timestamp("created_at", { mode: "date", precision: 3 })
       .notNull()
       .defaultNow(),
-    updatedAt: timestamp("updated_at", { mode: "string" })
+    updatedAt: timestamp("updated_at", { mode: "date", precision: 3 })
       .notNull()
-      .defaultNow(),
+      .defaultNow()
+      .$onUpdate(() => new Date()),
   },
   (table) => {
     return {

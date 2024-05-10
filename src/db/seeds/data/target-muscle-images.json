@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Upper Back",
+    "slug": "middle-back",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/middle-back.jpg"
+  },
+  {
+    "name": "Chest",
+    "slug": "chest",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/chest.jpg"
+  },
+  {
+    "name": "Hamstrings",
+    "slug": "hamstrings",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/hamstrings.jpg"
+  },
+  {
+    "name": "Shoulders",
+    "slug": "shoulders",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/shoulders.jpg"
+  },
+  {
+    "name": "Quads",
+    "slug": "quads",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/quads.jpg"
+  },
+  {
+    "name": "Lats",
+    "slug": "lats",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/lats.jpg"
+  },
+  {
+    "name": "Traps",
+    "slug": "traps",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/traps.jpg"
+  },
+  {
+    "name": "Lower Back",
+    "slug": "lower-back",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/lower-back.jpg"
+  },
+  {
+    "name": "Triceps",
+    "slug": "triceps",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/triceps.jpg"
+  },
+  {
+    "name": "Glutes",
+    "slug": "glutes",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/glutes.jpg"
+  },
+  {
+    "name": "Abs",
+    "slug": "abs",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abs.jpg"
+  },
+  {
+    "name": "Forearms",
+    "slug": "forearms",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/forearms.jpg"
+  },
+  {
+    "name": "Obliques",
+    "slug": "obliques",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/obliques.jpg"
+  },
+  {
+    "name": "Adductors",
+    "slug": "adductors",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/adductors.jpg"
+  },
+  {
+    "name": "Hip Flexors",
+    "slug": "hip-flexors",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/hip-flexors.jpg"
+  },
+  {
+    "name": "Calves",
+    "slug": "calves",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/calves.jpg"
+  },
+  {
+    "name": "Biceps",
+    "slug": "biceps",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/biceps.jpg"
+  },
+  {
+    "name": "Abductors",
+    "slug": "abductors",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+  },
+  {
+    "name": "Neck",
+    "slug": "neck",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/neck.jpg"
+  },
+  {
+    "name": "IT Band",
+    "slug": "it-band",
+    "image": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/it-band.jpg"
+  }
+]

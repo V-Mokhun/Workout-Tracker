@@ -36,8 +36,13 @@ export const exercise = pgTable(
     overview: text("overview"),
     instructions: text("instructions"),
     tips: text("tips"),
-    createdAt: timestamp("created_at").notNull().defaultNow(),
-    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+    createdAt: timestamp("created_at", { mode: "date", precision: 3 })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date", precision: 3 })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
   },
   (table) => {
     return {
