@@ -13,6 +13,8 @@ import { exerciseType } from "./exercise-type";
 import { userExercise } from "./user-exercise";
 import { workoutExercise } from "./workout-exercise";
 import { exerciseEquipment } from "./exercise-equipment";
+import { z } from "zod";
+import { createSelectSchema } from "drizzle-zod";
 
 export const exercise = pgTable(
   "exercises",
@@ -52,8 +54,9 @@ export const exercise = pgTable(
   }
 );
 
-// const selectExerciseSchema = createSelectSchema(exercise);
-// type Exercise = z.infer<typeof selectExerciseSchema>;
+const selectExerciseSchema = createSelectSchema(exercise);
+export type Exercise = z.infer<typeof selectExerciseSchema>;
+export type BasicExercise = Pick<Exercise, "id" | "name" | "slug" | "image">;
 
 export const exerciseRelations = relations(exercise, ({ one, many }) => ({
   workoutExercises: many(workoutExercise),

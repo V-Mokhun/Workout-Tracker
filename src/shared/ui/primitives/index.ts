@@ -7,4 +7,4 @@ export * from "./popover";
 export * from "./section";
 export * from "./select";
 export * from "./separator";
-
+export * from "./input";
