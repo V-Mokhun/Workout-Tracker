@@ -1,7 +1,6 @@
 "use client";
 
-import { BasicExercise } from "@/db";
-import { DEFAULT_EXERCISE_IMAGE, EXERCISES_ROUTE } from "@/shared/consts";
+import { DEFAULT_EXERCISE_IMAGE, SINGLE_EXERCISE_ROUTE } from "@/shared/consts";
 import { useDebouncedValue } from "@/shared/lib/hooks";
 import { Input, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
 import Image from "next/image";
@@ -12,6 +11,7 @@ import { SearchExercise } from "./exercises-search";
 interface SearchProps<T extends SearchExercise> {
   exercises: T[];
   isLoading: boolean;
+  error?: string;
   onSearch: (value: string) => void;
 }
 
@@ -19,6 +19,7 @@ export const Search = <T extends SearchExercise>({
   onSearch,
   exercises,
   isLoading,
+  error,
 }: SearchProps<T>) => {
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue] = useDebouncedValue(searchValue, 500);
@@ -35,6 +36,8 @@ export const Search = <T extends SearchExercise>({
     content = <p className="text-sm">Start typing to search for exercises</p>;
   } else if (isLoading) {
     content = <p className="text-sm">Loading...</p>;
+  } else if (error) {
+    content = <p className="text-sm text-red-500">{error}</p>;
   } else if (exercises.length === 0) {
     content = (
       <p className="text-sm">
@@ -48,7 +51,7 @@ export const Search = <T extends SearchExercise>({
           <li key={exercise.id}>
             <Link
               className="flex items-center gap-3 p-2 transition-colors hover:bg-muted"
-              href={EXERCISES_ROUTE + `/${exercise.slug}`}
+              href={SINGLE_EXERCISE_ROUTE + `/${exercise.slug}`}
             >
               <Image
                 width={80}

@@ -1,26 +1,39 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { Search } from "./search";
 import { BasicExercise } from "@/db";
+import { useState } from "react";
+import { Search } from "./search";
+import { SQL } from "drizzle-orm";
+import { ApiResponse } from "@/shared/api";
 
 export type SearchExercise = BasicExercise & { targetMuscle: { name: string } };
 
-interface ExercisesSearchProps<T extends SearchExercise> {
-  onSearch: (value: string) => Promise<T[]>;
+interface ExercisesSearchProps {
+  whereClause?: SQL<unknown>;
 }
 
-export const ExercisesSearch = <T extends SearchExercise>({
-  onSearch,
-}: ExercisesSearchProps<T>) => {
+export const ExercisesSearch = ({ whereClause }: ExercisesSearchProps) => {
   const [loading, setLoading] = useState(false);
-  const [exercises, setExercises] = useState<T[]>([]);
+  const [error, setError] = useState("");
+  const [exercises, setExercises] = useState<SearchExercise[]>([]);
 
   const onSearchExercises = (value: string) => {
     setLoading(true);
-    onSearch(value)
-      .then((data) => {
+    fetch("/api/exercise/search", {
+      method: "POST",
+      body: JSON.stringify({ searchValue: value, whereClause }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then(({ data }: ApiResponse<SearchExercise[]>) => {
         setExercises(data);
+        setError("");
+      })
+      .catch(() => {
+        setExercises([]);
+        setError("Something went wrong. Please try again later.");
       })
       .finally(() => {
         setLoading(false);
@@ -29,6 +42,7 @@ export const ExercisesSearch = <T extends SearchExercise>({
 
   return (
     <Search
+      error={error}
       exercises={exercises}
       isLoading={loading}
       onSearch={onSearchExercises}

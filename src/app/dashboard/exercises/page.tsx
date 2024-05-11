@@ -1,49 +1,13 @@
-import { db, exercise } from "@/db";
+import { db } from "@/db";
+import { searchExercises } from "@/shared/api";
+import { EXERCISES_ROUTE } from "@/shared/consts";
 import { Container, Heading, Section } from "@/shared/ui";
 import { ExercisesSearch } from "@/widgets";
-import { ilike } from "drizzle-orm";
+import Image from "next/image";
+import Link from "next/link";
 
 const Page = async () => {
-  // const muscleGroups = await db.query.exerciseTargetMuscle.findMany();
-  // const card = {
-  //   id: 19,
-  //   name: "Traps",
-  //   slug: "traps",
-  //   image:
-  //     "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/traps.jpg",
-  //   fullImage:
-  //     "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg",
-  // };
-  // const exercises = await db.query.exercise.findMany({
-  //   limit: 1,
-  //   with: { targetMuscle: { columns: { name: true } } },
-  // });
-
-  async function searchExercises(searchValue: string) {
-    "use server";
-
-    const exercises = await db.query.exercise.findMany({
-      where: ilike(exercise.name, `%${searchValue}%`),
-      columns: {
-        id: true,
-        name: true,
-        slug: true,
-        image: true,
-      },
-      with: {
-        targetMuscle: {
-          columns: {
-            name: true,
-          },
-        },
-      },
-      limit: 5,
-    });
-
-    console.log(searchValue, exercises);
-
-    return exercises;
-  }
+  const muscleGroups = await db.query.exerciseTargetMuscle.findMany();
 
   return (
     <Section>
@@ -55,11 +19,33 @@ const Page = async () => {
           Look for exercises to create your dream workout plan for strength and
           muscle building.
         </p>
-        <ExercisesSearch onSearch={searchExercises} />
+        <ExercisesSearch />
+
+        <p className="text-lg text-muted">
+          Don&apos;t know what you&apos;re looking for? Check out out
+          categorised exercises below.
+        </p>
         <div className="my-10 space-y-8">
           <div>
             <Heading>By Muscle Groups</Heading>
-            <ul></ul>
+            <ul className="grid grid-cols-4 gap-4">
+              {muscleGroups.map((muscleGroup) => (
+                <li key={muscleGroup.id}>
+                  <Link
+                    href={`${EXERCISES_ROUTE}/muscles/${muscleGroup.slug}`}
+                    className="text-lg relative"
+                  >
+                    <Image
+                      className="w-full h-auto object-cover"
+                      fill
+                      src={muscleGroup.image}
+                      alt={muscleGroup.name}
+                    />
+                    <span>{muscleGroup.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
           <Heading>Most Popular</Heading>
           {/* Most popular exs (8 or 12) */}
