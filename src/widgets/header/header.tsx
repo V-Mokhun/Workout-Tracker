@@ -3,7 +3,7 @@ import { getSession } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { HeaderProfile } from "./header-profile";
 import { Container, linkVariants } from "@/shared/ui";
-import { User } from "@/shared/api";
+import { AuthUser } from "@/shared/api";
 
 export const Header = async () => {
   const session = await getSession();
@@ -35,7 +35,7 @@ export const Header = async () => {
               </li>
             </ul>
           </nav>
-          <HeaderProfile user={session.user as User} />
+          <HeaderProfile user={session.user as AuthUser} />
         </div>
       </Container>
     </header>

@@ -1,1 +1,1 @@
-export * from './exercise';
+export * from './exercise-service';

@@ -1,10 +1,8 @@
 import { db } from "@/db";
-import { searchExercises } from "@/shared/api";
-import { EXERCISES_ROUTE } from "@/shared/consts";
 import { Container, Heading, Section } from "@/shared/ui";
 import { ExercisesSearch } from "@/widgets";
-import Image from "next/image";
-import Link from "next/link";
+import { ExerciseCategoryCard } from "./_ui";
+import { EXERCISES_ROUTE } from "@/shared/consts";
 
 const Page = async () => {
   const muscleGroups = await db.query.exerciseTargetMuscle.findMany();
@@ -20,30 +18,20 @@ const Page = async () => {
           muscle building.
         </p>
         <ExercisesSearch />
-
-        <p className="text-lg text-muted">
+        <p className="text-lg text-muted-foreground my-8">
           Don&apos;t know what you&apos;re looking for? Check out out
           categorised exercises below.
         </p>
         <div className="my-10 space-y-8">
           <div>
-            <Heading>By Muscle Groups</Heading>
+            <Heading className="mb-8">By Muscle Groups</Heading>
             <ul className="grid grid-cols-4 gap-4">
               {muscleGroups.map((muscleGroup) => (
-                <li key={muscleGroup.id}>
-                  <Link
-                    href={`${EXERCISES_ROUTE}/muscles/${muscleGroup.slug}`}
-                    className="text-lg relative"
-                  >
-                    <Image
-                      className="w-full h-auto object-cover"
-                      fill
-                      src={muscleGroup.image}
-                      alt={muscleGroup.name}
-                    />
-                    <span>{muscleGroup.name}</span>
-                  </Link>
-                </li>
+                <ExerciseCategoryCard
+                  key={muscleGroup.id}
+                  data={muscleGroup}
+                  route={`${EXERCISES_ROUTE}/muscles/${muscleGroup.slug}`}
+                />
               ))}
             </ul>
           </div>

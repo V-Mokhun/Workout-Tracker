@@ -1,6 +1,6 @@
 import { exercise } from "@/db";
-import { searchExercises } from "@/shared/api";
-import { ilike } from "drizzle-orm";
+import { exerciseService } from "@/shared/api";
+import { and, ilike } from "drizzle-orm";
 
 export async function POST(req: Request) {
   try {
@@ -15,9 +15,10 @@ export async function POST(req: Request) {
     }
 
     const whereClause =
-      data.whereClause ?? ilike(exercise.name, `%${searchValue}%`);
+      and(data.whereClause, ilike(exercise.name, `%${searchValue}%`)) ??
+      ilike(exercise.name, `%${searchValue}%`);
 
-    const exercises = await searchExercises(searchValue, whereClause);
+    const exercises = await exerciseService.searchExercises(whereClause);
 
     return Response.json({ data: exercises, message: "OK" }, { status: 200 });
   } catch (error) {

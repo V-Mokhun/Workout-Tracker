@@ -1,6 +1,10 @@
 "use client";
 
-import { PERSONAL_EXERCISES_ROUTE, PROFILE_ROUTE } from "@/shared/consts";
+import {
+  DEFAULT_PROFILE_IMAGE,
+  PERSONAL_EXERCISES_ROUTE,
+  PROFILE_ROUTE,
+} from "@/shared/consts";
 import { Dumbbell, LogOut, UserRound } from "lucide-react";
 import {
   Avatar,
@@ -14,10 +18,10 @@ import {
 } from "@/shared/ui";
 import Image from "next/image";
 import Link from "next/link";
-import { User } from "@/shared/api";
+import { AuthUser } from "@/shared/api";
 
 interface HeaderProfileProps {
-  user: User;
+  user: AuthUser;
 }
 
 export const HeaderProfile = ({ user }: HeaderProfileProps) => {
@@ -26,7 +30,12 @@ export const HeaderProfile = ({ user }: HeaderProfileProps) => {
       <PopoverTrigger>
         <Avatar>
           <AvatarImage asChild src={user.picture}>
-            <Image src={user.picture} alt="Profile" width={40} height={40} />
+            <Image
+              src={user.picture ?? DEFAULT_PROFILE_IMAGE}
+              alt="Profile"
+              width={40}
+              height={40}
+            />
           </AvatarImage>
           <AvatarFallback>U</AvatarFallback>
         </Avatar>
