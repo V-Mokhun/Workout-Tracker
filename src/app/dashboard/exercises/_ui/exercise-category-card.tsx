@@ -16,7 +16,7 @@ export const ExerciseCategoryCard = <T extends BasicExerciseCategory>({
   return (
     <li>
       <Link href={route} className="flex flex-col group bg-muted rounded-md">
-        <div className="relative min-h-48 after:block after:inset-0 after:absolute after:bg-transparent after:transition-colors group-hover:after:bg-black/20">
+        <div className="relative min-h-32 xxs:min-h-36 xs:min-h-48 after:block after:inset-0 after:absolute after:bg-transparent after:transition-colors group-hover:after:bg-black/20">
           <Image
             className="w-full h-auto object-cover rounded-t-md"
             sizes="25vw"
@@ -27,7 +27,7 @@ export const ExerciseCategoryCard = <T extends BasicExerciseCategory>({
         </div>
         <Heading
           tag="h4"
-          className="py-2 px-4 transition-colors group-hover:text-primary"
+          className="py-2 px-2 md:px-4 transition-colors group-hover:text-primary"
         >
           {data.name}
         </Heading>

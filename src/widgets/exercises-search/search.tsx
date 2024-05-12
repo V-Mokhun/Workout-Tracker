@@ -60,8 +60,8 @@ export const Search = <T extends SearchExercise>({
                 src={exercise.image ?? DEFAULT_EXERCISE_IMAGE}
                 className="h-auto w-20 object-cover"
               />
-              <div className="">
-                <h3 className="text-lg font-semibold">{exercise.name}</h3>
+              <div className="space-y-0.5">
+                <h3 className="text-base md:text-lg leading-tight font-semibold">{exercise.name}</h3>
                 <p className="text-sm text-muted-foreground">
                   {exercise.targetMuscle.name}
                 </p>
