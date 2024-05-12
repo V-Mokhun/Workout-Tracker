@@ -1,5 +1,4 @@
 import { BasicExerciseCategory } from "@/db";
-import { EXERCISES_ROUTE } from "@/shared/consts";
 import { Heading } from "@/shared/ui";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,18 +14,21 @@ export const ExerciseCategoryCard = <T extends BasicExerciseCategory>({
 }: ExerciseCategoryCardProps<T>) => {
   return (
     <li>
-      <Link href={route} className="flex flex-col group bg-muted rounded-md">
-        <div className="relative min-h-32 xxs:min-h-36 xs:min-h-48 after:block after:inset-0 after:absolute after:bg-transparent after:transition-colors group-hover:after:bg-black/20">
+      <Link
+        href={route}
+        className="flex flex-col group bg-muted rounded-md shadow-sm"
+      >
+        <div className="relative after:block after:inset-0 after:absolute after:rounded-t-md after:bg-transparent after:transition-colors group-hover:after:bg-black/20">
           <Image
             className="w-full h-auto object-cover rounded-t-md"
-            sizes="25vw"
-            fill
+            width={480}
+            height={300}
             src={data.image}
             alt={data.name}
           />
         </div>
         <Heading
-          tag="h4"
+          tag="h5"
           className="py-2 px-2 md:px-4 transition-colors group-hover:text-primary"
         >
           {data.name}
