@@ -15,14 +15,16 @@ import {
   Heading,
   Section,
 } from "@/shared/ui";
-import { ExerciseCard, ExercisesSearch } from "@/widgets";
-import { and, eq, ilike } from "drizzle-orm";
+import { ExerciseCard, ExercisesSearch, Pagination } from "@/widgets";
+import { count, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
 const Page = async ({
   params,
+  searchParams,
 }: {
-  params: { slug: string; page?: string };
+  params: { slug: string };
+  searchParams: { page?: string };
 }) => {
   const muscleSlug = params.slug;
 
@@ -34,7 +36,7 @@ const Page = async ({
     notFound();
   }
 
-  const page = params.page ? parseInt(params.page, 10) : 1;
+  const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
   if (page < 1 || isNaN(page)) {
     notFound();
   }
@@ -61,6 +63,12 @@ const Page = async ({
     limit: DEFAULT_EXERCISE_LIMIT,
     offset: (page - 1) * DEFAULT_EXERCISE_LIMIT,
   });
+  const [totalExercises] = await db
+    .select({ count: count() })
+    .from(exercise)
+    .where(eq(exercise.targetMuscleId, muscleGroup.id));
+
+  const totalPages = Math.ceil(totalExercises.count / DEFAULT_EXERCISE_LIMIT);
 
   return (
     <>
@@ -104,6 +112,13 @@ const Page = async ({
               ))}
             </ul>
           </div>
+          <Pagination
+            totalPages={totalPages}
+            disablePrevious={page === 1}
+            disableNext={page === totalPages}
+            currentPage={page}
+            href={`${EXERCISES_ROUTE}/muscles/${muscleSlug}`}
+          />
         </Container>
       </Section>
     </>

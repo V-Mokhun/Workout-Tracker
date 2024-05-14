@@ -1,0 +1,100 @@
+import { cn } from "@/shared/lib";
+import { PaginationPrimitive } from "@/shared/ui";
+
+interface PaginationProps {
+  totalPages: number;
+  currentPage: number;
+  disablePrevious: boolean;
+  disableNext: boolean;
+  href: string;
+}
+
+export const Pagination = ({
+  currentPage,
+  disableNext,
+  disablePrevious,
+  totalPages,
+  href,
+}: PaginationProps) => {
+  return (
+    <PaginationPrimitive.Pagination>
+      <PaginationPrimitive.PaginationContent>
+        <PaginationPrimitive.PaginationItem>
+          <PaginationPrimitive.PaginationPrevious
+            className={cn({
+              "mr-3": true,
+              "opacity-50 pointer-events-none": disablePrevious,
+            })}
+            href={`${href}?page=${currentPage - 1}`}
+          />
+        </PaginationPrimitive.PaginationItem>
+
+        {currentPage > 2 && (
+          <PaginationPrimitive.PaginationItem>
+            <PaginationPrimitive.PaginationLink href={`${href}?page=1`}>
+              1
+            </PaginationPrimitive.PaginationLink>
+          </PaginationPrimitive.PaginationItem>
+        )}
+
+        {currentPage > 3 && (
+          <PaginationPrimitive.PaginationItem>
+            <PaginationPrimitive.PaginationEllipsis />
+          </PaginationPrimitive.PaginationItem>
+        )}
+
+        {currentPage > 1 && (
+          <PaginationPrimitive.PaginationItem>
+            <PaginationPrimitive.PaginationLink
+              href={`${href}?page=${currentPage - 1}`}
+            >
+              {currentPage - 1}
+            </PaginationPrimitive.PaginationLink>
+          </PaginationPrimitive.PaginationItem>
+        )}
+
+        <PaginationPrimitive.PaginationItem>
+          <PaginationPrimitive.PaginationLink href="#" isActive>
+            {currentPage}
+          </PaginationPrimitive.PaginationLink>
+        </PaginationPrimitive.PaginationItem>
+
+        {currentPage < totalPages && (
+          <PaginationPrimitive.PaginationItem>
+            <PaginationPrimitive.PaginationLink
+              href={`${href}?page=${currentPage + 1}`}
+            >
+              {currentPage + 1}
+            </PaginationPrimitive.PaginationLink>
+          </PaginationPrimitive.PaginationItem>
+        )}
+
+        {currentPage < totalPages - 2 && (
+          <PaginationPrimitive.PaginationItem>
+            <PaginationPrimitive.PaginationEllipsis />
+          </PaginationPrimitive.PaginationItem>
+        )}
+
+        {currentPage < totalPages - 1 && (
+          <PaginationPrimitive.PaginationItem>
+            <PaginationPrimitive.PaginationLink
+              href={`${href}?page=${totalPages}`}
+            >
+              {totalPages}
+            </PaginationPrimitive.PaginationLink>
+          </PaginationPrimitive.PaginationItem>
+        )}
+
+        <PaginationPrimitive.PaginationItem>
+          <PaginationPrimitive.PaginationNext
+            className={cn({
+              "ml-3": true,
+              "opacity-50 pointer-events-none": disableNext,
+            })}
+            href={`${href}?page=${currentPage + 1}`}
+          />
+        </PaginationPrimitive.PaginationItem>
+      </PaginationPrimitive.PaginationContent>
+    </PaginationPrimitive.Pagination>
+  );
+};
