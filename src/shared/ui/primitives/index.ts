@@ -8,3 +8,4 @@ export * from "./section";
 export * from "./select";
 export * from "./separator";
 export * from "./input";
+export * from "./breadcrumb";

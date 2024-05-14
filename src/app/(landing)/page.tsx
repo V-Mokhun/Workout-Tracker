@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 const Home = async () => {
   const session = await getSession();
+
   if (session) redirect(DASHBOARD_ROUTE);
 
   return (
