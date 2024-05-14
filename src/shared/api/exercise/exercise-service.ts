@@ -21,6 +21,8 @@ class ExerciseService {
       limit: 5,
     });
 
+    console.log("searchExercises exercises: ", exercises);
+
     return exercises;
   }
 }

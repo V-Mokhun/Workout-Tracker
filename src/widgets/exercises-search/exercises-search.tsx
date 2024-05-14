@@ -1,18 +1,17 @@
 "use client";
 
 import { BasicExercise } from "@/db";
+import { ApiResponse } from "@/shared/api";
 import { useState } from "react";
 import { Search } from "./search";
-import { SQL } from "drizzle-orm";
-import { ApiResponse } from "@/shared/api";
 
 export type SearchExercise = BasicExercise & { targetMuscle: { name: string } };
 
 interface ExercisesSearchProps {
-  whereClause?: SQL<unknown>;
+  whereOptions?: { [key: string]: any };
 }
 
-export const ExercisesSearch = ({ whereClause }: ExercisesSearchProps) => {
+export const ExercisesSearch = ({ whereOptions }: ExercisesSearchProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [exercises, setExercises] = useState<SearchExercise[]>([]);
@@ -21,7 +20,10 @@ export const ExercisesSearch = ({ whereClause }: ExercisesSearchProps) => {
     setLoading(true);
     fetch("/api/exercise/search", {
       method: "POST",
-      body: JSON.stringify({ searchValue: value, whereClause }),
+      body: JSON.stringify({
+        searchValue: value,
+        ...whereOptions,
+      }),
       headers: {
         "Content-Type": "application/json",
       },
