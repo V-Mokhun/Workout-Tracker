@@ -5,17 +5,16 @@ import {
   EXERCISES_ROUTE,
 } from "@/shared/consts";
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
   Container,
   Heading,
-  Section,
+  Section
 } from "@/shared/ui";
-import { ExerciseCard, ExercisesSearch, Pagination } from "@/widgets";
+import {
+  Breadcrumbs,
+  ExerciseCard,
+  ExercisesSearch,
+  Pagination,
+} from "@/widgets";
 import { count, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
@@ -72,23 +71,19 @@ const Page = async ({
 
   return (
     <>
-      <Breadcrumb>
-        <Container>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href={DASHBOARD_ROUTE}>Dashboard</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href={EXERCISES_ROUTE}>Exercises</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{muscleGroup.name} Exercises</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Container>
-      </Breadcrumb>
+      <Breadcrumbs
+        pageName={`${muscleGroup.name} Exercises`}
+        routes={[
+          {
+            name: "Dashboard",
+            href: DASHBOARD_ROUTE,
+          },
+          {
+            name: "Exercises",
+            href: EXERCISES_ROUTE,
+          },
+        ]}
+      />
       <Section>
         <Container>
           <Heading className="mb-2" tag="h1">
