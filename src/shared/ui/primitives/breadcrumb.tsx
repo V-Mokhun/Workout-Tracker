@@ -13,7 +13,7 @@ const Breadcrumb = React.forwardRef<
   <nav
     ref={ref}
     aria-label="breadcrumb"
-    className={cn("pt-10 pb-5", className)}
+    className={cn("pt-8 md:pt-10 pb-4", className)}
     {...props}
   />
 ));
