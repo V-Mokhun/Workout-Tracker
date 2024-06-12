@@ -8,11 +8,14 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { exerciseExperience } from "./enums";
-import { exerciseTargetMuscle } from "./exercise-target-muscle";
-import { exerciseType } from "./exercise-type";
+import {
+  ExerciseTargetMuscle,
+  exerciseTargetMuscle,
+} from "./exercise-target-muscle";
+import { ExerciseType, exerciseType } from "./exercise-type";
 import { userExercise } from "./user-exercise";
 import { workoutExercise } from "./workout-exercise";
-import { exerciseEquipment } from "./exercise-equipment";
+import { ExerciseEquipment, exerciseEquipment } from "./exercise-equipment";
 import { z } from "zod";
 import { createSelectSchema } from "drizzle-zod";
 
@@ -57,6 +60,11 @@ export const exercise = pgTable(
 const selectExerciseSchema = createSelectSchema(exercise);
 export type Exercise = z.infer<typeof selectExerciseSchema>;
 export type BasicExercise = Pick<Exercise, "id" | "name" | "slug" | "image">;
+export type FullExercise = Exercise & {
+  targetMuscle: ExerciseTargetMuscle;
+  type: ExerciseType;
+  equipment: ExerciseEquipment;
+};
 
 export const exerciseRelations = relations(exercise, ({ one, many }) => ({
   workoutExercises: many(workoutExercise),

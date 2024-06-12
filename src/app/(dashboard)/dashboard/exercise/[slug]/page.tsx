@@ -4,11 +4,16 @@ import {
   DEFAULT_EXERCISE_IMAGE,
   EXERCISES_ROUTE,
 } from "@/shared/consts";
-import { Container, Heading, Section } from "@/shared/ui";
+import {
+  Container,
+  Heading,
+  Section
+} from "@/shared/ui";
 import { Breadcrumbs } from "@/widgets";
 import { eq } from "drizzle-orm";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { ExerciseDetails } from "./_ui";
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const exerciseSlug = params.slug;
@@ -18,6 +23,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
       targetMuscle: {
         columns: {
           name: true,
+          slug: true,
           fullImage: true,
         },
       },
@@ -58,7 +64,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
           <Heading className="mb-6" tag="h1">
             {exercise.name}
           </Heading>
-          <div className="flex gap-2">
+          <div className="flex gap-2 mb-8">
             <Image
               alt={`Target Muscle: ${exercise.targetMuscle.name}`}
               src={exercise.targetMuscle.fullImage}
@@ -72,6 +78,36 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               width={800}
               height={500}
             />
+          </div>
+          <div className="space-y-6 content">
+            <ExerciseDetails exercise={exercise} />
+            {exercise.overview && (
+              <div>
+                <Heading className="mb-2">Overview</Heading>
+                <div
+                  className="space-y-2 text-lg"
+                  dangerouslySetInnerHTML={{ __html: exercise.overview }}
+                />
+              </div>
+            )}
+            {exercise.instructions && (
+              <div>
+                <Heading className="mb-2">Instructions</Heading>
+                <div
+                  className="space-y-2 text-lg"
+                  dangerouslySetInnerHTML={{ __html: exercise.instructions }}
+                />
+              </div>
+            )}
+            {exercise.tips && (
+              <div>
+                <Heading className="mb-2">Tips</Heading>
+                <div
+                  className="space-y-2 text-lg"
+                  dangerouslySetInnerHTML={{ __html: exercise.tips }}
+                />
+              </div>
+            )}
           </div>
         </Container>
       </Section>

@@ -1,6 +1,8 @@
 import { relations } from "drizzle-orm";
 import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { exercise } from "./exercise";
+import { createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const exerciseTargetMuscle = pgTable("exercise_target_muscles", {
   id: serial("id").primaryKey(),
@@ -16,6 +18,16 @@ export const exerciseTargetMuscle = pgTable("exercise_target_muscles", {
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
+
+const selectExerciseTargetMuscleSchema =
+  createSelectSchema(exerciseTargetMuscle);
+export type FullExerciseTargetMuscle = z.infer<
+  typeof selectExerciseTargetMuscleSchema
+>;
+export type ExerciseTargetMuscle = Pick<
+  FullExerciseTargetMuscle,
+  "id" | "name" | "slug" | "fullImage"
+>;
 
 export const exerciseTargetMuscleRelations = relations(
   exerciseTargetMuscle,

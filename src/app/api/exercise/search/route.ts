@@ -1,6 +1,6 @@
-import { exercise, exerciseTargetMuscle } from "@/db";
+import { exercise } from "@/db";
 import { exerciseService } from "@/shared/api";
-import { SQL, and, eq, ilike } from "drizzle-orm";
+import { and, eq, ilike } from "drizzle-orm";
 
 export async function POST(req: Request) {
   try {
