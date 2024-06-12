@@ -4,11 +4,7 @@ import {
   DEFAULT_EXERCISE_IMAGE,
   EXERCISES_ROUTE,
 } from "@/shared/consts";
-import {
-  Container,
-  Heading,
-  Section
-} from "@/shared/ui";
+import { Container, Heading, Section } from "@/shared/ui";
 import { Breadcrumbs } from "@/widgets";
 import { eq } from "drizzle-orm";
 import Image from "next/image";
@@ -30,6 +26,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
       equipment: {
         columns: {
           name: true,
+          slug: true,
         },
       },
       type: {
@@ -59,17 +56,19 @@ const Page = async ({ params }: { params: { slug: string } }) => {
           },
         ]}
       />
-      <Section>
+      <Section className="pt-4">
         <Container>
-          <Heading className="mb-6" tag="h1">
+          <Heading className="mb-4 md:mb-6" tag="h1">
             {exercise.name}
           </Heading>
           <div className="flex gap-2 mb-8">
             <Image
+              className="hidden lg:block"
               alt={`Target Muscle: ${exercise.targetMuscle.name}`}
               src={exercise.targetMuscle.fullImage}
               width={300}
-              height={500}
+              height={600}
+              priority
             />
             <Image
               className="flex-1 w-full h-auto object-cover"
@@ -77,15 +76,16 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               src={exercise.image ?? DEFAULT_EXERCISE_IMAGE}
               width={800}
               height={500}
+              priority
             />
           </div>
-          <div className="space-y-6 content">
+          <div className="space-y-6 content md:text-lg">
             <ExerciseDetails exercise={exercise} />
             {exercise.overview && (
               <div>
                 <Heading className="mb-2">Overview</Heading>
                 <div
-                  className="space-y-2 text-lg"
+                  className="space-y-2"
                   dangerouslySetInnerHTML={{ __html: exercise.overview }}
                 />
               </div>
@@ -94,7 +94,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               <div>
                 <Heading className="mb-2">Instructions</Heading>
                 <div
-                  className="space-y-2 text-lg"
+                  className="space-y-2"
                   dangerouslySetInnerHTML={{ __html: exercise.instructions }}
                 />
               </div>
@@ -103,7 +103,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               <div>
                 <Heading className="mb-2">Tips</Heading>
                 <div
-                  className="space-y-2 text-lg"
+                  className="space-y-2"
                   dangerouslySetInnerHTML={{ __html: exercise.tips }}
                 />
               </div>
