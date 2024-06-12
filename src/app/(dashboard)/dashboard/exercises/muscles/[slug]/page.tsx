@@ -84,7 +84,7 @@ const Page = async ({
           },
         ]}
       />
-      <Section>
+      <Section className="pt-4">
         <Container>
           <Heading className="mb-2" tag="h1">
             {muscleGroup.name} Exercises
@@ -101,7 +101,7 @@ const Page = async ({
 
           <div className="my-10">
             <Heading className="mb-6 md:mb-8">Browse All</Heading>
-            <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            <ul className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4">
               {exercises.map((exercise) => (
                 <ExerciseCard key={exercise.id} exercise={exercise} />
               ))}

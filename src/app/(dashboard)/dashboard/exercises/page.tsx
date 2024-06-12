@@ -14,13 +14,13 @@ const Page = async () => {
         <Heading className="mb-2" tag="h1">
           Find Exercises
         </Heading>
-        <p className="text-lg mb-10">
+        <p className="text-lg md:mb-6 mb-8">
           Look for exercises to create your dream workout plan for strength and
           muscle building.
         </p>
         <ExercisesSearch />
-        <p className="text-lg md:text-xl text-muted-foreground my-6 md:my-8">
-          Don&apos;t know what you&apos;re looking for? Check out out
+        <p className="text-base xs:text-lg md:text-xl text-muted-foreground my-6 md:my-8">
+          Don&apos;t know what you&apos;re looking for? Check out our
           categorised exercises below.
         </p>
         <div className="my-10 space-y-8">
@@ -45,7 +45,7 @@ const Page = async () => {
             <p className="text-muted-foreground text-center md:text-lg mb-6 md:mb-8 ">
               Check out the most popular exercises.
             </p>
-            <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            <ul className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4">
               {BEST_EXERCISES.map((exercise) => (
                 <ExerciseCard key={exercise.id} exercise={exercise} />
               ))}

@@ -44,11 +44,11 @@ export const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
           <Separator className="mt-3" />
           <div className="grid grid-cols-2 gap-2 text-sm md:text-base px-2 md:px-4">
             <div className="flex justify-center items-center gap-1.5 pr-2 py-2 border-r">
-              <Target className="w-4 h-4" />
+              <Target className="shrink-0 w-4 h-4" />
               <span>{exercise.type.name}</span>
             </div>
             <div className="flex justify-center items-center gap-1.5 py-2">
-              <Dumbbell className="w-4 h-4" />
+              <Dumbbell className="shrink-0 w-4 h-4" />
               <span>{exercise.equipment.name}</span>
             </div>
           </div>
