@@ -27,6 +27,7 @@ export const ExercisesSearch = ({ whereOptions }: ExercisesSearchProps) => {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "force-cache",
     })
       .then((res) => res.json())
       .then(({ data }: ApiResponse<SearchExercise[]>) => {

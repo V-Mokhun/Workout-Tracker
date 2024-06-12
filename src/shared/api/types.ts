@@ -5,7 +5,7 @@ export type ApiResponse<T> = {
 
 export type AuthUser = {
   name: string;
-  user_id: string;
+  sub: string;
   nickname?: string;
   picture?: string;
   email?: string;

@@ -24,7 +24,10 @@ export async function POST(req: Request) {
     }
     const exercises = await exerciseService.searchExercises(whereClause);
 
-    return Response.json({ data: exercises, message: "OK" }, { status: 200 });
+    return Response.json(
+      { data: exercises, message: "OK" },
+      { status: 200, headers: { "Cache-Control": "public, s-maxage=86400" } }
+    );
   } catch (error) {
     console.log("search exercises error: ", error);
     return Response.json(
