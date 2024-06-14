@@ -23,7 +23,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.30.7",
+    "drizzle-orm": "^0.31.2",
     "drizzle-zod": "^0.5.1",
     "lucide-react": "^0.364.0",
     "next": "14.1.4",
@@ -35,11 +35,11 @@
     "zod": "^3.23.7"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^20.12.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
-    "drizzle-kit": "^0.20.17",
+    "drizzle-kit": "^0.22.7",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
     "pg": "^8.11.5",
