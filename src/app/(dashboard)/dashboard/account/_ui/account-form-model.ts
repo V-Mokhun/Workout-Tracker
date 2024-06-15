@@ -6,10 +6,7 @@ export const accountFormSchema = z.object({
     .string()
     .min(3, "Name must be at least 3 characters long")
     .max(255, "Name must be less than 255 characters long"),
-  birthdate: z
-    .string()
-    .length(10, "Birthdate must be 10 characters long")
-    .nullable(),
+  birthdate: z.date().optional(),
   weightMetric: z
     .number()
     .min(20, "Weight must be at least 20kg")
@@ -21,7 +18,7 @@ export const accountFormSchema = z.object({
       },
       { message: "Max precision is 1 decimal place" }
     )
-    .nullable(),
+    .optional(),
   weightImperial: z
     .number()
     .min(44, "Weight must be at least 44 lbs")
@@ -33,7 +30,7 @@ export const accountFormSchema = z.object({
       },
       { message: "Max precision is 1 decimal place" }
     )
-    .nullable(),
+    .optional(),
   heightMetric: z
     .number()
     .min(50, "Height must be at least 50 cm")
@@ -45,7 +42,7 @@ export const accountFormSchema = z.object({
       },
       { message: "Max precision is 1 decimal place" }
     )
-    .nullable(),
+    .optional(),
   heightImperial: z
     .number()
     .min(2, "Height must be at least 2 feet")
@@ -57,8 +54,8 @@ export const accountFormSchema = z.object({
       },
       { message: "Max precision is 1 decimal place" }
     )
-    .nullable(),
-  gender: genderSchema.nullable(),
+    .optional(),
+  gender: genderSchema.default("male"),
 });
 
 export type AccountFormSchema = z.infer<typeof accountFormSchema>;

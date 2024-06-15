@@ -1,4 +1,6 @@
 {
+  "id": "fc26d953-0882-4e85-ae3e-722ee8f1e9d4",
+  "prevId": "010b4dd0-45e7-4bfa-8547-6ee28fb92564",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -51,17 +53,17 @@
       "uniqueConstraints": {
         "exercise_equipments_name_unique": {
           "name": "exercise_equipments_name_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "name"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "exercise_equipments_slug_unique": {
           "name": "exercise_equipments_slug_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "slug"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
     },
@@ -120,17 +122,17 @@
       "uniqueConstraints": {
         "exercise_target_muscles_name_unique": {
           "name": "exercise_target_muscles_name_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "name"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "exercise_target_muscles_slug_unique": {
           "name": "exercise_target_muscles_slug_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "slug"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
     },
@@ -177,17 +179,17 @@
       "uniqueConstraints": {
         "exercise_types_name_unique": {
           "name": "exercise_types_name_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "name"
-          ],
-          "nullsNotDistinct": false
+          ]
         },
         "exercise_types_slug_unique": {
           "name": "exercise_types_slug_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "slug"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
     },
@@ -252,6 +254,7 @@
         "experience_level": {
           "name": "experience_level",
           "type": "exercise_experience",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
         },
@@ -296,6 +299,7 @@
       },
       "indexes": {
         "exercises_name_index": {
+          "name": "exercises_name_index",
           "columns": [
             {
               "expression": "name",
@@ -304,62 +308,61 @@
               "nulls": "last"
             }
           ],
-          "with": {},
-          "name": "exercises_name_index",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {
         "exercises_target_muscle_id_exercise_target_muscles_id_fk": {
           "name": "exercises_target_muscle_id_exercise_target_muscles_id_fk",
           "tableFrom": "exercises",
+          "tableTo": "exercise_target_muscles",
           "columnsFrom": [
             "target_muscle_id"
           ],
-          "tableTo": "exercise_target_muscles",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "exercises_type_id_exercise_types_id_fk": {
           "name": "exercises_type_id_exercise_types_id_fk",
           "tableFrom": "exercises",
+          "tableTo": "exercise_types",
           "columnsFrom": [
             "type_id"
           ],
-          "tableTo": "exercise_types",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "exercises_equipment_id_exercise_equipments_id_fk": {
           "name": "exercises_equipment_id_exercise_equipments_id_fk",
           "tableFrom": "exercises",
+          "tableTo": "exercise_equipments",
           "columnsFrom": [
             "equipment_id"
           ],
-          "tableTo": "exercise_equipments",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "exercises_slug_unique": {
           "name": "exercises_slug_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "slug"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
     },
@@ -424,14 +427,17 @@
         "gender": {
           "name": "gender",
           "type": "gender",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "'male'"
         },
         "units": {
           "name": "units",
           "type": "units",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'metric'"
         },
         "created_at": {
@@ -503,28 +509,28 @@
         "user_exercises_exercise_id_exercises_id_fk": {
           "name": "user_exercises_exercise_id_exercises_id_fk",
           "tableFrom": "user_exercises",
+          "tableTo": "exercises",
           "columnsFrom": [
             "exercise_id"
           ],
-          "tableTo": "exercises",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         },
         "user_exercises_user_id_users_id_fk": {
           "name": "user_exercises_user_id_users_id_fk",
           "tableFrom": "user_exercises",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -598,15 +604,15 @@
         "workouts_user_id_users_id_fk": {
           "name": "workouts_user_id_users_id_fk",
           "tableFrom": "workouts",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -654,28 +660,28 @@
         "workout_exercises_workout_id_workouts_id_fk": {
           "name": "workout_exercises_workout_id_workouts_id_fk",
           "tableFrom": "workout_exercises",
+          "tableTo": "workouts",
           "columnsFrom": [
             "workout_id"
           ],
-          "tableTo": "workouts",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         },
         "workout_exercises_exercise_id_exercises_id_fk": {
           "name": "workout_exercises_exercise_id_exercises_id_fk",
           "tableFrom": "workout_exercises",
+          "tableTo": "exercises",
           "columnsFrom": [
             "exercise_id"
           ],
-          "tableTo": "exercises",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -767,17 +773,17 @@
         "fk_workout_exercise_set": {
           "name": "fk_workout_exercise_set",
           "tableFrom": "workout_exercise_sets",
+          "tableTo": "workout_exercises",
           "columnsFrom": [
             "workout_id",
             "exercise_id"
           ],
-          "tableTo": "workout_exercises",
           "columnsTo": [
             "workout_id",
             "exercise_id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -813,10 +819,8 @@
   },
   "schemas": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "id": "d0309b15-5642-450f-a323-8aef2d2ef458",
-  "prevId": "00000000-0000-0000-0000-000000000000"
+    "tables": {}
+  }
 }

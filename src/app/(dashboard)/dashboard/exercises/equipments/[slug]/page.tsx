@@ -1,4 +1,4 @@
-import { db, exercise, exerciseEquipment } from "@/db";
+import { exercise, exerciseEquipment } from "@/db";
 import {
   DASHBOARD_ROUTE,
   DEFAULT_EXERCISE_LIMIT,
@@ -13,6 +13,7 @@ import {
 } from "@/widgets";
 import { count, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import { db } from "@/db/database";
 
 const Page = async ({
   params,

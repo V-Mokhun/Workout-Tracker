@@ -1,4 +1,4 @@
-import { db, user } from "@/db";
+import { user } from "@/db";
 import {
   DASHBOARD_ROUTE,
   DEFAULT_PROFILE_IMAGE,
@@ -8,6 +8,7 @@ import { Container, Heading, Section } from "@/shared/ui";
 import { getSession } from "@auth0/nextjs-auth0";
 import { eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import { db } from "@/db/database";
 
 const Page = async () => {
   const session = await getSession();

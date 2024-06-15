@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from "@/db/database";
 import { BEST_EXERCISES, EXERCISES_ROUTE } from "@/shared/consts";
 import { Container, Heading, Section, Separator } from "@/shared/ui";
 import { ExerciseCard, ExercisesSearch } from "@/widgets";

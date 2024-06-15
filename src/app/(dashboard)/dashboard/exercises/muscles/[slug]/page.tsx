@@ -1,14 +1,10 @@
-import { db, exercise, exerciseTargetMuscle } from "@/db";
+import { exercise, exerciseTargetMuscle } from "@/db";
 import {
   DASHBOARD_ROUTE,
   DEFAULT_EXERCISE_LIMIT,
   EXERCISES_ROUTE,
 } from "@/shared/consts";
-import {
-  Container,
-  Heading,
-  Section
-} from "@/shared/ui";
+import { Container, Heading, Section } from "@/shared/ui";
 import {
   Breadcrumbs,
   ExerciseCard,
@@ -17,6 +13,7 @@ import {
 } from "@/widgets";
 import { count, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import { db } from "@/db/database";
 
 const Page = async ({
   params,

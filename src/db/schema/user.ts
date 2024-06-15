@@ -23,8 +23,8 @@ export const user = pgTable("users", {
   weightImperial: real("weight_imperial"),
   heightMetric: real("height_metric"),
   heightImperial: real("height_imperial"),
-  gender: gender("gender"),
-  units: units("units").default("metric"),
+  gender: gender("gender").default("male").notNull(),
+  units: units("units").default("metric").notNull(),
   createdAt: timestamp("created_at", { mode: "date", precision: 3 })
     .notNull()
     .defaultNow(),

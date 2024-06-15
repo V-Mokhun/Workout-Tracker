@@ -1,4 +1,4 @@
-import { db, exercise as dbExercise } from "@/db";
+import { exercise as dbExercise } from "@/db";
 import {
   DASHBOARD_ROUTE,
   DEFAULT_EXERCISE_IMAGE,
@@ -10,6 +10,7 @@ import { eq } from "drizzle-orm";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ExerciseDetails } from "./_ui";
+import { db } from "@/db/database";
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const exerciseSlug = params.slug;

@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from "@/db/database";
 import { SQL } from "drizzle-orm";
 
 class ExerciseService {
