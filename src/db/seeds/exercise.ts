@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { DB } from "../db";
+import { DB } from "../database";
 import {
   exercise,
   exerciseEquipment,

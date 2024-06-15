@@ -14,6 +14,16 @@ const Page = async () => {
   if (!session) redirect(HOME_ROUTE);
 
   const userId = session.user.sub ?? session.user.user_id;
+  const userPicture =
+    session.user?.user_metadata?.picture ??
+    session.user?.picture ??
+    DEFAULT_PROFILE_IMAGE;
+  const userName =
+    session.user?.user_metadata?.name ??
+    session.user.name ??
+    session.user.nickname ??
+    session.user.username ??
+    "Unknown";
 
   const result = await db.execute<{ exists: boolean }>(
     sql`select exists(${db
@@ -27,20 +37,10 @@ const Page = async () => {
     await db.insert(user).values({
       id: userId,
       email: session.user.email,
-      name:
-        session.user.name ??
-        session.user.nickname ??
-        session.user.username ??
-        session.user.given_name ??
-        "Unknown",
-      avatar:
-        session.user?.user_metadata?.picture ??
-        session.user?.picture ??
-        DEFAULT_PROFILE_IMAGE,
+      name: userName,
+      avatar: userPicture,
     });
   }
-
-  console.log(exists, userId);
 
   redirect(DASHBOARD_ROUTE);
 

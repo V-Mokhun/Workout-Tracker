@@ -10,4 +10,6 @@ export * from "./separator";
 export * from "./input";
 export * from "./breadcrumb";
 export * from "./table";
+export * from "./label";
+export * from "./form";
 export * as PaginationPrimitive from "./pagination";

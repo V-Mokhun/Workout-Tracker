@@ -1,4 +1,4 @@
-import { DB } from "../db";
+import { DB } from "../database";
 import { exerciseType } from "../schema";
 import types from "./data/exercise-types.json";
 

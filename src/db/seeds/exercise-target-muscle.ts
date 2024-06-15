@@ -1,4 +1,4 @@
-import { DB } from "../db";
+import { DB } from "../database";
 import { exerciseTargetMuscle } from "../schema";
 import muscleGroups from "./data/exercise-muscle-groups.json";
 

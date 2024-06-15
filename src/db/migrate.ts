@@ -1,4 +1,4 @@
-import { db } from "./db";
+import { db } from "./database";
 import { migrate } from "drizzle-orm/neon-http/migrator";
 
 const main = async () => {

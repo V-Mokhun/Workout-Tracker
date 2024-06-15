@@ -1,4 +1,4 @@
-import { DB } from "../db";
+import { DB } from "../database";
 import { exerciseEquipment } from "../schema";
 import equipments from "./data/exercise-equipments.json";
 

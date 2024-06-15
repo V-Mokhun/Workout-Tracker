@@ -10,6 +10,8 @@ import { gender, units } from "./enums";
 import { relations } from "drizzle-orm";
 import { workout } from "./workout";
 import { userExercise } from "./user-exercise";
+import { createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const user = pgTable("users", {
   id: text("id").primaryKey(),
@@ -31,6 +33,9 @@ export const user = pgTable("users", {
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
+
+const selectUserSchema = createSelectSchema(user);
+export type User = z.infer<typeof selectUserSchema>;
 
 export const userRelations = relations(user, ({ one, many }) => ({
   workouts: many(workout),
