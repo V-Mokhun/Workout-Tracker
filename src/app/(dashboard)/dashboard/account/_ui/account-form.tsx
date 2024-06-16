@@ -24,12 +24,14 @@ import { User } from "@/db";
 import { cn } from "@/shared/lib";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { useTransition } from "react";
 
 interface AccountFormProps {
   user: User;
 }
 
 export const AccountForm = ({ user }: AccountFormProps) => {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<AccountFormSchema>({
     resolver: zodResolver(accountFormSchema),
     defaultValues: {
@@ -288,7 +290,9 @@ export const AccountForm = ({ user }: AccountFormProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Update</Button>
+        <Button disabled={isPending} type="submit">
+          Update
+        </Button>
       </form>
     </Form>
   );

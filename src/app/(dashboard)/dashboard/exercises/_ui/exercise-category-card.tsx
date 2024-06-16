@@ -1,14 +1,14 @@
-import { BasicExerciseCategory } from "@/db";
+import { BasicExercise } from "@/db";
 import { Heading } from "@/shared/ui";
 import Image from "next/image";
 import Link from "next/link";
 
-interface ExerciseCategoryCardProps<T extends BasicExerciseCategory> {
+interface ExerciseCategoryCardProps<T extends BasicExercise> {
   route: string;
   data: T;
 }
 
-export const ExerciseCategoryCard = <T extends BasicExerciseCategory>({
+export const ExerciseCategoryCard = <T extends BasicExercise>({
   data,
   route,
 }: ExerciseCategoryCardProps<T>) => {
@@ -23,7 +23,7 @@ export const ExerciseCategoryCard = <T extends BasicExerciseCategory>({
             className="w-full h-auto object-cover rounded-t-md"
             width={480}
             height={300}
-            src={data.image}
+            src={data.image!}
             alt={data.name}
           />
         </div>
