@@ -1,4 +1,6 @@
 import {
+  date,
+  integer,
   pgTable,
   real,
   serial,
@@ -18,11 +20,15 @@ export const user = pgTable("users", {
   email: varchar("email", { length: 255 }),
   name: varchar("name", { length: 255 }),
   avatar: text("avatar"),
-  birthdate: varchar("birthdate", { length: 10 }),
-  weightMetric: real("weight_metric"),
-  weightImperial: real("weight_imperial"),
-  heightMetric: real("height_metric"),
-  heightImperial: real("height_imperial"),
+  birthdate: date("birthdate"),
+  weightMetric: real("weight_metric").default(0).notNull(),
+  weightImperial: real("weight_imperial").default(0).notNull(),
+  heightMetricMetres: integer("height_metric_metres").default(0).notNull(),
+  heightMetricCentimetres: integer("height_metric_centimetres")
+    .default(0)
+    .notNull(),
+  heightImperialFeet: integer("height_imperial_feet").default(0).notNull(),
+  heightImperialInches: integer("height_imperial_inches").default(0).notNull(),
   gender: gender("gender").default("male").notNull(),
   units: units("units").default("metric").notNull(),
   createdAt: timestamp("created_at", { mode: "date", precision: 3 })

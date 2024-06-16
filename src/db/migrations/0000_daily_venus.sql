@@ -1,17 +1,17 @@
 DO $$ BEGIN
- CREATE TYPE "exercise_experience" AS ENUM('Beginner', 'Intermediate', 'Advanced');
+ CREATE TYPE "public"."exercise_experience" AS ENUM('Beginner', 'Intermediate', 'Advanced');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- CREATE TYPE "gender" AS ENUM('male', 'female');
+ CREATE TYPE "public"."gender" AS ENUM('male', 'female');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- CREATE TYPE "units" AS ENUM('metric', 'imperial');
+ CREATE TYPE "public"."units" AS ENUM('metric', 'imperial');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -74,13 +74,15 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"email" varchar(255),
 	"name" varchar(255),
 	"avatar" text,
-	"birthdate" varchar(10),
-	"weight_metric" real,
-	"weight_imperial" real,
-	"height_metric" real,
-	"height_imperial" real,
-	"gender" "gender",
-	"units" "units" DEFAULT 'metric',
+	"birthdate" date,
+	"weight_metric" real DEFAULT 0 NOT NULL,
+	"weight_imperial" real DEFAULT 0 NOT NULL,
+	"height_metric_metres" integer DEFAULT 0 NOT NULL,
+	"height_metric_centimetres" integer DEFAULT 0 NOT NULL,
+	"height_imperial_feet" integer DEFAULT 0 NOT NULL,
+	"height_imperial_inches" integer DEFAULT 0 NOT NULL,
+	"gender" "gender" DEFAULT 'male' NOT NULL,
+	"units" "units" DEFAULT 'metric' NOT NULL,
 	"created_at" timestamp (3) DEFAULT now() NOT NULL,
 	"updated_at" timestamp (3) DEFAULT now() NOT NULL
 );
@@ -129,57 +131,58 @@ CREATE TABLE IF NOT EXISTS "workout_exercise_sets" (
 	"updated_at" timestamp (3) DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "exercises_name_index" ON "exercises" ("name");--> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "exercises" ADD CONSTRAINT "exercises_target_muscle_id_exercise_target_muscles_id_fk" FOREIGN KEY ("target_muscle_id") REFERENCES "exercise_target_muscles"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "exercises" ADD CONSTRAINT "exercises_target_muscle_id_exercise_target_muscles_id_fk" FOREIGN KEY ("target_muscle_id") REFERENCES "public"."exercise_target_muscles"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "exercises" ADD CONSTRAINT "exercises_type_id_exercise_types_id_fk" FOREIGN KEY ("type_id") REFERENCES "exercise_types"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "exercises" ADD CONSTRAINT "exercises_type_id_exercise_types_id_fk" FOREIGN KEY ("type_id") REFERENCES "public"."exercise_types"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "exercises" ADD CONSTRAINT "exercises_equipment_id_exercise_equipments_id_fk" FOREIGN KEY ("equipment_id") REFERENCES "exercise_equipments"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "exercises" ADD CONSTRAINT "exercises_equipment_id_exercise_equipments_id_fk" FOREIGN KEY ("equipment_id") REFERENCES "public"."exercise_equipments"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "user_exercises" ADD CONSTRAINT "user_exercises_exercise_id_exercises_id_fk" FOREIGN KEY ("exercise_id") REFERENCES "exercises"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "user_exercises" ADD CONSTRAINT "user_exercises_exercise_id_exercises_id_fk" FOREIGN KEY ("exercise_id") REFERENCES "public"."exercises"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "user_exercises" ADD CONSTRAINT "user_exercises_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "user_exercises" ADD CONSTRAINT "user_exercises_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "workouts" ADD CONSTRAINT "workouts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "workouts" ADD CONSTRAINT "workouts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "workout_exercises" ADD CONSTRAINT "workout_exercises_workout_id_workouts_id_fk" FOREIGN KEY ("workout_id") REFERENCES "workouts"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "workout_exercises" ADD CONSTRAINT "workout_exercises_workout_id_workouts_id_fk" FOREIGN KEY ("workout_id") REFERENCES "public"."workouts"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "workout_exercises" ADD CONSTRAINT "workout_exercises_exercise_id_exercises_id_fk" FOREIGN KEY ("exercise_id") REFERENCES "exercises"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "workout_exercises" ADD CONSTRAINT "workout_exercises_exercise_id_exercises_id_fk" FOREIGN KEY ("exercise_id") REFERENCES "public"."exercises"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "workout_exercise_sets" ADD CONSTRAINT "fk_workout_exercise_set" FOREIGN KEY ("workout_id","exercise_id") REFERENCES "workout_exercises"("workout_id","exercise_id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "workout_exercise_sets" ADD CONSTRAINT "fk_workout_exercise_set" FOREIGN KEY ("workout_id","exercise_id") REFERENCES "public"."workout_exercises"("workout_id","exercise_id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
+--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "exercises_name_index" ON "exercises" USING btree ("name");

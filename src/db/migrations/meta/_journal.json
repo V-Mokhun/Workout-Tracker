@@ -1,26 +1,12 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1715366795900,
-      "tag": "0000_fixed_jazinda",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
       "version": "7",
-      "when": 1718466486282,
-      "tag": "0001_slim_moira_mactaggert",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1718466698292,
-      "tag": "0002_light_justin_hammer",
+      "when": 1718536106506,
+      "tag": "0000_daily_venus",
       "breakpoints": true
     }
   ]

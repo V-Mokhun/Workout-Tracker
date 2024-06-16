@@ -45,18 +45,16 @@ const Page = async () => {
             />
             {user.email && (
               <>
-                <Separator className="my-2" />
-                <div className="flex flex-col gap-1 items-center">
-                  <span className="md:text-lg">{user.email}</span>
-                </div>
+                <Separator className="my-4" />
+                <span className="block max-w-full text-center break-words">{user.email}</span>
               </>
             )}
             <Separator className="my-2" />
             <div className="flex flex-col gap-1 items-center">
-              <span className="text-xl md:text-2xl text-primary">
+              <span className="text-lg md:text-xl text-primary">
                 {workoutsCompleted}
               </span>
-              <span className="md:text-lg">Workouts Completed</span>
+              <span>Workouts Completed</span>
             </div>
           </div>
         </div>
