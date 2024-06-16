@@ -30,9 +30,14 @@ export const ExercisesSearch = ({ whereOptions }: ExercisesSearchProps) => {
       cache: "force-cache",
     })
       .then((res) => res.json())
-      .then(({ data }: ApiResponse<SearchExercise[]>) => {
-        setExercises(data);
-        setError("");
+      .then((result: ApiResponse<SearchExercise[]>) => {
+        if ("error" in result) {
+          setExercises([]);
+          setError(result.error.message);
+        } else {
+          setExercises(result.data);
+          setError("");
+        }
       })
       .catch(() => {
         setExercises([]);

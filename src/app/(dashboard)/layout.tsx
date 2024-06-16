@@ -1,3 +1,4 @@
+import { Toaster } from "@/shared/ui";
 import { Footer, Header } from "@/widgets";
 
 export default function DashboardLayout({
@@ -10,6 +11,7 @@ export default function DashboardLayout({
       <Header />
       <main className="flex-auto">{children}</main>
       <Footer />
+      <Toaster />
     </>
   );
 }

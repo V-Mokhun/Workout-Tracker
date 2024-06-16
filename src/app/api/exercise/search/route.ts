@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 
     if (!searchValue) {
       return Response.json(
-        { data: [], message: "Wrong request body" },
+        { error: new Error("Wrong request body") },
         { status: 400 }
       );
     }
@@ -30,9 +30,6 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     console.log("search exercises error: ", error);
-    return Response.json(
-      { data: [], message: "Server error" },
-      { status: 500 }
-    );
+    return Response.json({ error: new Error("Server error") }, { status: 500 });
   }
 }

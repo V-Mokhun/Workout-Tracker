@@ -1,22 +1,23 @@
 import { user as dbUser, workout as dbWorkout } from "@/db";
+import { db } from "@/db/database";
 import { DEFAULT_PROFILE_IMAGE } from "@/shared/consts";
-import { Container, Heading, Section, Separator } from "@/shared/ui";
+import { Heading, Separator } from "@/shared/ui";
 import { getSession } from "@auth0/nextjs-auth0";
 import { count, eq } from "drizzle-orm";
 import Image from "next/image";
-import { AccountForm, AccountSidebar } from "./_ui";
-import { db } from "@/db/database";
+import { AccountForm } from "./_ui";
+import { notFound } from "next/navigation";
 
 const Page = async () => {
   const session = await getSession();
 
-  if (!session) return;
+  if (!session) notFound();
 
   const user = await db.query.user.findFirst({
     where: eq(dbUser.id, session.user.sub),
   });
 
-  if (!user) return;
+  if (!user) notFound();
 
   const [{ count: workoutsCompleted }] = await db
     .select({ count: count() })
@@ -24,42 +25,36 @@ const Page = async () => {
     .where(eq(dbWorkout.userId, session.user.sub));
 
   return (
-    <Section>
-      <Container>
-        <Heading className="mb-6 md:mb-8" tag="h1">
-          Settings
-        </Heading>
-        <div className="grid gap-5 grid-cols-12">
-          <AccountSidebar />
-          <div className="col-span-6">
-            <Heading className="mb-6">Profile</Heading>
-            <AccountForm user={user} />
-          </div>
-          <div className="col-span-3 flex flex-col items-center">
-            <Image
-              className="rounded-full object-cover"
-              alt="Your avatar"
-              src={user.avatar ?? DEFAULT_PROFILE_IMAGE}
-              width={128}
-              height={128}
-            />
-            {user.email && (
-              <>
-                <Separator className="my-4" />
-                <span className="block max-w-full text-center break-words">{user.email}</span>
-              </>
-            )}
-            <Separator className="my-2" />
-            <div className="flex flex-col gap-1 items-center">
-              <span className="text-lg md:text-xl text-primary">
-                {workoutsCompleted}
-              </span>
-              <span>Workouts Completed</span>
-            </div>
-          </div>
+    <>
+      <div className="col-span-6">
+        <Heading className="mb-6">Profile</Heading>
+        <AccountForm user={user} />
+      </div>
+      <div className="col-span-3 flex flex-col items-center">
+        <Image
+          className="rounded-full object-cover"
+          alt="Your avatar"
+          src={user.avatar ?? DEFAULT_PROFILE_IMAGE}
+          width={128}
+          height={128}
+        />
+        {user.email && (
+          <>
+            <Separator className="my-4" />
+            <span className="block max-w-full text-center break-words">
+              {user.email}
+            </span>
+          </>
+        )}
+        <Separator className="my-2" />
+        <div className="flex flex-col gap-1 items-center">
+          <span className="text-lg md:text-xl text-primary">
+            {workoutsCompleted}
+          </span>
+          <span>Workouts Completed</span>
         </div>
-      </Container>
-    </Section>
+      </div>
+    </>
   );
 };
 

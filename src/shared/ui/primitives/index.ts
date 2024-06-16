@@ -15,3 +15,4 @@ export * from "./select";
 export * from "./separator";
 export * from "./table";
 export * from "./radio-group";
+export * from "./toast";
