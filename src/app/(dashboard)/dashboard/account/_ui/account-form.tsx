@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
   RadioGroup,
   RadioGroupItem,
+  useToast,
 } from "@/shared/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -25,10 +26,16 @@ import { cn } from "@/shared/lib";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useTransition } from "react";
+import { updateAccountSettings } from "./actions";
 
 interface AccountFormProps {
   user: User;
 }
+
+export type AccountFormState = {
+  message: string;
+  isError: boolean;
+};
 
 export const AccountForm = ({ user }: AccountFormProps) => {
   const [isPending, startTransition] = useTransition();
@@ -48,11 +55,19 @@ export const AccountForm = ({ user }: AccountFormProps) => {
       gender: user.gender,
     },
   });
+  const { toast } = useToast();
 
   const isMetric = user.units === "metric";
 
   function onSubmit(values: AccountFormSchema) {
-    console.log(values);
+    startTransition(() => {
+      updateAccountSettings(values).then((state) => {
+        toast({
+          title: state.message,
+          variant: state.isError ? "destructive" : "success",
+        });
+      });
+    });
   }
 
   return (
