@@ -11,6 +11,7 @@ import {
   calculateImperialFromMetric,
   calculateMetricFromImperial,
 } from "@/shared/lib";
+import { v2 as cloudinary } from "cloudinary";
 
 export async function updateAccountSettings(
   values: AccountFormSchema,
@@ -128,6 +129,33 @@ export async function updateAccountSettings(
 
     return {
       message: "Account updated successfully.",
+      isError: false,
+    };
+  } catch (error) {
+    return {
+      message: "Something went wrong. Please try again later.",
+      isError: true,
+    };
+  }
+}
+
+export async function deleteOldAvatar(
+  avatarPublicId: string
+): Promise<AccountFormState> {
+  try {
+    cloudinary.config({
+      cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+
+    await cloudinary.uploader.destroy(avatarPublicId, {
+      invalidate: true,
+      resource_type: "image",
+    });
+
+    return {
+      message: "Old avatar deleted successfully.",
       isError: false,
     };
   } catch (error) {
