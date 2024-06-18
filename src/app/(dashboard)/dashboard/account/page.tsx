@@ -5,7 +5,7 @@ import { Heading, Separator } from "@/shared/ui";
 import { getSession } from "@auth0/nextjs-auth0";
 import { count, eq } from "drizzle-orm";
 import Image from "next/image";
-import { AccountForm } from "./_ui";
+import { AccountForm, AccountImageUpload } from "./_ui";
 import { notFound } from "next/navigation";
 
 const Page = async () => {
@@ -31,16 +31,10 @@ const Page = async () => {
         <AccountForm user={user} />
       </div>
       <div className="col-span-3 flex flex-col items-center">
-        <Image
-          className="rounded-full object-cover"
-          alt="Your avatar"
-          src={user.avatar ?? DEFAULT_PROFILE_IMAGE}
-          width={128}
-          height={128}
-        />
+        <AccountImageUpload avatar={user.avatar ?? DEFAULT_PROFILE_IMAGE} />
         {user.email && (
           <>
-            <Separator className="my-4" />
+            <Separator className="mt-4 mb-2" />
             <span className="block max-w-full text-center break-words">
               {user.email}
             </span>
