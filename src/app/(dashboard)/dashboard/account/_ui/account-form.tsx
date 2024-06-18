@@ -61,7 +61,7 @@ export const AccountForm = ({ user }: AccountFormProps) => {
 
   function onSubmit(values: AccountFormSchema) {
     startTransition(() => {
-      updateAccountSettings(values).then((state) => {
+      updateAccountSettings(values, user.id).then((state) => {
         toast({
           title: state.message,
           variant: state.isError ? "destructive" : "success",

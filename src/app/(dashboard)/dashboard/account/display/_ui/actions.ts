@@ -39,12 +39,9 @@ export async function updateAccountDisplay(
       };
     }
 
-    const [dbResponse, apiResponse] = await Promise.all([
-      db
-        .update(dbUser)
-        .set({ units: values.units })
-        .where(eq(dbUser.id, userId)),
-      fetch(`${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userId}`, {
+    const apiResponse = await fetch(
+      `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userId}`,
+      {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -57,16 +54,21 @@ export async function updateAccountDisplay(
             units: values.units,
           },
         }),
-      }),
-    ]);
-
+      }
+    );
     const apiResponseJson = await apiResponse.json();
-    if (dbResponse.rowCount === 0 || apiResponseJson.error) {
+
+    if (!apiResponse.ok || apiResponseJson.error) {
       return {
-        message: "Could not update measurement units. Please try again later.",
+        message: "Failed to update account. Please try again later.",
         isError: true,
       };
     }
+
+    await db
+      .update(dbUser)
+      .set({ units: values.units })
+      .where(eq(dbUser.id, userId));
 
     await updateSession({
       ...session,

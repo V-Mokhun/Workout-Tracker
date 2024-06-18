@@ -7,9 +7,14 @@ import { db } from "@/db/database";
 import { eq } from "drizzle-orm";
 import { user as dbUser } from "@/db";
 import { format } from "date-fns";
+import {
+  calculateImperialFromMetric,
+  calculateMetricFromImperial,
+} from "@/shared/lib";
 
 export async function updateAccountSettings(
-  values: AccountFormSchema
+  values: AccountFormSchema,
+  userId: string
 ): Promise<AccountFormState> {
   try {
     const parsed = accountFormSchema.safeParse(values);
@@ -21,15 +26,6 @@ export async function updateAccountSettings(
       };
     }
 
-    const session = await getSession();
-    if (!session) {
-      return {
-        message: "Session not found.",
-        isError: true,
-      };
-    }
-    const userId = session.user.sub;
-
     const user = await db.query.user.findFirst({
       where: eq(dbUser.id, userId),
     });
@@ -40,20 +36,54 @@ export async function updateAccountSettings(
       };
     }
 
-    //TODO: Calculate imperial/metric units
+    const isMetric = user.units === "metric";
+    if (isMetric) {
+      const { heightImperialFeet, heightImperialInches, weightImperial } =
+        calculateImperialFromMetric(
+          values.heightMetricMetres,
+          values.heightMetricCentimetres,
+          values.weightMetric
+        );
 
-    if (values.name !== user.name) {
-      const [dbResponse, apiResponse] = await Promise.all([
-        db
-          .update(dbUser)
-          .set({
-            ...values,
-            birthdate: values.birthdate
-              ? format(values.birthdate, "YYYY-MM-dd")
-              : undefined,
-          })
-          .where(eq(dbUser.id, userId)),
-        fetch(`${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userId}`, {
+      values.heightImperialFeet = heightImperialFeet;
+      values.heightImperialInches = heightImperialInches;
+      values.weightImperial = weightImperial;
+    } else {
+      const { heightMetricMetres, heightMetricCentimetres, weightMetric } =
+        calculateMetricFromImperial(
+          values.heightImperialFeet,
+          values.heightImperialInches,
+          values.weightImperial
+        );
+
+      values.heightMetricMetres = heightMetricMetres;
+      values.heightMetricCentimetres = heightMetricCentimetres;
+      values.weightMetric = weightMetric;
+    }
+
+    if (values.name === user.name) {
+      await db
+        .update(dbUser)
+        .set({
+          ...values,
+          birthdate: values.birthdate
+            ? format(values.birthdate, "yyyy-MM-dd")
+            : undefined,
+        })
+        .where(eq(dbUser.id, userId));
+    } else {
+      const session = await getSession();
+      if (!session) {
+        return {
+          message: "Session not found.",
+          isError: true,
+        };
+      }
+
+      // TODO: Create user service to handle authorization token on 401 error => refetch token
+      const apiResponse = await fetch(
+        `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users/${userId}`,
+        {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -62,21 +92,30 @@ export async function updateAccountSettings(
           },
           redirect: "follow",
           body: JSON.stringify({
-            name: values.name,
             user_metadata: {
               name: values.name,
             },
           }),
-        }),
-      ]);
-
+        }
+      );
       const apiResponseJson = await apiResponse.json();
-      if (dbResponse.rowCount === 0 || apiResponseJson.error) {
+
+      if (!apiResponse.ok || apiResponseJson.error) {
         return {
           message: "Failed to update account. Please try again later.",
           isError: true,
         };
       }
+
+      await db
+        .update(dbUser)
+        .set({
+          ...values,
+          birthdate: values.birthdate
+            ? format(values.birthdate, "yyyy-MM-dd")
+            : undefined,
+        })
+        .where(eq(dbUser.id, userId));
 
       await updateSession({
         ...session,
@@ -86,23 +125,6 @@ export async function updateAccountSettings(
           user_metadata: { ...session.user.user_metadata, name: values.name },
         },
       });
-    } else {
-      const res = await db
-        .update(dbUser)
-        .set({
-          ...values,
-          birthdate: values.birthdate
-            ? format(values.birthdate, "YYYY-MM-dd")
-            : undefined,
-        })
-        .where(eq(dbUser.id, userId));
-
-      if (res.rowCount === 0) {
-        return {
-          message: "Failed to update account. Please try again later.",
-          isError: true,
-        };
-      }
     }
 
     return {

@@ -17,8 +17,7 @@ export const accountFormSchema = z.object({
         return !decimalPart || decimalPart.length <= 1;
       },
       { message: "Max precision is 1 decimal place" }
-    )
-    .optional(),
+    ),
   weightImperial: z
     .number()
     .min(0, "Weight must be at least 0 lbs")
@@ -29,28 +28,23 @@ export const accountFormSchema = z.object({
         return !decimalPart || decimalPart.length <= 1;
       },
       { message: "Max precision is 1 decimal place" }
-    )
-    .optional(),
+    ),
   heightMetricMetres: z
     .number()
     .min(0, "You can't have a negative height")
-    .max(2, "Height must be at most 2 metres")
-    .optional(),
+    .max(2, "Height must be at most 2 metres"),
   heightMetricCentimetres: z
     .number()
     .min(0, "You can't have a negative height")
-    .max(99, "Height must be less than 100cm")
-    .optional(),
+    .max(99, "Height must be less than 100cm"),
   heightImperialFeet: z
     .number()
     .min(0, "You can't have a negative height")
-    .max(8, "Height must be at most 8 feet")
-    .optional(),
+    .max(8, "Height must be at most 8 feet"),
   heightImperialInches: z
     .number()
     .min(0, "You can't have a negative height")
-    .max(11, "Height must be less than 12 inches")
-    .optional(),
+    .max(11, "Height must be less than 12 inches"),
   gender: genderSchema.default("male"),
 });
 
