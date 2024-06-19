@@ -62,14 +62,18 @@ export async function updateAccountSettings(
       values.weightMetric = weightMetric;
     }
 
+    const birthdate = values.birthdate
+      ? format(values.birthdate, "yyyy-MM-dd")
+      : undefined;
+
+    console.log("birthdate", birthdate);
+
     if (values.name === user.name) {
       await db
         .update(dbUser)
         .set({
           ...values,
-          birthdate: values.birthdate
-            ? format(values.birthdate, "yyyy-MM-dd")
-            : undefined,
+          birthdate,
         })
         .where(eq(dbUser.id, userId));
     } else {
@@ -112,9 +116,7 @@ export async function updateAccountSettings(
         .update(dbUser)
         .set({
           ...values,
-          birthdate: values.birthdate
-            ? format(values.birthdate, "yyyy-MM-dd")
-            : undefined,
+          birthdate,
         })
         .where(eq(dbUser.id, userId));
 

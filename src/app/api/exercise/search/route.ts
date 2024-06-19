@@ -29,7 +29,6 @@ export async function POST(req: Request) {
       { status: 200, headers: { "Cache-Control": "public, s-maxage=86400" } }
     );
   } catch (error) {
-    console.log("search exercises error: ", error);
     return Response.json({ error: new Error("Server error") }, { status: 500 });
   }
 }

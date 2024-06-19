@@ -72,7 +72,10 @@ export async function updateAccountDisplay(
 
     await updateSession({
       ...session,
-      user: { ...session.user, user_metadata: { units: values.units } },
+      user: {
+        ...session.user,
+        user_metadata: { ...session.user.user_metadata, units: values.units },
+      },
     });
 
     return {

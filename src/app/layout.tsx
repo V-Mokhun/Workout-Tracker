@@ -9,8 +9,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "Workout Planner",
-  description: "Plan your workouts and track your progress.",
+  title: "Workout Tracker",
+  description: "Track your workouts.",
 };
 
 export default function RootLayout({

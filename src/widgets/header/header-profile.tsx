@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Separator,
-  ThemePicker
+  ThemePicker,
 } from "@/shared/ui";
 import { Dumbbell, LogOut, UserRound } from "lucide-react";
 import Image from "next/image";
