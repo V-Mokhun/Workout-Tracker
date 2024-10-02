@@ -46,6 +46,7 @@ const main = async () => {
     await seedExerciseTargetMuscles(db);
     await seedExerciseTypes(db);
     await seedExercises(db);
+    //TODO seed workouts and users
 
     console.log("Seeding complete!");
   } catch (error) {

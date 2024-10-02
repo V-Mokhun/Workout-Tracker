@@ -50,8 +50,6 @@ export const AccountFormCalendar = ({ control }: AccountFormCalendarProps) => {
                   ? new Date(value.setFullYear(+year))
                   : new Date(new Date().setFullYear(+year));
 
-                console.log(format(date, "yyyy-MM-dd"));
-
                 if (date > new Date()) return;
 
                 field.onChange(date);

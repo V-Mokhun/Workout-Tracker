@@ -4,9 +4,8 @@ import { DEFAULT_PROFILE_IMAGE } from "@/shared/consts";
 import { Heading, Separator } from "@/shared/ui";
 import { getSession } from "@auth0/nextjs-auth0";
 import { count, eq } from "drizzle-orm";
-import Image from "next/image";
-import { AccountForm, AccountImageUpload } from "./_ui";
 import { notFound } from "next/navigation";
+import { AccountForm, AccountImageUpload } from "./_ui";
 
 const Page = async () => {
   const session = await getSession();

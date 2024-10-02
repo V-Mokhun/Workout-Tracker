@@ -20,7 +20,7 @@ export const user = pgTable("users", {
   email: varchar("email", { length: 255 }),
   name: varchar("name", { length: 255 }),
   avatar: text("avatar"),
-  birthdate: date("birthdate"),
+  birthdate: date("birthdate", { mode: "string" }),
   weightMetric: real("weight_metric").default(0).notNull(),
   weightImperial: real("weight_imperial").default(0).notNull(),
   heightMetricMetres: integer("height_metric_metres").default(0).notNull(),

@@ -1,17 +1,17 @@
 "use server";
 
-import { getSession, updateSession } from "@auth0/nextjs-auth0";
-import { AccountFormState } from "./account-form";
-import { AccountFormSchema, accountFormSchema } from "./account-form-model";
-import { db } from "@/db/database";
-import { eq } from "drizzle-orm";
 import { user as dbUser } from "@/db";
-import { format } from "date-fns";
+import { db } from "@/db/database";
 import {
   calculateImperialFromMetric,
   calculateMetricFromImperial,
 } from "@/shared/lib";
+import { getSession, updateSession } from "@auth0/nextjs-auth0";
 import { v2 as cloudinary } from "cloudinary";
+import { format } from "date-fns";
+import { eq } from "drizzle-orm";
+import { AccountFormState } from "./account-form";
+import { AccountFormSchema, accountFormSchema } from "./account-form-model";
 
 export async function updateAccountSettings(
   values: AccountFormSchema,
@@ -65,8 +65,6 @@ export async function updateAccountSettings(
     const birthdate = values.birthdate
       ? format(values.birthdate, "yyyy-MM-dd")
       : undefined;
-
-    console.log("birthdate", birthdate);
 
     if (values.name === user.name) {
       await db
