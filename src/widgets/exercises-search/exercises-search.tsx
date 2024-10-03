@@ -3,15 +3,21 @@
 import { BasicExercise } from "@/db";
 import { ApiResponse } from "@/shared/api";
 import { useState } from "react";
-import { Search } from "./search";
+import { Search, SearchExerciseOnSelect } from "./search";
 
 export type SearchExercise = BasicExercise & { targetMuscle: { name: string } };
 
 interface ExercisesSearchProps {
   whereOptions?: { [key: string]: any };
+  searchContent?: React.ReactNode;
+  onSelect?: SearchExerciseOnSelect;
 }
 
-export const ExercisesSearch = ({ whereOptions }: ExercisesSearchProps) => {
+export const ExercisesSearch = ({
+  whereOptions,
+  searchContent,
+  onSelect,
+}: ExercisesSearchProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [exercises, setExercises] = useState<SearchExercise[]>([]);
@@ -54,6 +60,8 @@ export const ExercisesSearch = ({ whereOptions }: ExercisesSearchProps) => {
       exercises={exercises}
       isLoading={loading}
       onSearch={onSearchExercises}
+      searchContent={searchContent}
+      onSelect={onSelect}
     />
   );
 };

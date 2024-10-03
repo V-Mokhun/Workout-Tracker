@@ -1,33 +1,25 @@
 "use client";
 
+import { User } from "@/db";
 import {
   Button,
-  Calendar,
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
   Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   RadioGroup,
   RadioGroupItem,
-  useToast,
+  useToast
 } from "@/shared/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { AccountFormSchema, accountFormSchema } from "./account-form-model";
-import { User } from "@/db";
-import { cn } from "@/shared/lib";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { useTransition } from "react";
-import { updateAccountSettings } from "./actions";
+import { useForm } from "react-hook-form";
 import { AccountFormCalendar } from "./account-form-calendar";
+import { AccountFormSchema, accountFormSchema } from "./account-form-model";
+import { updateAccountSettings } from "./actions";
 
 interface AccountFormProps {
   user: User;

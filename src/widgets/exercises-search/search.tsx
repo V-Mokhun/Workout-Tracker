@@ -8,11 +8,24 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SearchExercise } from "./exercises-search";
 
+export type SearchExerciseOnSelect = (
+  exercise: SearchExercise,
+  {
+    setIsOpen,
+    setSearchValue,
+  }: {
+    setIsOpen: (isOpen: boolean) => void;
+    setSearchValue: (value: string) => void;
+  }
+) => void;
+
 interface SearchProps<T extends SearchExercise> {
   exercises: T[];
   isLoading: boolean;
   error?: string;
   onSearch: (value: string) => void;
+  onSelect?: SearchExerciseOnSelect;
+  searchContent?: React.ReactNode;
 }
 
 export const Search = <T extends SearchExercise>({
@@ -20,7 +33,10 @@ export const Search = <T extends SearchExercise>({
   exercises,
   isLoading,
   error,
+  searchContent,
+  onSelect,
 }: SearchProps<T>) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue] = useDebouncedValue(searchValue, 500);
 
@@ -45,28 +61,47 @@ export const Search = <T extends SearchExercise>({
       </p>
     );
   } else {
+    let renderExercise = (exercise: T) => (
+      <>
+        <Image
+          width={80}
+          height={50}
+          alt={exercise.name}
+          src={exercise.image ?? DEFAULT_EXERCISE_IMAGE}
+          className="h-auto w-20 object-cover"
+        />
+        <div className="space-y-0.5">
+          <h3 className="text-base md:text-lg leading-tight font-semibold">
+            {exercise.name}
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            {exercise.targetMuscle.name}
+          </p>
+        </div>
+      </>
+    );
+
     content = (
       <ul className="space-y-4">
         {exercises.map((exercise) => (
           <li key={exercise.id}>
-            <Link
-              className="flex items-center gap-3 p-2 transition-colors hover:bg-muted"
-              href={SINGLE_EXERCISE_ROUTE + `/${exercise.slug}`}
-            >
-              <Image
-                width={80}
-                height={50}
-                alt={exercise.name}
-                src={exercise.image ?? DEFAULT_EXERCISE_IMAGE}
-                className="h-auto w-20 object-cover"
-              />
-              <div className="space-y-0.5">
-                <h3 className="text-base md:text-lg leading-tight font-semibold">{exercise.name}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {exercise.targetMuscle.name}
-                </p>
-              </div>
-            </Link>
+            {onSelect ? (
+              <button
+                onClick={() =>
+                  onSelect(exercise, { setIsOpen, setSearchValue })
+                }
+                className="flex w-full text-left items-center gap-3 p-2 transition-colors hover:bg-muted"
+              >
+                {renderExercise(exercise)}
+              </button>
+            ) : (
+              <Link
+                className="flex items-center gap-3 p-2 transition-colors hover:bg-muted"
+                href={SINGLE_EXERCISE_ROUTE + `/${exercise.slug}`}
+              >
+                {renderExercise(exercise)}
+              </Link>
+            )}
           </li>
         ))}
       </ul>
@@ -74,7 +109,7 @@ export const Search = <T extends SearchExercise>({
   }
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Input
           type="text"
@@ -92,6 +127,7 @@ export const Search = <T extends SearchExercise>({
         }}
       >
         {content}
+        {searchContent}
       </PopoverContent>
     </Popover>
   );

@@ -1,4 +1,8 @@
-import { DASHBOARD_ROUTE, EXERCISES_ROUTE } from "@/shared/consts";
+import {
+  DASHBOARD_ROUTE,
+  EXERCISES_ROUTE,
+  WORKOUTS_ROUTE,
+} from "@/shared/consts";
 import { getSession } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { HeaderProfile } from "./header-profile";
@@ -19,7 +23,7 @@ export const Header = async () => {
             <ul className="flex items-center gap-4">
               <li>
                 <Link
-                  href={DASHBOARD_ROUTE}
+                  href={WORKOUTS_ROUTE}
                   className={linkVariants({ size: "lg" })}
                 >
                   Workouts

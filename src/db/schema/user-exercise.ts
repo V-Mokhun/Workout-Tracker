@@ -10,6 +10,7 @@ import { exercise } from "./exercise";
 import { user } from "./user";
 import { relations } from "drizzle-orm";
 
+// TODO: add another table for user's custom created exercises, same structure as exercise table
 export const userExercise = pgTable(
   "user_exercises",
   {

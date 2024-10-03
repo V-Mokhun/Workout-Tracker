@@ -32,7 +32,8 @@ export const ExerciseDetails = ({ exercise }: ExerciseDetailsProps) => {
               <Link
                 href={`${EXERCISES_ROUTE}/muscles/${exercise.targetMuscle.slug}`}
                 className={linkVariants({
-                  className: "text-sm xs:text-base lg:text-lg",
+                  className:
+                    "text-sm xs:text-base lg:text-lg underline hover:no-underline",
                 })}
               >
                 {exercise.targetMuscle.name}
@@ -49,7 +50,8 @@ export const ExerciseDetails = ({ exercise }: ExerciseDetailsProps) => {
               <Link
                 href={`${EXERCISES_ROUTE}/equipments/${exercise.equipment.slug}`}
                 className={linkVariants({
-                  className: "text-sm xs:text-base lg:text-lg",
+                  className:
+                    "text-sm xs:text-base lg:text-lg underline hover:no-underline",
                 })}
               >
                 {exercise.equipment.name}

@@ -22,6 +22,7 @@ export async function POST(req: Request) {
         eq(exercise.targetMuscleId, targetMuscleId)
       )!;
     }
+    //TODO: search also in user's custom created exercises
     const exercises = await exerciseService.searchExercises(whereClause);
 
     return Response.json(

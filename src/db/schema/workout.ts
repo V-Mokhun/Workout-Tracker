@@ -17,7 +17,7 @@ export const workout = pgTable("workouts", {
     .references(() => user.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   date: date("date", { mode: "date" }).notNull(),
-  description: text("description"),
+  notes: text("notes"),
   duration: integer("duration"), // in seconds
   createdAt: timestamp("created_at", { mode: "date", precision: 3 })
     .notNull()
