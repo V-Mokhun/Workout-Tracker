@@ -25,10 +25,27 @@ import {
   Textarea,
 } from "@/shared/ui";
 import { cn } from "@/shared/lib";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, EditIcon, GripIcon, TrashIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ExercisesSearch, SearchExercise } from "@/widgets";
 import { SearchExerciseOnSelect } from "@/widgets/exercises-search/search";
+import Image from "next/image";
+import { DEFAULT_EXERCISE_IMAGE, SINGLE_EXERCISE_ROUTE } from "@/shared/consts";
+import Link from "next/link";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "@hello-pangea/dnd";
+
+const reorder = <T,>(list: T[], startIndex: number, endIndex: number) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
 
 interface AddWorkoutFormProps {}
 
@@ -70,11 +87,21 @@ export const AddWorkoutForm = ({}: AddWorkoutFormProps) => {
     setSearchValue("");
   };
 
-  console.log("exercises", exercises);
+  const onExerciseDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+
+    const items = reorder(
+      exercises,
+      result.source.index,
+      result.destination.index
+    );
+
+    setExercises(items);
+  };
 
   return (
     <Form {...form}>
-      {/* TODO: pick workout "folder" */}
+      {/* // TODO: pick workout "folder" */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
@@ -300,6 +327,89 @@ export const AddWorkoutForm = ({}: AddWorkoutFormProps) => {
             }
           />
         </div>
+        <DragDropContext onDragEnd={onExerciseDragEnd}>
+          <Droppable droppableId="exercises">
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                // className="space-y-4"
+                // className={cn(snapshot.isDraggingOver && "bg-muted")}
+              >
+                {exercises.map((exercise, index) => (
+                  <Draggable
+                    key={exercise.id}
+                    draggableId={exercise.slug}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={cn(
+                          "flex gap-2 items-start select-none py-4 px-2 rounded-md",
+                          snapshot.isDragging && "bg-muted"
+                        )}
+                        style={{ ...provided.draggableProps.style }}
+                      >
+                        <Button variant="ghost" size="icon">
+                          <GripIcon className="w-6 h-6" />
+                        </Button>
+                        <div className="flex justify-between items-center gap-4 flex-1">
+                          <div className="flex items-start gap-4">
+                            <span className="text-muted-foreground text-2xl h-10 w-5 flex items-center justify-center">
+                              {index + 1}
+                            </span>
+                            <Link
+                              href={`${SINGLE_EXERCISE_ROUTE}/${exercise.slug}`}
+                              className="flex items-center gap-2"
+                            >
+                              <Image
+                                width={96}
+                                height={70}
+                                alt={exercise.name}
+                                src={exercise.image ?? DEFAULT_EXERCISE_IMAGE}
+                                className="h-auto w-24 object-cover rounded-md"
+                              />
+                              <div className="space-y-0.5">
+                                <h3 className="text-base md:text-lg leading-tight font-semibold">
+                                  {exercise.name}
+                                </h3>
+                                <p className="text-sm text-muted-foreground">
+                                  {exercise.targetMuscle.name}
+                                </p>
+                              </div>
+                            </Link>
+                          </div>
+                          <div className="flex gap-2 items-center">
+                            <Button variant="ghost" size="icon">
+                              <EditIcon className="w-6 h-6" />
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                setExercises((prevExercises) =>
+                                  prevExercises.filter(
+                                    (ex) => ex.slug !== exercise.slug
+                                  )
+                                );
+                              }}
+                              variant="ghost"
+                              size="icon"
+                            >
+                              <TrashIcon className="w-6 h-6" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </form>
     </Form>
   );
