@@ -1,24 +1,22 @@
 import { Container, Heading, Section } from "@/shared/ui";
 import { AddWorkoutForm } from "./_ui";
+import { notFound } from "next/navigation";
+import { getSession } from "@auth0/nextjs-auth0";
 
-export default function Page() {
+export default async function Page() {
+  const session = await getSession();
+
+  if (!session) notFound();
+
+  const units = session.user.user_metadata.units ?? "metric";
+
   return (
     <Section>
       <Container>
         <Heading className="mb-2" tag="h1">
           Add a Workout
         </Heading>
-        <AddWorkoutForm />
-          {/* 
-            name (title)
-            date
-            description?
-            duration? 
-              - exercise
-                - set
-                - set
-                ...
-        */}
+        <AddWorkoutForm units={units} />
       </Container>
     </Section>
   );

@@ -1,8 +1,8 @@
 import { BasicWorkoutExerciseSet } from "@/db";
 import { cn } from "@/shared/lib";
-import { Button, TableCell, TableRow } from "@/shared/ui";
+import { Button, Input, TableCell, TableRow } from "@/shared/ui";
 import { DraggableProvided } from "@hello-pangea/dnd";
-import { GripIcon, TrashIcon } from "lucide-react";
+import { CopyIcon, GripIcon, TrashIcon } from "lucide-react";
 
 interface ExerciseSetFormProps {
   provided: DraggableProvided;
@@ -10,6 +10,9 @@ interface ExerciseSetFormProps {
   set: BasicWorkoutExerciseSet;
   index: number;
   onDelete: () => void;
+  onUpdate: (set: BasicWorkoutExerciseSet) => void;
+  onDuplicate: () => void;
+  isError?: boolean;
 }
 
 export const ExerciseSetForm = ({
@@ -18,28 +21,77 @@ export const ExerciseSetForm = ({
   set,
   index,
   onDelete,
+  onUpdate,
+  onDuplicate,
+  isError,
 }: ExerciseSetFormProps) => {
+  const onFieldChange = (
+    field: keyof BasicWorkoutExerciseSet,
+    value: string
+  ) => {
+    onUpdate({ ...set, [field]: value });
+  };
+
   return (
     <TableRow
       ref={provided.innerRef}
       {...provided.draggableProps}
-      className={cn(isDragging && "bg-slate-200")}
+      {...provided.dragHandleProps}
+      className={cn(
+        isDragging && "bg-slate-200",
+        isError && "border-destructive"
+      )}
     >
+      <TableCell className="w-10">
+        <Button variant="ghost" size="icon" className="h-8 w-8">
+          <GripIcon className="h-4 w-4" />
+        </Button>
+      </TableCell>
+      <TableCell>{index + 1}</TableCell>
+      <TableCell>
+        <Input
+          type="number"
+          step={1}
+          pattern="[0-9]*"
+          value={set.reps ?? ""}
+          onChange={(e) => onFieldChange("reps", e.target.value)}
+        />
+      </TableCell>
+      <TableCell>
+        <Input
+          type="number"
+          value={set.weightMetric ?? ""}
+          onChange={(e) => onFieldChange("weightMetric", e.target.value)}
+        />
+      </TableCell>
+      <TableCell>
+        <Input
+          type="number"
+          step={1}
+          pattern="[0-9]*"
+          value={set.rpe ?? ""}
+          onChange={(e) => onFieldChange("rpe", e.target.value)}
+        />
+      </TableCell>
+      <TableCell>
+        <Input
+          type="number"
+          step={1}
+          pattern="[0-9]*"
+          value={set.duration ?? ""}
+          onChange={(e) => onFieldChange("duration", e.target.value)}
+        />
+      </TableCell>
       <TableCell className="w-10">
         <Button
           variant="ghost"
           size="icon"
           className="h-8 w-8"
-          {...provided.dragHandleProps}
+          onClick={onDuplicate}
         >
-          <GripIcon className="h-4 w-4" />
+          <CopyIcon className="h-4 w-4" />
         </Button>
       </TableCell>
-      <TableCell>{index + 1}</TableCell>
-      <TableCell>{set.reps}</TableCell>
-      <TableCell>{set.weightMetric}kg</TableCell>
-      <TableCell>{set.rpe}</TableCell>
-      <TableCell>{set.duration}</TableCell>
       <TableCell className="w-10">
         <Button
           variant="ghost"

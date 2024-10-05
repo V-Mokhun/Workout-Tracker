@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, Form, Heading } from "@/shared/ui";
+import { Button, Form, FormMessage, Heading } from "@/shared/ui";
 import { ExercisesSearch, SearchExercise } from "@/widgets";
 import { SearchExerciseOnSelect } from "@/widgets/exercises-search/search";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AddWorkoutBaseForm } from "./add-workout-base-form";
 import { AddWorkoutExercises } from "./add-workout-exercises";
@@ -12,15 +12,17 @@ import {
   addWorkoutFormSchema,
   AddWorkoutFormSchema,
 } from "./add-workout-model";
-import { BasicWorkoutExerciseSet } from "@/db";
+import { BasicWorkoutExerciseSet, Units } from "@/db";
 
-interface AddWorkoutFormProps {}
+interface AddWorkoutFormProps {
+  units: Units;
+}
 
 export interface ExerciseWithSets extends SearchExercise {
   sets: BasicWorkoutExerciseSet[];
 }
 
-export const AddWorkoutForm = ({}: AddWorkoutFormProps) => {
+export const AddWorkoutForm = ({ units }: AddWorkoutFormProps) => {
   const [exercises, setExercises] = useState<ExerciseWithSets[]>([]);
   const form = useForm<AddWorkoutFormSchema>({
     resolver: zodResolver(addWorkoutFormSchema),
@@ -31,9 +33,16 @@ export const AddWorkoutForm = ({}: AddWorkoutFormProps) => {
       hours: undefined,
       minutes: undefined,
       seconds: undefined,
+      exercises: [],
     },
   });
+  const { errors } = form.formState;
+
   const searchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    form.setValue("exercises", exercises);
+  }, [form, exercises]);
 
   const onSubmit = (values: AddWorkoutFormSchema) => {
     const totalSeconds =
@@ -57,17 +66,38 @@ export const AddWorkoutForm = ({}: AddWorkoutFormProps) => {
       // TODO: show toast with are you sure you want to add the same exercise twice?
     }
 
+    const newSetId =
+      exercises.reduce((acc, ex) => {
+        return Math.max(acc, ...ex.sets.map((s) => s.id));
+      }, 0) + 1;
+
     setExercises([
       ...exercises,
       {
         ...exercise,
-        sets: [],
+        sets: [
+          {
+            id: newSetId,
+            duration: null,
+            reps: null,
+            rpe: null,
+            weightMetric: null,
+            weightImperial: null,
+            position: 1,
+          },
+        ],
       },
     ]);
+
+    if (!Array.isArray(errors.exercises)) {
+      form.clearErrors("exercises");
+    }
 
     setIsOpen(false);
     setSearchValue("");
   };
+
+  console.log(errors.exercises);
 
   return (
     <Form {...form}>
@@ -100,8 +130,15 @@ export const AddWorkoutForm = ({}: AddWorkoutFormProps) => {
         <AddWorkoutExercises
           exercises={exercises}
           setExercises={setExercises}
+          units={units}
+          errors={errors.exercises}
         />
-        {exercises.length > 0 && (
+        {form.formState.errors.exercises?.message && (
+          <p className="text-sm font-medium text-destructive">
+            {form.formState.errors.exercises.message}
+          </p>
+        )}
+        <div className="flex justify-between items-center gap-4">
           <Button
             type="button"
             variant="outline"
@@ -113,7 +150,10 @@ export const AddWorkoutForm = ({}: AddWorkoutFormProps) => {
           >
             + Add Exercise
           </Button>
-        )}
+          <Button size="lg" type="submit">
+            Save
+          </Button>
+        </div>
       </form>
     </Form>
   );

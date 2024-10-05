@@ -17,15 +17,22 @@ import {
 import { ExerciseWithSets } from "./add-workout-form";
 import { ExerciseSetForm } from "./exercise-set-form";
 import { ExerciseCard } from "./exercise-card";
+import { BasicWorkoutExerciseSet, Units } from "@/db";
+import { AddWorkoutFormSchema } from "./add-workout-model";
+import { FieldErrors } from "react-hook-form";
 
 interface AddWorkoutExercisesProps {
   exercises: ExerciseWithSets[];
   setExercises: React.Dispatch<React.SetStateAction<ExerciseWithSets[]>>;
+  units: Units;
+  errors: FieldErrors<AddWorkoutFormSchema>["exercises"];
 }
 
 export const AddWorkoutExercises = ({
   exercises,
   setExercises,
+  units,
+  errors,
 }: AddWorkoutExercisesProps) => {
   const onExerciseDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -139,6 +146,98 @@ export const AddWorkoutExercises = ({
     });
   };
 
+  const onUpdateSet = (exerciseSlug: string, set: BasicWorkoutExerciseSet) => {
+    setExercises((prevExercises) =>
+      prevExercises.map((ex) =>
+        ex.slug === exerciseSlug
+          ? {
+              ...ex,
+              sets: ex.sets.map((s) => (s.id === set.id ? set : s)),
+            }
+          : ex
+      )
+    );
+  };
+
+  const onDuplicateSet = (
+    exerciseSlug: string,
+    set: BasicWorkoutExerciseSet,
+    index: number
+  ) => {
+    setExercises((prevExercises) => {
+      const newSetId =
+        prevExercises.reduce((acc, ex) => {
+          return Math.max(acc, ...ex.sets.map((s) => s.id));
+        }, 0) + 1;
+      const newSet = {
+        ...set,
+        id: newSetId,
+        position: index + 1,
+      };
+
+      return prevExercises.map((ex) =>
+        ex.slug === exerciseSlug
+          ? {
+              ...ex,
+              sets: [
+                ...ex.sets.slice(0, index),
+                newSet,
+                ...ex.sets.slice(index),
+              ],
+            }
+          : ex
+      );
+    });
+  };
+
+  const getErrorMessage = (index: number) => {
+    if (!errors || !errors[index]?.sets) return null;
+
+    const setErrors = errors[index]?.sets;
+    if (!setErrors) return null;
+
+    if (setErrors?.message) {
+      return setErrors.message;
+    }
+
+    for (const setIndex in setErrors) {
+      const setError = setErrors[setIndex];
+      if (typeof setError === "object") {
+        if ("message" in setError) {
+          return setError.message;
+        }
+        for (const field in setError) {
+          if (setError[field as keyof BasicWorkoutExerciseSet]?.message) {
+            return setError[field as keyof BasicWorkoutExerciseSet]!.message;
+          }
+        }
+      }
+    }
+
+    return "Error in sets";
+  };
+
+  const isSetError = (index: number, setIndex: number) => {
+    if (!errors || !errors[index]?.sets) return false;
+
+    const setErrors = errors[index]?.sets;
+    if (!setErrors) return false;
+
+    const setError = setErrors[setIndex];
+    if (typeof setError === "object") {
+      if ("message" in setError) {
+        return true;
+      }
+      for (const field in setError) {
+        if (setError[field as keyof BasicWorkoutExerciseSet]?.message) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
   return (
     <DragDropContext onDragEnd={onExerciseDragEnd}>
       <Droppable droppableId="exercises" type="exercise">
@@ -170,15 +269,19 @@ export const AddWorkoutExercises = ({
                       index={index}
                       onDelete={() => onDeleteExercise(exercise.slug)}
                     />
+                    {/* // TODO: add a formula input to quickly generate sets */}
                     <Table wrapperClassName="pl-20 pb-4">
                       <TableHeader>
                         <TableRow>
                           <TableHead className="w-10"></TableHead>
                           <TableHead>Set</TableHead>
                           <TableHead>Reps</TableHead>
-                          <TableHead>Weight</TableHead>
+                          <TableHead>
+                            Weight ({units === "metric" ? "kg" : "lbs"})
+                          </TableHead>
                           <TableHead>RPE</TableHead>
-                          <TableHead>Duration</TableHead>
+                          <TableHead>Duration (s)</TableHead>
+                          <TableHead className="w-10"></TableHead>
                           <TableHead className="w-10"></TableHead>
                         </TableRow>
                       </TableHeader>
@@ -196,30 +299,51 @@ export const AddWorkoutExercises = ({
                               snapshot.isDraggingOver && "bg-slate-50"
                             )}
                           >
-                            {exercise.sets.map((set, index) => (
+                            {exercise.sets.map((set, setIndex) => (
                               <Draggable
                                 key={`${exercise.slug}-set-${set.id}`}
                                 draggableId={`${exercise.slug}-set-${set.id}`}
-                                index={index}
+                                index={setIndex}
                               >
                                 {(provided, snapshot) => (
                                   <ExerciseSetForm
                                     provided={provided}
                                     isDragging={snapshot.isDragging}
                                     set={set}
-                                    index={index}
+                                    index={setIndex}
+                                    onUpdate={(set) =>
+                                      onUpdateSet(exercise.slug, set)
+                                    }
+                                    onDuplicate={() =>
+                                      onDuplicateSet(
+                                        exercise.slug,
+                                        set,
+                                        setIndex
+                                      )
+                                    }
                                     onDelete={() =>
                                       onDeleteSet(exercise.slug, set.id)
                                     }
+                                    isError={isSetError(index, setIndex)}
                                   />
                                 )}
                               </Draggable>
                             ))}
                             {provided.placeholder}
 
+                            {getErrorMessage(index) != null && (
+                              <TableRow>
+                                <TableCell className="w-10"></TableCell>
+                                <TableCell colSpan={7}>
+                                  <p className="text-sm font-medium text-destructive">
+                                    {getErrorMessage(index)}
+                                  </p>
+                                </TableCell>
+                              </TableRow>
+                            )}
                             <TableRow>
                               <TableCell className="w-10"></TableCell>
-                              <TableCell colSpan={6}>
+                              <TableCell colSpan={7}>
                                 <Button
                                   type="button"
                                   variant="ghost"
