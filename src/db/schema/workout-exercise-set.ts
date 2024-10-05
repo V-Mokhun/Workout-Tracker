@@ -8,6 +8,8 @@ import {
 } from "drizzle-orm/pg-core";
 import { workoutExercise } from "./workout-exercise";
 import { relations } from "drizzle-orm";
+import { createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const workoutExerciseSet = pgTable(
   "workout_exercise_sets",
@@ -39,6 +41,19 @@ export const workoutExerciseSet = pgTable(
     };
   }
 );
+
+const selectWorkoutExerciseSetSchema = createSelectSchema(workoutExerciseSet);
+export type WorkoutExerciseSet = z.infer<typeof selectWorkoutExerciseSetSchema>;
+export type BasicWorkoutExerciseSet = Pick<
+  WorkoutExerciseSet,
+  | "id"
+  | "reps"
+  | "rpe"
+  | "duration"
+  | "weightMetric"
+  | "weightImperial"
+  | "position"
+>;
 
 export const workoutExerciseSetRelations = relations(
   workoutExerciseSet,

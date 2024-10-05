@@ -4,6 +4,7 @@ import { BasicExercise } from "@/db";
 import { ApiResponse } from "@/shared/api";
 import { useState } from "react";
 import { Search, SearchExerciseOnSelect } from "./search";
+import { forwardRef } from "react";
 
 export type SearchExercise = BasicExercise & { targetMuscle: { name: string } };
 
@@ -11,13 +12,13 @@ interface ExercisesSearchProps {
   whereOptions?: { [key: string]: any };
   searchContent?: React.ReactNode;
   onSelect?: SearchExerciseOnSelect;
+  placeholder?: string;
 }
 
-export const ExercisesSearch = ({
-  whereOptions,
-  searchContent,
-  onSelect,
-}: ExercisesSearchProps) => {
+export const ExercisesSearch = forwardRef<
+  HTMLInputElement,
+  ExercisesSearchProps
+>(({ whereOptions, searchContent, onSelect, placeholder }, ref) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [exercises, setExercises] = useState<SearchExercise[]>([]);
@@ -56,12 +57,16 @@ export const ExercisesSearch = ({
 
   return (
     <Search
+      ref={ref}
       error={error}
       exercises={exercises}
       isLoading={loading}
       onSearch={onSearchExercises}
       searchContent={searchContent}
       onSelect={onSelect}
+      placeholder={placeholder}
     />
   );
-};
+});
+
+ExercisesSearch.displayName = "ExercisesSearch";

@@ -5,8 +5,9 @@ import { useDebouncedValue } from "@/shared/lib/hooks";
 import { Input, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { ForwardedRef, useEffect, useState } from "react";
 import { SearchExercise } from "./exercises-search";
+import { forwardRef } from "react";
 
 export type SearchExerciseOnSelect = (
   exercise: SearchExercise,
@@ -26,16 +27,21 @@ interface SearchProps<T extends SearchExercise> {
   onSearch: (value: string) => void;
   onSelect?: SearchExerciseOnSelect;
   searchContent?: React.ReactNode;
+  placeholder?: string;
 }
 
-export const Search = <T extends SearchExercise>({
-  onSearch,
-  exercises,
-  isLoading,
-  error,
-  searchContent,
-  onSelect,
-}: SearchProps<T>) => {
+const SearchInner = <T extends SearchExercise>(
+  {
+    onSearch,
+    exercises,
+    isLoading,
+    error,
+    searchContent,
+    onSelect,
+    placeholder,
+  }: SearchProps<T>,
+  ref: ForwardedRef<HTMLInputElement>
+) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue] = useDebouncedValue(searchValue, 500);
@@ -112,8 +118,9 @@ export const Search = <T extends SearchExercise>({
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Input
+          ref={ref}
           type="text"
-          placeholder="Search exercises"
+          placeholder={placeholder ?? "Search exercises"}
           value={searchValue}
           onChange={(event) => setSearchValue(event.currentTarget.value)}
         />
@@ -132,3 +139,7 @@ export const Search = <T extends SearchExercise>({
     </Popover>
   );
 };
+
+export const Search = forwardRef(SearchInner);
+
+Search.displayName = "Search";
