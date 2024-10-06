@@ -5,7 +5,18 @@ import {
   calculateImperialFromMetric,
   calculateMetricFromImperial,
 } from "@/shared/lib";
-import { Button, Form, Heading, useToast } from "@/shared/ui";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Form,
+  Heading,
+  useToast,
+} from "@/shared/ui";
 import { ExercisesSearch, SearchExercise } from "@/widgets";
 import { SearchExerciseOnSelect } from "@/widgets/exercises-search/search";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +38,7 @@ interface AddWorkoutFormProps {
 }
 
 export interface ExerciseWithSets extends SearchExercise {
+  instanceId: string;
   sets: BasicWorkoutExerciseSet[];
 }
 
@@ -39,6 +51,10 @@ export type AddWorkoutSubmissionValues = Omit<
 
 export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
   const [exercises, setExercises] = useState<ExerciseWithSets[]>([]);
+  const [showDuplicateDialog, setShowDuplicateDialog] = useState(false);
+  const [pendingExercise, setPendingExercise] = useState<SearchExercise | null>(
+    null
+  );
   const form = useForm<AddWorkoutFormSchema>({
     resolver: zodResolver(addWorkoutFormSchema),
     defaultValues: {
@@ -52,7 +68,6 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
     },
   });
   const [isPending, startTransition] = useTransition();
-  // const isPending = true;
   const router = useRouter();
   const { toast } = useToast();
   const { errors } = form.formState;
@@ -99,8 +114,7 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
       })),
     };
 
-    startTransition(async () => {
-      await Promise.resolve(setTimeout(() => {}, 3000));
+    startTransition(() => {
       addWorkout(submissionValues, userId).then((state) => {
         toast({
           title: state.message,
@@ -114,14 +128,8 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
     });
   };
 
-  const onExerciseSelect: SearchExerciseOnSelect = (
-    exercise: SearchExercise,
-    { setIsOpen, setSearchValue }
-  ) => {
-    if (exercises.some((e) => e.id === exercise.id)) {
-      // TODO: show toast with are you sure you want to add the same exercise twice?
-    }
-
+  const addExerciseToWorkout = (exercise: SearchExercise) => {
+    const newInstanceId = crypto.randomUUID();
     const newSetId =
       exercises.reduce((acc, ex) => {
         return Math.max(acc, ...ex.sets.map((s) => s.id));
@@ -131,6 +139,7 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
       ...exercises,
       {
         ...exercise,
+        instanceId: newInstanceId,
         sets: [
           {
             id: newSetId,
@@ -148,6 +157,19 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
     if (!Array.isArray(errors.exercises)) {
       form.clearErrors("exercises");
     }
+  };
+
+  const onExerciseSelect: SearchExerciseOnSelect = (
+    exercise: SearchExercise,
+    { setIsOpen, setSearchValue }
+  ) => {
+    if (exercises.some((e) => e.id === exercise.id)) {
+      setShowDuplicateDialog(true);
+      setPendingExercise(exercise);
+      return;
+    }
+
+    addExerciseToWorkout(exercise);
 
     setIsOpen(false);
     setSearchValue("");
@@ -211,6 +233,36 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
           </Button>
         </div>
       </form>
+      <Dialog open={showDuplicateDialog} onOpenChange={setShowDuplicateDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Duplicate Exercise?</DialogTitle>
+            <DialogDescription>
+              This exercise is already in your workout. Are you sure you want to
+              add it again?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="secondary"
+              onClick={() => setShowDuplicateDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                if (pendingExercise) {
+                  addExerciseToWorkout(pendingExercise);
+                  setShowDuplicateDialog(false);
+                  setPendingExercise(null);
+                }
+              }}
+            >
+              Add Anyway
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Form>
   );
 };

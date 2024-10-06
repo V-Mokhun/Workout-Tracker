@@ -18,4 +18,4 @@ export * from "./separator";
 export * from "./table";
 export * from "./textarea";
 export * from "./toast";
-
+export * from "./dialog";

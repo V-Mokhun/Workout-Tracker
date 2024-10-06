@@ -1,5 +1,5 @@
 {
-  "id": "4ebec628-42d8-4945-bcd8-468c2ddae706",
+  "id": "8424abbb-d32b-42c2-befa-1da38b9964e7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -590,8 +590,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "description": {
-          "name": "description",
+        "notes": {
+          "name": "notes",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -640,6 +640,12 @@
       "name": "workout_exercises",
       "schema": "",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
         "workout_id": {
           "name": "workout_id",
           "type": "integer",
@@ -702,15 +708,7 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "workout_exercises_workout_id_exercise_id_pk": {
-          "name": "workout_exercises_workout_id_exercise_id_pk",
-          "columns": [
-            "workout_id",
-            "exercise_id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
     "public.workout_exercise_sets": {
@@ -723,14 +721,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "workout_id": {
-          "name": "workout_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "exercise_id": {
-          "name": "exercise_id",
+        "workout_exercise_id": {
+          "name": "workout_exercise_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -788,17 +780,15 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "fk_workout_exercise_set": {
-          "name": "fk_workout_exercise_set",
+        "workout_exercise_sets_workout_exercise_id_workout_exercises_id_fk": {
+          "name": "workout_exercise_sets_workout_exercise_id_workout_exercises_id_fk",
           "tableFrom": "workout_exercise_sets",
           "tableTo": "workout_exercises",
           "columnsFrom": [
-            "workout_id",
-            "exercise_id"
+            "workout_exercise_id"
           ],
           "columnsTo": [
-            "workout_id",
-            "exercise_id"
+            "id"
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"

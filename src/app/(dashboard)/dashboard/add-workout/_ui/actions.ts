@@ -1,18 +1,15 @@
 "use server";
-import { ActionFormState } from "@/shared/api";
-import {
-  addWorkoutFormSchema,
-  AddWorkoutFormSchema,
-} from "./add-workout-model";
-import { db } from "@/db/database";
 import {
   user as dbUser,
   workout as dbWorkout,
   workoutExercise,
   workoutExerciseSet,
 } from "@/db";
+import { db } from "@/db/database";
+import { ActionFormState } from "@/shared/api";
 import { eq } from "drizzle-orm";
 import { AddWorkoutSubmissionValues } from "./add-workout-form";
+import { addWorkoutFormSchema } from "./add-workout-model";
 
 export async function addWorkout(
   values: AddWorkoutSubmissionValues,
@@ -57,10 +54,16 @@ export async function addWorkout(
         position: index + 1,
       }));
 
-      const setInserts = values.exercises.flatMap((exercise) =>
+      const insertedExercises = await tx
+        .insert(workoutExercise)
+        .values(exerciseInserts)
+        .returning({
+          id: workoutExercise.id,
+        });
+
+      const setInserts = values.exercises.flatMap((exercise, index) =>
         exercise.sets.map((set, setIndex) => ({
-          workoutId,
-          exerciseId: exercise.id,
+          workoutExerciseId: insertedExercises[index].id,
           position: setIndex + 1,
           weightMetric: set.weightMetric,
           weightImperial: set.weightImperial,
@@ -69,8 +72,6 @@ export async function addWorkout(
           duration: set.duration,
         }))
       );
-
-      await tx.insert(workoutExercise).values(exerciseInserts);
       await tx.insert(workoutExerciseSet).values(setInserts);
     });
 
@@ -79,8 +80,14 @@ export async function addWorkout(
       isError: false,
     };
   } catch (error) {
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Something went wrong. Please try again later.";
+
+    console.log(error);
     return {
-      message: "Something went wrong. Please try again later.",
+      message: errorMessage,
       isError: true,
     };
   }

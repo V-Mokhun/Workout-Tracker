@@ -41,7 +41,7 @@ export const AddWorkoutExercises = ({
 
     if (result.type === "exercise-set") {
       const sourceExercise = exercises.find(
-        (ex) => ex.slug === result.source.droppableId
+        (ex) => ex.instanceId === result.source.droppableId
       );
       if (!sourceExercise) return;
 
@@ -57,12 +57,14 @@ export const AddWorkoutExercises = ({
 
         setExercises((prevExercises) =>
           prevExercises.map((ex) =>
-            ex.slug === sourceExercise.slug ? { ...ex, sets: updatedSets } : ex
+            ex.instanceId === sourceExercise.instanceId
+              ? { ...ex, sets: updatedSets }
+              : ex
           )
         );
       } else {
         const destinationExercise = exercises.find(
-          (ex) => ex.slug === result.destination?.droppableId
+          (ex) => ex.instanceId === result.destination?.droppableId
         );
         if (!destinationExercise) return;
 
@@ -83,9 +85,9 @@ export const AddWorkoutExercises = ({
 
         setExercises((prevExercises) =>
           prevExercises.map((ex) => {
-            if (ex.slug === sourceExercise.slug) {
+            if (ex.instanceId === sourceExercise.instanceId) {
               return updatedSourceExercise;
-            } else if (ex.slug === destinationExercise.slug) {
+            } else if (ex.instanceId === destinationExercise.instanceId) {
               return {
                 ...destinationExercise,
                 sets: updatedDestinationSets,
@@ -109,23 +111,23 @@ export const AddWorkoutExercises = ({
     setExercises(items);
   };
 
-  const onDeleteExercise = (exerciseSlug: string) => {
+  const onDeleteExercise = (instanceId: string) => {
     setExercises((prevExercises) =>
-      prevExercises.filter((ex) => ex.slug !== exerciseSlug)
+      prevExercises.filter((ex) => ex.instanceId !== instanceId)
     );
   };
 
-  const onDeleteSet = (exerciseSlug: string, setId: number) => {
+  const onDeleteSet = (instanceId: string, setId: number) => {
     setExercises((prevExercises) =>
       prevExercises.map((ex) =>
-        ex.slug === exerciseSlug
+        ex.instanceId === instanceId
           ? { ...ex, sets: ex.sets.filter((s) => s.id !== setId) }
           : ex
       )
     );
   };
 
-  const onAddSet = (exerciseSlug: string, position: number) => {
+  const onAddSet = (instanceId: string, position: number) => {
     setExercises((prevExercises) => {
       const newSetId =
         prevExercises.reduce((acc, ex) => {
@@ -143,15 +145,17 @@ export const AddWorkoutExercises = ({
       };
 
       return prevExercises.map((ex) =>
-        ex.slug === exerciseSlug ? { ...ex, sets: [...ex.sets, newSet] } : ex
+        ex.instanceId === instanceId
+          ? { ...ex, sets: [...ex.sets, newSet] }
+          : ex
       );
     });
   };
 
-  const onUpdateSet = (exerciseSlug: string, set: BasicWorkoutExerciseSet) => {
+  const onUpdateSet = (instanceId: string, set: BasicWorkoutExerciseSet) => {
     setExercises((prevExercises) =>
       prevExercises.map((ex) =>
-        ex.slug === exerciseSlug
+        ex.instanceId === instanceId
           ? {
               ...ex,
               sets: ex.sets.map((s) => (s.id === set.id ? set : s)),
@@ -162,7 +166,7 @@ export const AddWorkoutExercises = ({
   };
 
   const onDuplicateSet = (
-    exerciseSlug: string,
+    instanceId: string,
     set: BasicWorkoutExerciseSet,
     index: number
   ) => {
@@ -178,7 +182,7 @@ export const AddWorkoutExercises = ({
       };
 
       return prevExercises.map((ex) =>
-        ex.slug === exerciseSlug
+        ex.instanceId === instanceId
           ? {
               ...ex,
               sets: [
@@ -251,8 +255,8 @@ export const AddWorkoutExercises = ({
           >
             {exercises.map((exercise, index) => (
               <Draggable
-                key={exercise.id}
-                draggableId={exercise.slug}
+                key={exercise.instanceId}
+                draggableId={exercise.instanceId}
                 index={index}
               >
                 {(provided, snapshot) => (
@@ -270,7 +274,7 @@ export const AddWorkoutExercises = ({
                     <ExerciseCard
                       exercise={exercise}
                       index={index}
-                      onDelete={() => onDeleteExercise(exercise.slug)}
+                      onDelete={() => onDeleteExercise(exercise.instanceId)}
                     />
                     {/* // TODO: add a formula input to quickly generate sets (e.g. 3x5 @ 20kg @ 8rpe) */}
                     <Table wrapperClassName="pl-20 pb-4">
@@ -290,8 +294,8 @@ export const AddWorkoutExercises = ({
                       </TableHeader>
 
                       <Droppable
-                        key={exercise.slug}
-                        droppableId={exercise.slug}
+                        key={exercise.instanceId}
+                        droppableId={exercise.instanceId}
                         type="exercise-set"
                       >
                         {(provided, snapshot) => (
@@ -304,8 +308,8 @@ export const AddWorkoutExercises = ({
                           >
                             {exercise.sets.map((set, setIndex) => (
                               <Draggable
-                                key={`${exercise.slug}-set-${set.id}`}
-                                draggableId={`${exercise.slug}-set-${set.id}`}
+                                key={`${exercise.instanceId}-set-${set.id}`}
+                                draggableId={`${exercise.instanceId}-set-${set.id}`}
                                 index={setIndex}
                               >
                                 {(provided, snapshot) => (
@@ -315,17 +319,17 @@ export const AddWorkoutExercises = ({
                                     set={set}
                                     index={setIndex}
                                     onUpdate={(set) =>
-                                      onUpdateSet(exercise.slug, set)
+                                      onUpdateSet(exercise.instanceId, set)
                                     }
                                     onDuplicate={() =>
                                       onDuplicateSet(
-                                        exercise.slug,
+                                        exercise.instanceId,
                                         set,
                                         setIndex
                                       )
                                     }
                                     onDelete={() =>
-                                      onDeleteSet(exercise.slug, set.id)
+                                      onDeleteSet(exercise.instanceId, set.id)
                                     }
                                     isError={isSetError(index, setIndex)}
                                   />
@@ -352,7 +356,7 @@ export const AddWorkoutExercises = ({
                                   variant="ghost"
                                   onClick={() => {
                                     onAddSet(
-                                      exercise.slug,
+                                      exercise.instanceId,
                                       exercise.sets.length + 1
                                     );
                                   }}

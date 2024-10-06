@@ -102,25 +102,24 @@ CREATE TABLE IF NOT EXISTS "workouts" (
 	"user_id" text NOT NULL,
 	"name" text NOT NULL,
 	"date" date NOT NULL,
-	"description" text,
+	"notes" text,
 	"duration" integer,
 	"created_at" timestamp (3) DEFAULT now() NOT NULL,
 	"updated_at" timestamp (3) DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "workout_exercises" (
+	"id" serial PRIMARY KEY NOT NULL,
 	"workout_id" integer NOT NULL,
 	"exercise_id" integer NOT NULL,
 	"position" integer NOT NULL,
 	"created_at" timestamp (3) DEFAULT now() NOT NULL,
-	"updated_at" timestamp (3) DEFAULT now() NOT NULL,
-	CONSTRAINT "workout_exercises_workout_id_exercise_id_pk" PRIMARY KEY("workout_id","exercise_id")
+	"updated_at" timestamp (3) DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "workout_exercise_sets" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"workout_id" integer NOT NULL,
-	"exercise_id" integer NOT NULL,
+	"workout_exercise_id" integer NOT NULL,
 	"position" integer NOT NULL,
 	"reps" integer,
 	"rpe" integer,
@@ -180,7 +179,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "workout_exercise_sets" ADD CONSTRAINT "fk_workout_exercise_set" FOREIGN KEY ("workout_id","exercise_id") REFERENCES "public"."workout_exercises"("workout_id","exercise_id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "workout_exercise_sets" ADD CONSTRAINT "workout_exercise_sets_workout_exercise_id_workout_exercises_id_fk" FOREIGN KEY ("workout_exercise_id") REFERENCES "public"."workout_exercises"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
