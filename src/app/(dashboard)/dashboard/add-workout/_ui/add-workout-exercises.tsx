@@ -8,6 +8,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
   useToast,
 } from "@/shared/ui";
 import {
@@ -24,7 +27,7 @@ import { AddWorkoutFormSchema } from "./add-workout-model";
 import { FieldErrors } from "react-hook-form";
 import { useState } from "react";
 import { useRef } from "react";
-import { Trash2Icon } from "lucide-react";
+import { CircleHelpIcon, InfoIcon, Trash2Icon } from "lucide-react";
 
 interface AddWorkoutExercisesProps {
   exercises: ExerciseWithSets[];
@@ -398,7 +401,57 @@ export const AddWorkoutExercises = ({
                           <TableHead>
                             Weight ({units === "metric" ? "kg" : "lbs"})
                           </TableHead>
-                          <TableHead>RPE</TableHead>
+                          <TableHead>
+                            <Tooltip>
+                              <TooltipTrigger className="flex items-center gap-1 w-full h-full">
+                                RPE
+                                <CircleHelpIcon className="w-4 h-4" />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="mb-2">
+                                  Rate of Perceived Exertion
+                                </p>
+                                <ul>
+                                  <li>
+                                    <span className="text-blue-700 font-semibold">
+                                      1{" "}
+                                    </span>
+                                    - very light
+                                  </li>
+                                  <li>
+                                    <span className="text-cyan-300 font-semibold">
+                                      2-3{" "}
+                                    </span>
+                                    - light
+                                  </li>
+                                  <li>
+                                    <span className="text-green-500 font-semibold">
+                                      4-5
+                                    </span>{" "}
+                                    - moderate, somewhat hard
+                                  </li>
+                                  <li>
+                                    <span className="text-orange-400 font-semibold">
+                                      6-7
+                                    </span>{" "}
+                                    - hard, vigorous
+                                  </li>
+                                  <li>
+                                    <span className="text-orange-600 font-semibold">
+                                      8-9
+                                    </span>{" "}
+                                    - very hard
+                                  </li>
+                                  <li>
+                                    <span className="text-red-600 font-semibold">
+                                      10
+                                    </span>{" "}
+                                    - max effort
+                                  </li>
+                                </ul>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TableHead>
                           <TableHead>Duration (s)</TableHead>
                           <TableHead className="w-10"></TableHead>
                           <TableHead className="w-10">
