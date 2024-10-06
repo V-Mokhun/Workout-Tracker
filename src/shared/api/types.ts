@@ -9,6 +9,11 @@ export type ApiResponse<T> =
       error: Error;
     };
 
+export type ActionFormState = {
+  message: string;
+  isError: boolean;
+};
+
 export type AuthUser = {
   name: string;
   sub: string;

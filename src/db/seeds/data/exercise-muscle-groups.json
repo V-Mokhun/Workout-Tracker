@@ -9,114 +9,114 @@
     "name": "Abs",
     "slug": "abs",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/abs.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abs.jpg"
   },
   {
     "name": "Adductors",
     "slug": "adductors",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/adductors.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/adductors.jpg"
   },
   {
     "name": "Biceps",
     "slug": "biceps",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/biceps.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/biceps.jpg"
   },
   {
     "name": "Calves",
     "slug": "calves",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/calves.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/calves.jpg"
   },
   {
     "name": "Chest",
     "slug": "chest",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/chest.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/chest.jpg"
   },
   {
     "name": "Forearms",
     "slug": "forearms",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/forearms.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/forearms.jpg"
   },
   {
     "name": "Glutes",
     "slug": "glutes",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/glutes.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/glutes.jpg"
   },
   {
     "name": "Hamstrings",
     "slug": "hamstrings",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/hamstrings.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/hamstrings.jpg"
   },
   {
     "name": "Hip Flexors",
     "slug": "hip-flexors",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/hip-flexors.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/hip-flexors.jpg"
   },
   {
     "name": "IT Band",
     "slug": "it-band",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/it-band.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/it-band.jpg"
   },
   {
     "name": "Lats",
     "slug": "lats",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/lats.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/lats.jpg"
   },
   {
     "name": "Lower Back",
     "slug": "lower-back",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/lower-back.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/lower-back.jpg"
   },
   {
     "name": "Upper Back",
     "slug": "middle-back",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/middle-back.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/middle-back.jpg"
   },
   {
     "name": "Neck",
     "slug": "neck",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/neck.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/neck.jpg"
   },
   {
     "name": "Obliques",
     "slug": "obliques",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/obliques.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/obliques.jpg"
   },
   {
     "name": "Quads",
     "slug": "quads",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/quads.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/quads.jpg"
   },
   {
     "name": "Shoulders",
     "slug": "shoulders",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/shoulders.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/shoulders.jpg"
   },
   {
     "name": "Traps",
     "slug": "traps",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/traps.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/traps.jpg"
   },
   {
     "name": "Triceps",
     "slug": "triceps",
     "image": "https://res.cloudinary.com/dci425ss5/image/upload/muscle-groups/triceps.jpg",
-    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/abductors.jpg"
+    "fullImage": "https://res.cloudinary.com/dci425ss5/image/upload/target-muscles/triceps.jpg"
   }
 ]

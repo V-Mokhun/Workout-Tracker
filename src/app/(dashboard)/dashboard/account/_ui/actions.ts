@@ -10,13 +10,13 @@ import { getSession, updateSession } from "@auth0/nextjs-auth0";
 import { v2 as cloudinary } from "cloudinary";
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
-import { AccountFormState } from "./account-form";
 import { AccountFormSchema, accountFormSchema } from "./account-form-model";
+import { ActionFormState } from "@/shared/api";
 
 export async function updateAccountSettings(
   values: AccountFormSchema,
   userId: string
-): Promise<AccountFormState> {
+): Promise<ActionFormState> {
   try {
     const parsed = accountFormSchema.safeParse(values);
 
@@ -40,26 +40,26 @@ export async function updateAccountSettings(
     const isMetric = user.units === "metric";
     if (isMetric) {
       const { heightImperialFeet, heightImperialInches, weightImperial } =
-        calculateImperialFromMetric(
-          values.heightMetricMetres,
-          values.heightMetricCentimetres,
-          values.weightMetric
-        );
+        calculateImperialFromMetric({
+          heightMetricMetres: values.heightMetricMetres,
+          heightMetricCentimetres: values.heightMetricCentimetres,
+          weightMetric: values.weightMetric,
+        });
 
-      values.heightImperialFeet = heightImperialFeet;
-      values.heightImperialInches = heightImperialInches;
-      values.weightImperial = weightImperial;
+      values.heightImperialFeet = heightImperialFeet!;
+      values.heightImperialInches = heightImperialInches!;
+      values.weightImperial = weightImperial!;
     } else {
       const { heightMetricMetres, heightMetricCentimetres, weightMetric } =
-        calculateMetricFromImperial(
-          values.heightImperialFeet,
-          values.heightImperialInches,
-          values.weightImperial
-        );
+        calculateMetricFromImperial({
+          heightImperialFeet: values.heightImperialFeet,
+          heightImperialInches: values.heightImperialInches,
+          weightImperial: values.weightImperial,
+        });
 
-      values.heightMetricMetres = heightMetricMetres;
-      values.heightMetricCentimetres = heightMetricCentimetres;
-      values.weightMetric = weightMetric;
+      values.heightMetricMetres = heightMetricMetres!;
+      values.heightMetricCentimetres = heightMetricCentimetres!;
+      values.weightMetric = weightMetric!;
     }
 
     const birthdate = values.birthdate
@@ -141,7 +141,7 @@ export async function updateAccountSettings(
 
 export async function deleteOldAvatar(
   avatarPublicId: string
-): Promise<AccountFormState> {
+): Promise<ActionFormState> {
   try {
     cloudinary.config({
       cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -168,7 +168,7 @@ export async function deleteOldAvatar(
 
 export async function updateAccountAvatar(
   imageUrl: string
-): Promise<AccountFormState> {
+): Promise<ActionFormState> {
   try {
     if (!imageUrl) {
       return {

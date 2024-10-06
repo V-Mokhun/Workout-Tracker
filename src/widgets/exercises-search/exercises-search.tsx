@@ -12,13 +12,13 @@ interface ExercisesSearchProps {
   whereOptions?: { [key: string]: any };
   searchContent?: React.ReactNode;
   onSelect?: SearchExerciseOnSelect;
-  placeholder?: string;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 export const ExercisesSearch = forwardRef<
   HTMLInputElement,
   ExercisesSearchProps
->(({ whereOptions, searchContent, onSelect, placeholder }, ref) => {
+>(({ whereOptions, searchContent, onSelect, inputProps }, ref) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [exercises, setExercises] = useState<SearchExercise[]>([]);
@@ -64,7 +64,7 @@ export const ExercisesSearch = forwardRef<
       onSearch={onSearchExercises}
       searchContent={searchContent}
       onSelect={onSelect}
-      placeholder={placeholder}
+      inputProps={inputProps}
     />
   );
 });

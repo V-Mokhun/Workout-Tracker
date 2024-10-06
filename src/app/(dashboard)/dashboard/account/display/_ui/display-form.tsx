@@ -23,11 +23,6 @@ interface DisplayFormProps {
   units: Units;
 }
 
-export type DisplayFormState = {
-  message: string;
-  isError: boolean;
-};
-
 export const DisplayForm = ({ units }: DisplayFormProps) => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<DisplayFormSchema>({

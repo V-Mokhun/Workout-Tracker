@@ -47,7 +47,10 @@ export const ExerciseSetForm = ({
           <GripIcon className="h-4 w-4" />
         </Button>
       </TableCell>
-      <TableCell>{index + 1}</TableCell>
+      <TableCell>
+        {/* // TODO: add popover with set type: Normal, Warmup(W), Failure(F)  */}
+        {index + 1}
+      </TableCell>
       <TableCell>
         <Input
           type="number"
@@ -84,6 +87,7 @@ export const ExerciseSetForm = ({
       </TableCell>
       <TableCell className="w-10">
         <Button
+          type="button"
           variant="ghost"
           size="icon"
           className="h-8 w-8"
@@ -94,6 +98,7 @@ export const ExerciseSetForm = ({
       </TableCell>
       <TableCell className="w-10">
         <Button
+          type="button"
           variant="ghost"
           size="icon"
           className="h-8 w-8"

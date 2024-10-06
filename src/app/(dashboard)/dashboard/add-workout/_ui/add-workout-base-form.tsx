@@ -20,9 +20,13 @@ import { UseFormReturn } from "react-hook-form";
 
 interface AddWorkoutBaseFormProps {
   form: UseFormReturn<AddWorkoutFormSchema>;
+  disabled: boolean;
 }
 
-export const AddWorkoutBaseForm = ({ form }: AddWorkoutBaseFormProps) => {
+export const AddWorkoutBaseForm = ({
+  form,
+  disabled,
+}: AddWorkoutBaseFormProps) => {
   return (
     <>
       <FormField
@@ -32,7 +36,11 @@ export const AddWorkoutBaseForm = ({ form }: AddWorkoutBaseFormProps) => {
           <FormItem>
             <FormLabel>Name*</FormLabel>
             <FormControl>
-              <Input placeholder="#4 Full Body" {...field} />
+              <Input
+                placeholder="#4 Full Body"
+                {...field}
+                disabled={disabled}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -54,6 +62,7 @@ export const AddWorkoutBaseForm = ({ form }: AddWorkoutBaseFormProps) => {
                         "min-w-60 pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
+                      disabled={disabled}
                     >
                       <span className="flex-1">
                         {field.value
@@ -100,6 +109,7 @@ export const AddWorkoutBaseForm = ({ form }: AddWorkoutBaseFormProps) => {
                       max={23}
                       step={1}
                       pattern="[0-9]*"
+                      disabled={disabled}
                       onChange={(e) => {
                         if (e.target.value === undefined) {
                           field.onChange(undefined);
@@ -141,6 +151,7 @@ export const AddWorkoutBaseForm = ({ form }: AddWorkoutBaseFormProps) => {
                       max={59}
                       step={1}
                       pattern="[0-9]*"
+                      disabled={disabled}
                       onChange={(e) => {
                         if (e.target.value === undefined) {
                           field.onChange(undefined);
@@ -182,6 +193,7 @@ export const AddWorkoutBaseForm = ({ form }: AddWorkoutBaseFormProps) => {
                       max={59}
                       step={1}
                       pattern="[0-9]*"
+                      disabled={disabled}
                       onChange={(e) => {
                         if (e.target.value === undefined) {
                           field.onChange(undefined);
@@ -222,6 +234,7 @@ export const AddWorkoutBaseForm = ({ form }: AddWorkoutBaseFormProps) => {
               <Textarea
                 placeholder="4th full body workout, first one this week. Feel pretty strong, could've pushed a little harder"
                 {...field}
+                disabled={disabled}
               />
             </FormControl>
             <FormMessage />

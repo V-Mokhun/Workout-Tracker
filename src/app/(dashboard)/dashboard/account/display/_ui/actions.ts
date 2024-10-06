@@ -1,15 +1,15 @@
 "use server";
 
 import { db } from "@/db/database";
-import { DisplayFormState } from "./display-form";
 import { user as dbUser } from "@/db";
 import { eq } from "drizzle-orm";
 import { getSession, updateSession } from "@auth0/nextjs-auth0";
 import { DisplayFormSchema, displayFormSchema } from "./display-form-model";
+import { ActionFormState } from "@/shared/api";
 
 export async function updateAccountDisplay(
   values: DisplayFormSchema
-): Promise<DisplayFormState> {
+): Promise<ActionFormState> {
   try {
     const parsed = displayFormSchema.safeParse(values);
 

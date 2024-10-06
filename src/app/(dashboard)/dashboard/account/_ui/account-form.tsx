@@ -25,11 +25,6 @@ interface AccountFormProps {
   user: User;
 }
 
-export type AccountFormState = {
-  message: string;
-  isError: boolean;
-};
-
 export const AccountForm = ({ user }: AccountFormProps) => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<AccountFormSchema>({

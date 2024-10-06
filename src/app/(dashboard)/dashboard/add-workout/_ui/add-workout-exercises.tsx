@@ -26,6 +26,7 @@ interface AddWorkoutExercisesProps {
   setExercises: React.Dispatch<React.SetStateAction<ExerciseWithSets[]>>;
   units: Units;
   errors: FieldErrors<AddWorkoutFormSchema>["exercises"];
+  disabled: boolean;
 }
 
 export const AddWorkoutExercises = ({
@@ -33,6 +34,7 @@ export const AddWorkoutExercises = ({
   setExercises,
   units,
   errors,
+  disabled,
 }: AddWorkoutExercisesProps) => {
   const onExerciseDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -258,18 +260,19 @@ export const AddWorkoutExercises = ({
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
+                    style={{ ...provided.draggableProps.style }}
                     className={cn(
                       "select-none py-4 px-2 rounded-md",
-                      snapshot.isDragging && "bg-slate-200"
+                      snapshot.isDragging && "bg-slate-200",
+                      disabled && "opacity-50 pointer-events-none"
                     )}
-                    style={{ ...provided.draggableProps.style }}
                   >
                     <ExerciseCard
                       exercise={exercise}
                       index={index}
                       onDelete={() => onDeleteExercise(exercise.slug)}
                     />
-                    {/* // TODO: add a formula input to quickly generate sets */}
+                    {/* // TODO: add a formula input to quickly generate sets (e.g. 3x5 @ 20kg @ 8rpe) */}
                     <Table wrapperClassName="pl-20 pb-4">
                       <TableHeader>
                         <TableRow>

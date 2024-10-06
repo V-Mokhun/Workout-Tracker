@@ -48,10 +48,10 @@ export const ExerciseCard = <T extends SearchExercise>({
           </Link>
         </div>
         <div className="flex gap-2 items-center">
-          <Button variant="ghost" size="icon">
+          <Button type="button" variant="ghost" size="icon">
             <EditIcon className="w-6 h-6" />
           </Button>
-          <Button onClick={onDelete} variant="ghost" size="icon">
+          <Button type="button" onClick={onDelete} variant="ghost" size="icon">
             <TrashIcon className="w-6 h-6" />
           </Button>
         </div>

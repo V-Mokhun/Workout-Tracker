@@ -9,6 +9,7 @@ export default async function Page() {
   if (!session) notFound();
 
   const units = session.user.user_metadata.units ?? "metric";
+  const userId = session.user.sub;
 
   return (
     <Section>
@@ -16,7 +17,7 @@ export default async function Page() {
         <Heading className="mb-2" tag="h1">
           Add a Workout
         </Heading>
-        <AddWorkoutForm units={units} />
+        <AddWorkoutForm units={units} userId={userId} />
       </Container>
     </Section>
   );

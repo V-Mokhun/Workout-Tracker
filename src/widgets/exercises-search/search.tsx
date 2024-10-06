@@ -27,7 +27,7 @@ interface SearchProps<T extends SearchExercise> {
   onSearch: (value: string) => void;
   onSelect?: SearchExerciseOnSelect;
   searchContent?: React.ReactNode;
-  placeholder?: string;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 const SearchInner = <T extends SearchExercise>(
@@ -38,7 +38,7 @@ const SearchInner = <T extends SearchExercise>(
     error,
     searchContent,
     onSelect,
-    placeholder,
+    inputProps,
   }: SearchProps<T>,
   ref: ForwardedRef<HTMLInputElement>
 ) => {
@@ -120,9 +120,10 @@ const SearchInner = <T extends SearchExercise>(
         <Input
           ref={ref}
           type="text"
-          placeholder={placeholder ?? "Search exercises"}
+          placeholder="Search exercises"
           value={searchValue}
           onChange={(event) => setSearchValue(event.currentTarget.value)}
+          {...inputProps}
         />
       </PopoverTrigger>
       <PopoverContent
