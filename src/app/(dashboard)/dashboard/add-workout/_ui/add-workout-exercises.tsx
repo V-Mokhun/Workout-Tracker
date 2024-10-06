@@ -1,12 +1,14 @@
 import { cn, reorder } from "@/shared/lib";
 import {
   Button,
+  Input,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  useToast,
 } from "@/shared/ui";
 import {
   DragDropContext,
@@ -20,6 +22,9 @@ import { ExerciseCard } from "./exercise-card";
 import { BasicWorkoutExerciseSet, Units } from "@/db";
 import { AddWorkoutFormSchema } from "./add-workout-model";
 import { FieldErrors } from "react-hook-form";
+import { useState } from "react";
+import { useRef } from "react";
+import { Trash2Icon } from "lucide-react";
 
 interface AddWorkoutExercisesProps {
   exercises: ExerciseWithSets[];
@@ -36,6 +41,9 @@ export const AddWorkoutExercises = ({
   errors,
   disabled,
 }: AddWorkoutExercisesProps) => {
+  const { toast } = useToast();
+  const formulaInputRefs = useRef<{ [key: string]: HTMLInputElement }>({});
+
   const onExerciseDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
@@ -114,6 +122,14 @@ export const AddWorkoutExercises = ({
   const onDeleteExercise = (instanceId: string) => {
     setExercises((prevExercises) =>
       prevExercises.filter((ex) => ex.instanceId !== instanceId)
+    );
+  };
+
+  const onClearSets = (instanceId: string) => {
+    setExercises((prevExercises) =>
+      prevExercises.map((ex) =>
+        ex.instanceId === instanceId ? { ...ex, sets: [] } : ex
+      )
     );
   };
 
@@ -244,6 +260,63 @@ export const AddWorkoutExercises = ({
     return false;
   };
 
+  const handleFormulaSubmit = (instanceId: string) => {
+    const inputElement = formulaInputRefs.current[instanceId];
+    if (!inputElement || !inputElement.value.trim()) return;
+
+    const formula = inputElement.value;
+    const formulaParts = formula.split("-");
+    const [sets, reps, weight, rpe, duration] = formulaParts;
+
+    const numSets = sets === "_" ? 1 : parseInt(sets);
+    if (isNaN(numSets)) {
+      inputElement.value = "";
+      return;
+    }
+
+    if (numSets > 10) {
+      toast({
+        title: "Too many sets",
+        description: "You can only generate up to 10 sets at a time",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const parsedReps = reps === "_" ? null : parseInt(reps) || null;
+    const parsedWeight = weight === "_" ? null : parseFloat(weight) || null;
+    const parsedRpe = rpe === "_" ? null : parseInt(rpe) || null;
+    const parsedDuration = duration === "_" ? null : parseInt(duration) || null;
+
+    setExercises((prevExercises) => {
+      return prevExercises.map((ex) => {
+        if (ex.instanceId === instanceId) {
+          const maxSetId = ex.sets.reduce(
+            (acc, set) => Math.max(acc, set.id),
+            0
+          );
+          const newSets = Array.from({ length: numSets }, (_, index) => ({
+            id: maxSetId + index + 1,
+            reps: parsedReps,
+            weightMetric: units === "metric" ? parsedWeight : null,
+            weightImperial: units === "imperial" ? parsedWeight : null,
+            rpe: parsedRpe,
+            duration: parsedDuration,
+            position: maxSetId + index + 1,
+          }));
+
+          return {
+            ...ex,
+            sets: [...ex.sets, ...newSets],
+          };
+        }
+        return ex;
+      });
+    });
+
+    inputElement.value = "";
+  };
+
   return (
     <DragDropContext onDragEnd={onExerciseDragEnd}>
       <Droppable droppableId="exercises" type="exercise">
@@ -276,7 +349,46 @@ export const AddWorkoutExercises = ({
                       index={index}
                       onDelete={() => onDeleteExercise(exercise.instanceId)}
                     />
-                    {/* // TODO: add a formula input to quickly generate sets (e.g. 3x5 @ 20kg @ 8rpe) */}
+                    <div className="pl-20 my-4">
+                      <label
+                        htmlFor={`formula-${exercise.instanceId}`}
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Quick Set Generator. Format:
+                        sets-reps-weight-rpe-duration, i.e. 3-5-20-8. If you
+                        don&apos;t want to include a value, write &quot;_&quot;
+                      </label>
+                      <div className="flex items-center">
+                        <Input
+                          id={`formula-${exercise.instanceId}`}
+                          type="text"
+                          placeholder="e.g., 3-5-20-8"
+                          className="mr-2"
+                          ref={(el) => {
+                            if (el) {
+                              formulaInputRefs.current[exercise.instanceId] =
+                                el;
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.stopPropagation();
+                              e.preventDefault();
+                              handleFormulaSubmit(exercise.instanceId);
+                            }
+                          }}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() =>
+                            handleFormulaSubmit(exercise.instanceId)
+                          }
+                        >
+                          Generate Sets
+                        </Button>
+                      </div>
+                    </div>
                     <Table wrapperClassName="pl-20 pb-4">
                       <TableHeader>
                         <TableRow>
@@ -289,7 +401,18 @@ export const AddWorkoutExercises = ({
                           <TableHead>RPE</TableHead>
                           <TableHead>Duration (s)</TableHead>
                           <TableHead className="w-10"></TableHead>
-                          <TableHead className="w-10"></TableHead>
+                          <TableHead className="w-10">
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => {
+                                onClearSets(exercise.instanceId);
+                              }}
+                            >
+                              <Trash2Icon className="w-6 h-6" />
+                            </Button>
+                          </TableHead>
                         </TableRow>
                       </TableHeader>
 
@@ -318,6 +441,7 @@ export const AddWorkoutExercises = ({
                                     isDragging={snapshot.isDragging}
                                     set={set}
                                     index={setIndex}
+                                    units={units}
                                     onUpdate={(set) =>
                                       onUpdateSet(exercise.instanceId, set)
                                     }

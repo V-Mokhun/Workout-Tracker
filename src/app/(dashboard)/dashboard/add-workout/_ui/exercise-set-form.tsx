@@ -1,4 +1,4 @@
-import { BasicWorkoutExerciseSet } from "@/db";
+import { BasicWorkoutExerciseSet, Units } from "@/db";
 import { cn } from "@/shared/lib";
 import { Button, Input, TableCell, TableRow } from "@/shared/ui";
 import { DraggableProvided } from "@hello-pangea/dnd";
@@ -13,6 +13,7 @@ interface ExerciseSetFormProps {
   onUpdate: (set: BasicWorkoutExerciseSet) => void;
   onDuplicate: () => void;
   isError?: boolean;
+  units: Units;
 }
 
 export const ExerciseSetForm = ({
@@ -24,6 +25,7 @@ export const ExerciseSetForm = ({
   onUpdate,
   onDuplicate,
   isError,
+  units,
 }: ExerciseSetFormProps) => {
   const onFieldChange = (
     field: keyof BasicWorkoutExerciseSet,
@@ -63,8 +65,17 @@ export const ExerciseSetForm = ({
       <TableCell>
         <Input
           type="number"
-          value={set.weightMetric ?? ""}
-          onChange={(e) => onFieldChange("weightMetric", e.target.value)}
+          value={
+            units === "metric"
+              ? set.weightMetric ?? ""
+              : set.weightImperial ?? ""
+          }
+          onChange={(e) =>
+            onFieldChange(
+              units === "metric" ? "weightMetric" : "weightImperial",
+              e.target.value
+            )
+          }
         />
       </TableCell>
       <TableCell>

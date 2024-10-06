@@ -130,27 +130,13 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
 
   const addExerciseToWorkout = (exercise: SearchExercise) => {
     const newInstanceId = crypto.randomUUID();
-    const newSetId =
-      exercises.reduce((acc, ex) => {
-        return Math.max(acc, ...ex.sets.map((s) => s.id));
-      }, 0) + 1;
 
     setExercises([
       ...exercises,
       {
         ...exercise,
         instanceId: newInstanceId,
-        sets: [
-          {
-            id: newSetId,
-            duration: null,
-            reps: null,
-            rpe: null,
-            weightMetric: null,
-            weightImperial: null,
-            position: 1,
-          },
-        ],
+        sets: [],
       },
     ]);
 
