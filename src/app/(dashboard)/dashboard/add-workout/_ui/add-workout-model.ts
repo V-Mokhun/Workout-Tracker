@@ -1,3 +1,4 @@
+import { exerciseSetTypeSchema } from "@/db";
 import { z } from "zod";
 
 export const addWorkoutFormSchema = z.object({
@@ -18,6 +19,7 @@ export const addWorkoutFormSchema = z.object({
             z
               .object({
                 id: z.number(),
+                type: exerciseSetTypeSchema.default("Normal"),
                 position: z.number(),
                 reps: z.coerce
                   .number()

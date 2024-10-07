@@ -16,3 +16,11 @@ export const exerciseExperience = pgEnum("exercise_experience", [
 ]);
 export const exerciseExperienceSchema = z.enum(exerciseExperience.enumValues);
 export type ExerciseExperience = z.infer<typeof exerciseExperienceSchema>;
+
+export const exerciseSetType = pgEnum("exercise_set_type", [
+  "Normal",
+  "Warmup",
+  "Failure",
+]);
+export const exerciseSetTypeSchema = z.enum(exerciseSetType.enumValues);
+export type ExerciseSetType = z.infer<typeof exerciseSetTypeSchema>;

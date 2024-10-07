@@ -1,8 +1,19 @@
+"use client";
+
 import { BasicWorkoutExerciseSet, Units } from "@/db";
 import { cn } from "@/shared/lib";
-import { Button, Input, TableCell, TableRow } from "@/shared/ui";
+import {
+  Button,
+  Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  TableCell,
+  TableRow,
+} from "@/shared/ui";
 import { DraggableProvided } from "@hello-pangea/dnd";
 import { CopyIcon, GripIcon, TrashIcon } from "lucide-react";
+import { useState } from "react";
 
 interface ExerciseSetFormProps {
   provided: DraggableProvided;
@@ -27,6 +38,8 @@ export const ExerciseSetForm = ({
   isError,
   units,
 }: ExerciseSetFormProps) => {
+  const [open, setOpen] = useState(false);
+
   const onFieldChange = (
     field: keyof BasicWorkoutExerciseSet,
     value: string
@@ -50,8 +63,82 @@ export const ExerciseSetForm = ({
         </Button>
       </TableCell>
       <TableCell>
-        {/* // TODO: add popover with set type: Normal, Warmup(W), Failure(F)  */}
-        {index + 1}
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className={cn(
+                "h-8 w-8 font-bold hover:text-inherit",
+                set.type === "Warmup" &&
+                  "text-orange-500 hover:text-orange-500",
+                set.type === "Failure" && "text-red-500 hover:text-red-500"
+              )}
+            >
+              {!set.type || set.type === "Normal"
+                ? index + 1
+                : set.type.slice(0, 1)}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="bg-slate-700 text-white min-w-40">
+            <ul className="text-sm space-y-1">
+              <li>
+                <Button
+                  className={cn(
+                    "w-full gap-2 justify-start px-2 py-1 font-semibold hover:bg-slate-500 hover:text-white",
+                    set.type === "Normal" && "bg-slate-500"
+                  )}
+                  variant="ghost"
+                  onClick={() => {
+                    onFieldChange("type", "Normal");
+                    setOpen(false);
+                  }}
+                >
+                  <span className="text-green-400 font-bold inline-block w-4">
+                    N
+                  </span>
+                  Normal
+                </Button>
+              </li>
+              <li>
+                <Button
+                  className={cn(
+                    "w-full gap-2 justify-start px-2 py-1 font-semibold hover:bg-slate-500 hover:text-white",
+                    set.type === "Warmup" && "bg-slate-500"
+                  )}
+                  variant="ghost"
+                  onClick={() => {
+                    onFieldChange("type", "Warmup");
+                    setOpen(false);
+                  }}
+                >
+                  <span className="text-orange-400 font-bold inline-block w-4">
+                    W
+                  </span>
+                  Warm-up
+                </Button>
+              </li>
+              <li>
+                <Button
+                  className={cn(
+                    "w-full gap-2 justify-start px-2 py-1 font-semibold hover:bg-slate-500 hover:text-white",
+                    set.type === "Failure" && "bg-slate-500"
+                  )}
+                  variant="ghost"
+                  onClick={() => {
+                    onFieldChange("type", "Failure");
+                    setOpen(false);
+                  }}
+                >
+                  <span className="text-red-400 font-bold inline-block w-4">
+                    F
+                  </span>
+                  Failure
+                </Button>
+              </li>
+            </ul>
+          </PopoverContent>
+        </Popover>
       </TableCell>
       <TableCell>
         <Input

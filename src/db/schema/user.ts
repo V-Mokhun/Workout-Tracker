@@ -1,19 +1,18 @@
+import { relations } from "drizzle-orm";
 import {
   date,
   integer,
   pgTable,
   real,
-  serial,
   text,
   timestamp,
-  varchar,
+  varchar
 } from "drizzle-orm/pg-core";
-import { gender, units } from "./enums";
-import { relations } from "drizzle-orm";
-import { workout } from "./workout";
-import { userExercise } from "./user-exercise";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
+import { gender, units } from "./enums";
+import { userExercise } from "./user-exercise";
+import { workout } from "./workout";
 
 export const user = pgTable("users", {
   id: text("id").primaryKey(),

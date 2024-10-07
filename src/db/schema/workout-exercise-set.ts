@@ -10,6 +10,7 @@ import { workoutExercise } from "./workout-exercise";
 import { relations } from "drizzle-orm";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
+import { exerciseSetType } from "./enums";
 
 export const workoutExerciseSet = pgTable("workout_exercise_sets", {
   id: serial("id").primaryKey(),
@@ -18,6 +19,7 @@ export const workoutExerciseSet = pgTable("workout_exercise_sets", {
       onDelete: "cascade",
     })
     .notNull(),
+  type: exerciseSetType("type").notNull().default("Normal"),
   position: integer("position").notNull(),
   reps: integer("reps"),
   rpe: integer("rpe"),
@@ -44,6 +46,7 @@ export type BasicWorkoutExerciseSet = Pick<
   | "weightMetric"
   | "weightImperial"
   | "position"
+  | "type"
 >;
 
 export const workoutExerciseSetRelations = relations(

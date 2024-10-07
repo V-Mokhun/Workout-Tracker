@@ -1,3 +1,4 @@
+import { BasicWorkoutExerciseSet, Units } from "@/db";
 import { cn, reorder } from "@/shared/lib";
 import {
   Button,
@@ -19,15 +20,13 @@ import {
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { ExerciseWithSets } from "./add-workout-form";
-import { ExerciseSetForm } from "./exercise-set-form";
-import { ExerciseCard } from "./exercise-card";
-import { BasicWorkoutExerciseSet, Units } from "@/db";
-import { AddWorkoutFormSchema } from "./add-workout-model";
-import { FieldErrors } from "react-hook-form";
-import { useState } from "react";
+import { CircleHelpIcon, Trash2Icon } from "lucide-react";
 import { useRef } from "react";
-import { CircleHelpIcon, InfoIcon, Trash2Icon } from "lucide-react";
+import { FieldErrors } from "react-hook-form";
+import { ExerciseWithSets } from "./add-workout-form";
+import { AddWorkoutFormSchema } from "./add-workout-model";
+import { ExerciseCard } from "./exercise-card";
+import { ExerciseSetForm } from "./exercise-set-form";
 
 interface AddWorkoutExercisesProps {
   exercises: ExerciseWithSets[];
@@ -153,7 +152,7 @@ export const AddWorkoutExercises = ({
           return Math.max(acc, ...ex.sets.map((s) => s.id));
         }, 0) + 1;
 
-      const newSet = {
+      const newSet: BasicWorkoutExerciseSet = {
         id: newSetId,
         duration: null,
         reps: null,
@@ -161,6 +160,7 @@ export const AddWorkoutExercises = ({
         weightMetric: null,
         weightImperial: null,
         position: position,
+        type: "Normal",
       };
 
       return prevExercises.map((ex) =>
@@ -232,8 +232,13 @@ export const AddWorkoutExercises = ({
           return setError.message;
         }
         for (const field in setError) {
-          if (setError[field as keyof BasicWorkoutExerciseSet]?.message) {
-            return setError[field as keyof BasicWorkoutExerciseSet]!.message;
+          if (
+            setError[field as keyof Omit<BasicWorkoutExerciseSet, "type">]
+              ?.message
+          ) {
+            return setError[
+              field as keyof Omit<BasicWorkoutExerciseSet, "type">
+            ]!.message;
           }
         }
       }
@@ -254,7 +259,10 @@ export const AddWorkoutExercises = ({
         return true;
       }
       for (const field in setError) {
-        if (setError[field as keyof BasicWorkoutExerciseSet]?.message) {
+        if (
+          setError[field as keyof Omit<BasicWorkoutExerciseSet, "type">]
+            ?.message
+        ) {
           return true;
         }
       }
@@ -298,15 +306,19 @@ export const AddWorkoutExercises = ({
             (acc, set) => Math.max(acc, set.id),
             0
           );
-          const newSets = Array.from({ length: numSets }, (_, index) => ({
-            id: maxSetId + index + 1,
-            reps: parsedReps,
-            weightMetric: units === "metric" ? parsedWeight : null,
-            weightImperial: units === "imperial" ? parsedWeight : null,
-            rpe: parsedRpe,
-            duration: parsedDuration,
-            position: maxSetId + index + 1,
-          }));
+          const newSets: BasicWorkoutExerciseSet[] = Array.from(
+            { length: numSets },
+            (_, index) => ({
+              id: maxSetId + index + 1,
+              reps: parsedReps,
+              weightMetric: units === "metric" ? parsedWeight : null,
+              weightImperial: units === "imperial" ? parsedWeight : null,
+              rpe: parsedRpe,
+              duration: parsedDuration,
+              position: maxSetId + index + 1,
+              type: "Normal",
+            })
+          );
 
           return {
             ...ex,

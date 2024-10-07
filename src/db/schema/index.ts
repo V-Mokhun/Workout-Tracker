@@ -1,5 +1,15 @@
-export { exerciseExperienceSchema, genderSchema, unitsSchema } from "./enums";
-export type { ExerciseExperience, Gender, Units } from "./enums";
+export {
+  exerciseExperienceSchema,
+  genderSchema,
+  unitsSchema,
+  exerciseSetTypeSchema,
+} from "./enums";
+export type {
+  ExerciseExperience,
+  Gender,
+  Units,
+  ExerciseSetType,
+} from "./enums";
 export * from "./exercise";
 export * from "./exercise-equipment";
 export * from "./exercise-target-muscle";
