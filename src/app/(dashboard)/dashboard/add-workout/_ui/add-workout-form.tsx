@@ -30,7 +30,7 @@ import {
 } from "./add-workout-model";
 import { addWorkout } from "./actions";
 import { useRouter } from "next/navigation";
-import { WORKOUTS_ROUTE } from "@/shared/consts";
+import { DASHBOARD_ROUTE } from "@/shared/consts";
 
 interface AddWorkoutFormProps {
   units: Units;
@@ -122,7 +122,7 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
         });
 
         if (!state.isError) {
-          router.push(WORKOUTS_ROUTE);
+          router.push(DASHBOARD_ROUTE);
         }
       });
     });

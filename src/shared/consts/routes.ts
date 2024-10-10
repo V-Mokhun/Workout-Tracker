@@ -8,5 +8,4 @@ export const PROFILE_DISPLAY_ROUTE = createRoute("account/display");
 export const PERSONAL_EXERCISES_ROUTE = createRoute("personal-exercises");
 export const EXERCISES_ROUTE = createRoute("exercises");
 export const SINGLE_EXERCISE_ROUTE = createRoute("exercise");
-export const WORKOUTS_ROUTE = createRoute("workouts")
-export const ADD_WORKOUT_ROUTE = createRoute("add-workout")
+export const ADD_WORKOUT_ROUTE = createRoute("add-workout");
