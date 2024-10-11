@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib";
+import { cn, dateWithoutTimezone } from "@/shared/lib";
 import {
   Button,
   Calendar,
@@ -78,8 +78,14 @@ export const AddWorkoutBaseForm = ({
                     mode="single"
                     selected={field.value}
                     fixedWeeks
-                    defaultMonth={field.value ?? new Date()}
-                    onSelect={field.onChange}
+                    defaultMonth={field.value}
+                    onSelect={(date) => {
+                      if (!date) {
+                        return;
+                      }
+
+                      field.onChange(dateWithoutTimezone(date));
+                    }}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1924-01-01")
                     }

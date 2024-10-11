@@ -4,6 +4,7 @@ import { BasicWorkoutExerciseSet, Units } from "@/db";
 import {
   calculateImperialFromMetric,
   calculateMetricFromImperial,
+  dateWithoutTimezone,
 } from "@/shared/lib";
 import {
   Button,
@@ -60,7 +61,7 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
     defaultValues: {
       name: "",
       notes: "",
-      date: new Date(),
+      date: dateWithoutTimezone(new Date()),
       hours: undefined,
       minutes: undefined,
       seconds: undefined,
