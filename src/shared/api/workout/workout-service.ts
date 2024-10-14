@@ -1,11 +1,11 @@
-import { workout } from "@/db";
+import { Workout, workout } from "@/db";
 import { db } from "@/db/database";
 import { dateWithoutTimezone } from "@/shared/lib";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { and, eq, gte, lte } from "drizzle-orm";
 
 class WorkoutService {
-  async getMonthlyWorkouts(userId: string) {
+  async getMonthlyWorkouts(userId: string): Promise<Workout[]> {
     const workouts = await db.query.workout.findMany({
       where: and(
         eq(workout.userId, userId),

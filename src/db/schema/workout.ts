@@ -9,6 +9,8 @@ import {
 } from "drizzle-orm/pg-core";
 import { user } from "./user";
 import { workoutExercise } from "./workout-exercise";
+import { createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const workout = pgTable("workouts", {
   id: serial("id").primaryKey(),
@@ -27,6 +29,9 @@ export const workout = pgTable("workouts", {
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
+
+const selectWorkoutSchema = createSelectSchema(workout);
+export type Workout = z.infer<typeof selectWorkoutSchema>;
 
 export const workoutRelations = relations(workout, ({ one, many }) => ({
   user: one(user, { fields: [workout.userId], references: [user.id] }),

@@ -1,23 +1,17 @@
 "use client";
 
-import React from "react";
-import { useState, useCallback, useMemo } from "react";
-import { Button, buttonVariants, Heading } from "@/shared/ui";
-import {
-  Plus,
-  Calendar as CalendarIcon,
-  List,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
-import Link from "next/link";
-import { ADD_WORKOUT_ROUTE } from "@/shared/consts";
+import { Workout } from "@/db";
+import { Button } from "@/shared/ui";
+import { Calendar as CalendarIcon, List } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
+import { MonthlyWorkoutViewHeader } from "./monthly-workout-view-header";
+import { ListItem } from "./list-item";
 
 type ViewType = "calendar" | "list";
 type Direction = "prev" | "next";
 
-export const MonthlyWorkoutView = () => {
-  const [viewType, setViewType] = useState<ViewType>("calendar");
+export const MonthlyWorkoutView = ({ workouts }: { workouts: Workout[] }) => {
+  const [viewType, setViewType] = useState<ViewType>("list");
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const handleViewChange = useCallback((newView: ViewType) => {
@@ -32,47 +26,37 @@ export const MonthlyWorkoutView = () => {
     });
   }, []);
 
-  const isNextMonthDisabled = useMemo(() => {
-    const now = new Date();
-    return (
-      currentDate.getFullYear() > now.getFullYear() ||
-      (currentDate.getFullYear() === now.getFullYear() &&
-        currentDate.getMonth() >= now.getMonth())
-    );
-  }, [currentDate]);
+  const isNextMonthDisabled =
+    currentDate.getMonth() === new Date().getMonth() &&
+    currentDate.getFullYear() === new Date().getFullYear();
+
+  const sortedWorkouts = useMemo(() => {
+    return [...workouts].sort((a, b) => b.date.getTime() - a.date.getTime());
+  }, [workouts]);
+
+  const renderListView = () => (
+    <ul className="space-y-4">
+      {sortedWorkouts.length === 0 ? (
+        <li className="text-center text-gray-500 py-8">
+          No workouts for this month
+        </li>
+      ) : (
+        sortedWorkouts.map((workout) => (
+          <li key={workout.id}>
+            <ListItem workout={workout} />
+          </li>
+        ))
+      )}
+    </ul>
+  );
 
   return (
-    <div className="p-6 border rounded-sm space-y-6">
-      <div className="flex justify-between items-center gap-4">
-        <div className="flex items-center gap-2">
-          <Button
-            onClick={() => handleMonthChange("prev")}
-            size="icon"
-            aria-label="Previous month"
-            variant="ghost"
-          >
-            <ChevronLeft className="h-8 w-8" />
-          </Button>
-          <Heading tag="h2" as="h3">
-            {currentDate.toLocaleString("en-US", {
-              month: "long",
-              year: "numeric",
-            })}
-          </Heading>
-          <Button
-            onClick={() => handleMonthChange("next")}
-            aria-label="Next month"
-            size="icon"
-            variant="ghost"
-            disabled={isNextMonthDisabled}
-          >
-            <ChevronRight className="h-8 w-8" />
-          </Button>
-        </div>
-        <Link className={buttonVariants()} href={ADD_WORKOUT_ROUTE}>
-          <Plus className="mr-2 h-4 w-4" /> Add Workout
-        </Link>
-      </div>
+    <div className="bg-gray-50 p-3 sm:p-6 rounded-lg shadow-sm space-y-4 sm:space-y-6">
+      <MonthlyWorkoutViewHeader
+        currentDate={currentDate}
+        onMonthChange={handleMonthChange}
+        isNextMonthDisabled={isNextMonthDisabled}
+      />
 
       <div className="flex items-center gap-2">
         <Button
@@ -81,7 +65,7 @@ export const MonthlyWorkoutView = () => {
           size="icon"
           variant={viewType === "list" ? "default" : "outline"}
         >
-          <List className="h-6 w-6" />
+          <List className="h-4 w-4 sm:h-6 sm:w-6" />
         </Button>
         <Button
           onClick={() => handleViewChange("calendar")}
@@ -89,17 +73,17 @@ export const MonthlyWorkoutView = () => {
           size="icon"
           variant={viewType === "calendar" ? "default" : "outline"}
         >
-          <CalendarIcon className="h-6 w-6" />
+          <CalendarIcon className="h-4 w-4 sm:h-6 sm:w-6" />
         </Button>
       </div>
 
       {viewType === "calendar" ? (
-        <div className="border rounded-md p-4">
+        <div className="bg-white border rounded-lg p-3 sm:p-4 shadow-sm">
           <p>Calendar view coming soon...</p>
         </div>
       ) : (
-        <div className="border rounded-md p-4">
-          <p>List view coming soon...</p>
+        <div className="bg-white border rounded-lg p-3 sm:p-4 shadow-sm">
+          {renderListView()}
         </div>
       )}
     </div>
