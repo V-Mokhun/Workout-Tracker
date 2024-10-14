@@ -13,9 +13,11 @@ export default function AccountLayout({
           Settings
         </Heading>
 
-        <div className="grid gap-5 grid-cols-12">
-          <AccountSidebar />
-          {children}
+        <div className="grid gap-5 grid-cols-1 md:grid-cols-12">
+          <div className="md:col-span-3">
+            <AccountSidebar />
+          </div>
+          <div className="md:col-span-9">{children}</div>
         </div>
       </Container>
     </Section>

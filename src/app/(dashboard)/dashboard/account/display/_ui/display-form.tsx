@@ -54,26 +54,28 @@ export const DisplayForm = ({ units }: DisplayFormProps) => {
           name="units"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Measurement Units</FormLabel>
+              <FormLabel className="text-lg font-semibold text-primary">
+                Measurement Units
+              </FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className="flex flex-col space-y-1"
+                  className="flex flex-col space-y-2"
                 >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
+                  <FormItem className="flex items-center space-x-3 space-y-0 bg-gray-100 p-3 rounded-md transition-all duration-300 hover:bg-gray-200">
                     <FormControl>
                       <RadioGroupItem value="metric" />
                     </FormControl>
-                    <FormLabel className="font-normal">
+                    <FormLabel className="font-normal cursor-pointer flex-grow">
                       Metric (kg / km)
                     </FormLabel>
                   </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
+                  <FormItem className="flex items-center space-x-3 space-y-0 bg-gray-100 p-3 rounded-md transition-all duration-300 hover:bg-gray-200">
                     <FormControl>
                       <RadioGroupItem value="imperial" />
                     </FormControl>
-                    <FormLabel className="font-normal">
+                    <FormLabel className="font-normal cursor-pointer flex-grow">
                       Imperial (lbs / miles)
                     </FormLabel>
                   </FormItem>
@@ -83,13 +85,15 @@ export const DisplayForm = ({ units }: DisplayFormProps) => {
             </FormItem>
           )}
         />
-        <Button
-          size="lg"
-          type="submit"
-          disabled={units === formUnits || isPending}
-        >
-          Update
-        </Button>
+        <div className="pt-4">
+          <Button
+            size="lg"
+            type="submit"
+            disabled={units === formUnits || isPending}
+          >
+            {isPending ? "Updating..." : "Update Settings"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

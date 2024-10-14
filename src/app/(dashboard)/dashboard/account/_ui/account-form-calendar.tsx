@@ -35,7 +35,7 @@ export const AccountFormCalendar = ({ control }: AccountFormCalendarProps) => {
   const [calendarOpen, setCalendarOpen] = useState(false);
 
   return (
-    <div className="flex flex-col xs:flex-row gap-2 items-start xs:items-center justify-between">
+    <div className="flex flex-col gap-4 xs:flex-row xs:gap-2 items-start xs:items-center justify-between">
       <FormField
         control={control}
         name="birthdate"

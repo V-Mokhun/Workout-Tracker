@@ -24,30 +24,39 @@ const Page = async () => {
     .where(eq(dbWorkout.userId, session.user.sub));
 
   return (
-    <>
-      <div className="col-span-6">
-        <Heading className="mb-6">Profile</Heading>
-        <AccountForm user={user} />
-      </div>
-      <div className="col-span-3 flex flex-col items-center">
-        <AccountImageUpload avatar={user.avatar ?? DEFAULT_PROFILE_IMAGE} />
-        {user.email && (
-          <>
-            <Separator className="mt-4 mb-2" />
-            <span className="block max-w-full text-center break-words">
-              {user.email}
-            </span>
-          </>
-        )}
-        <Separator className="my-2" />
-        <div className="flex flex-col gap-1 items-center">
-          <span className="text-lg md:text-xl text-primary">
-            {workoutsCompleted}
-          </span>
-          <span>Workouts Completed</span>
+    <div className="grid gap-8 md:grid-cols-3 animate-fadeIn">
+      <div className="md:col-span-2 order-2 md:order-1">
+        <Heading className="mb-6">
+          Profile Information
+        </Heading>
+        <div className="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
+          <p className="text-gray-600 mb-6">
+            Update your personal information.
+          </p>
+          <AccountForm user={user} />
         </div>
       </div>
-    </>
+      <div className="md:col-span-1 order-1 md:order-2 flex flex-col items-center">
+        <div className="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg w-full">
+          <AccountImageUpload avatar={user.avatar ?? DEFAULT_PROFILE_IMAGE} />
+          {user.email && (
+            <>
+              <Separator className="mt-4 mb-2 w-full" />
+              <span className="block max-w-full text-center break-words text-gray-600">
+                {user.email}
+              </span>
+            </>
+          )}
+          <Separator className="my-2 w-full" />
+          <div className="flex flex-col gap-1 items-center">
+            <span className="text-lg md:text-xl text-primary">
+              {workoutsCompleted}
+            </span>
+            <span className="text-gray-600">Workouts Completed</span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

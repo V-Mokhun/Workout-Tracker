@@ -63,7 +63,7 @@ export const AccountImageUpload = ({ avatar }: AccountImageUploadProps) => {
       {({ open, isLoading }) => {
         return (
           <button
-            className="group relative block rounded-full overflow-hidden after:absolute after:w-full after:h-full after:inset-0 after:opacity-0 after:bg-white/80 after:transition-opacity hover:after:opacity-100"
+            className="group relative flex items-center justify-center w-full rounded-full overflow-hidden after:absolute after:w-full after:h-full after:inset-0 after:opacity-0 after:bg-white/80 after:transition-opacity hover:after:opacity-100"
             onClick={() => open()}
             disabled={isLoading}
           >

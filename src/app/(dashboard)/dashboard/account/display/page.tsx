@@ -11,9 +11,14 @@ const Page = async () => {
   const units = session.user?.user_metadata?.units ?? "metric";
 
   return (
-    <div className="col-span-9">
-      <Heading className="mb-6">Display</Heading>
-      <DisplayForm units={units} />
+    <div className="col-span-9 animate-fadeIn">
+      <Heading className="mb-6">Display Settings</Heading>
+      <div className="bg-white rounded-lg shadow-md p-4 transition-all duration-300 hover:shadow-lg">
+        <p className="text-gray-600 mb-6">
+          Customize how information is displayed in your account.
+        </p>
+        <DisplayForm units={units} />
+      </div>
     </div>
   );
 };

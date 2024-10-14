@@ -12,7 +12,7 @@ import {
   Input,
   RadioGroup,
   RadioGroupItem,
-  useToast
+  useToast,
 } from "@/shared/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
@@ -63,8 +63,10 @@ export const AccountForm = ({ user }: AccountFormProps) => {
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
+            <FormItem className="space-y-3">
+              <FormLabel className="text-lg font-semibold text-primary">
+                Name
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Change your name" {...field} />
               </FormControl>
@@ -79,8 +81,10 @@ export const AccountForm = ({ user }: AccountFormProps) => {
               control={form.control}
               name="weightMetric"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Weight (kg)</FormLabel>
+                <FormItem className="space-y-3">
+                  <FormLabel className="text-lg font-semibold text-primary">
+                    Weight (kg)
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -96,13 +100,15 @@ export const AccountForm = ({ user }: AccountFormProps) => {
                 </FormItem>
               )}
             />
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <FormField
                 control={form.control}
                 name="heightMetricMetres"
                 render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Height (m)</FormLabel>
+                  <FormItem className="w-full sm:w-1/2 space-y-3">
+                    <FormLabel className="text-lg font-semibold text-primary">
+                      Height (m)
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -124,8 +130,10 @@ export const AccountForm = ({ user }: AccountFormProps) => {
                 control={form.control}
                 name="heightMetricCentimetres"
                 render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Height (cm)</FormLabel>
+                  <FormItem className="w-full sm:w-1/2 space-y-3">
+                    <FormLabel className="text-lg font-semibold text-primary">
+                      Height (cm)
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -151,8 +159,10 @@ export const AccountForm = ({ user }: AccountFormProps) => {
               control={form.control}
               name="weightImperial"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Weight (lb)</FormLabel>
+                <FormItem className="space-y-3">
+                  <FormLabel className="text-lg font-semibold text-primary">
+                    Weight (lb)
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -168,13 +178,15 @@ export const AccountForm = ({ user }: AccountFormProps) => {
                 </FormItem>
               )}
             />
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <FormField
                 control={form.control}
                 name="heightImperialFeet"
                 render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Height (ft)</FormLabel>
+                  <FormItem className="w-full sm:w-1/2 space-y-3">
+                    <FormLabel className="text-lg font-semibold text-primary">
+                      Height (ft)
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -196,8 +208,10 @@ export const AccountForm = ({ user }: AccountFormProps) => {
                 control={form.control}
                 name="heightImperialInches"
                 render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Height (in)</FormLabel>
+                  <FormItem className="w-full sm:w-1/2 space-y-3">
+                    <FormLabel className="text-lg font-semibold text-primary">
+                      Height (in)
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -223,24 +237,30 @@ export const AccountForm = ({ user }: AccountFormProps) => {
           name="gender"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Gender</FormLabel>
+              <FormLabel className="text-lg font-semibold text-primary">
+                Gender
+              </FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className="flex flex-col space-y-1"
+                  className="flex flex-col space-y-2"
                 >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
+                  <FormItem className="flex items-center space-x-3 space-y-0 bg-gray-100 p-3 rounded-md transition-all duration-300 hover:bg-gray-200">
                     <FormControl>
                       <RadioGroupItem value="male" />
                     </FormControl>
-                    <FormLabel className="font-normal">Male</FormLabel>
+                    <FormLabel className="font-normal cursor-pointer flex-grow">
+                      Male
+                    </FormLabel>
                   </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
+                  <FormItem className="flex items-center space-x-3 space-y-0 bg-gray-100 p-3 rounded-md transition-all duration-300 hover:bg-gray-200">
                     <FormControl>
                       <RadioGroupItem value="female" />
                     </FormControl>
-                    <FormLabel className="font-normal">Female</FormLabel>
+                    <FormLabel className="font-normal cursor-pointer flex-grow">
+                      Female
+                    </FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
@@ -248,9 +268,16 @@ export const AccountForm = ({ user }: AccountFormProps) => {
             </FormItem>
           )}
         />
-        <Button disabled={isPending} type="submit">
-          Update
-        </Button>
+        <div className="pt-4">
+          <Button
+            size="lg"
+            type="submit"
+            disabled={isPending}
+            className="w-full sm:w-auto"
+          >
+            {isPending ? "Updating..." : "Update Profile"}
+          </Button>
+        </div>
       </form>
     </Form>
   );
