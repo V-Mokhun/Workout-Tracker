@@ -30,7 +30,7 @@ import {
   AddWorkoutFormSchema,
 } from "./add-workout-model";
 import { addWorkout } from "./actions";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { DASHBOARD_ROUTE } from "@/shared/consts";
 
 interface AddWorkoutFormProps {
@@ -51,6 +51,8 @@ export type AddWorkoutSubmissionValues = Omit<
 };
 
 export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
+  const searchParams = useSearchParams();
+  const providedDate = searchParams.get("date");
   const [exercises, setExercises] = useState<ExerciseWithSets[]>([]);
   const [showDuplicateDialog, setShowDuplicateDialog] = useState(false);
   const [pendingExercise, setPendingExercise] = useState<SearchExercise | null>(
@@ -61,7 +63,9 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
     defaultValues: {
       name: "",
       notes: "",
-      date: dateWithoutTimezone(new Date()),
+      date: providedDate
+        ? dateWithoutTimezone(new Date(providedDate))
+        : dateWithoutTimezone(new Date()),
       hours: undefined,
       minutes: undefined,
       seconds: undefined,

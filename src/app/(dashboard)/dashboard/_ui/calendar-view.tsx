@@ -81,12 +81,12 @@ export const CalendarView = ({ currentDate, workouts }: CalendarViewProps) => {
                     href={WORKOUT_ROUTE(workout.id)}
                     className="block text-xs bg-gray-100 rounded-md p-1 font-semibold hover:bg-gray-300 transition-colors"
                   >
-                    {workout.duration && (
-                      <span className="mr-1">
-                        {formatDuration(workout.duration)}
-                      </span>
-                    )}
-                    <span className="line-clamp-3">{workout.name}</span>
+                    <span className="line-clamp-3">
+                      {workout.duration
+                        ? `${formatDuration(workout.duration)} - `
+                        : ""}
+                      {workout.name}
+                    </span>
                   </Link>
                 ))}
               </div>

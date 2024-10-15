@@ -15,8 +15,8 @@ import {
 } from "@/shared/ui";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { AddWorkoutFormSchema } from "./add-workout-model";
 import { UseFormReturn } from "react-hook-form";
+import { AddWorkoutFormSchema } from "./add-workout-model";
 
 interface AddWorkoutBaseFormProps {
   form: UseFormReturn<AddWorkoutFormSchema>;

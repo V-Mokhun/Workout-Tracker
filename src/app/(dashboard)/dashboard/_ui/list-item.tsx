@@ -1,5 +1,6 @@
 import { Workout } from "@/db";
 import { WORKOUT_ROUTE } from "@/shared/consts";
+import { formatDuration } from "@/shared/lib";
 import { format } from "date-fns";
 import { Clock, Dumbbell } from "lucide-react";
 import Link from "next/link";
@@ -29,8 +30,7 @@ export const ListItem: React.FC<ListItemProps> = ({ workout }) => {
         {workout.duration && (
           <div className="flex items-center text-xs sm:text-sm text-gray-600 ml-2 sm:ml-4">
             <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-            <span className="hidden xs:inline">{workout.duration} min</span>
-            <span className="xs:hidden">{workout.duration}m</span>
+            <span>{formatDuration(workout.duration)}</span>
           </div>
         )}
       </div>
