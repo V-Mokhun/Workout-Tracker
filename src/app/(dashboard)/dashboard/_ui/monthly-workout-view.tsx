@@ -6,6 +6,7 @@ import { Calendar as CalendarIcon, List } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { MonthlyWorkoutViewHeader } from "./monthly-workout-view-header";
 import { ListItem } from "./list-item";
+import { CalendarView } from "./calendar-view";
 
 type ViewType = "calendar" | "list";
 type Direction = "prev" | "next";
@@ -50,6 +51,10 @@ export const MonthlyWorkoutView = ({ workouts }: { workouts: Workout[] }) => {
     </ul>
   );
 
+  const renderCalendarView = () => (
+    <CalendarView currentDate={currentDate} workouts={workouts} />
+  );
+
   return (
     <div className="bg-gray-50 p-3 sm:p-6 rounded-lg shadow-sm space-y-4 sm:space-y-6">
       <MonthlyWorkoutViewHeader
@@ -77,15 +82,9 @@ export const MonthlyWorkoutView = ({ workouts }: { workouts: Workout[] }) => {
         </Button>
       </div>
 
-      {viewType === "calendar" ? (
-        <div className="bg-white border rounded-lg p-3 sm:p-4 shadow-sm">
-          <p>Calendar view coming soon...</p>
-        </div>
-      ) : (
-        <div className="bg-white border rounded-lg p-3 sm:p-4 shadow-sm">
-          {renderListView()}
-        </div>
-      )}
+      <div className="bg-gray-100 border rounded-lg p-3 sm:p-4 shadow-sm">
+        {viewType === "calendar" ? renderCalendarView() : renderListView()}
+      </div>
     </div>
   );
 };
