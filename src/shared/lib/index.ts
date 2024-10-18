@@ -4,3 +4,4 @@ export * from "./cloudinary";
 export * from "./dnd";
 export * from "./dates";
 export * from "./time";
+export * from "./fetcher";

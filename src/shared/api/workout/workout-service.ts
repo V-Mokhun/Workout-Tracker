@@ -10,7 +10,7 @@ class WorkoutService {
     date?: { month: number; year: number }
   ): Promise<Workout[]> {
     const startDate = date
-      ? startOfMonth(new Date(date.year, ))
+      ? startOfMonth(new Date(date.year, date.month))
       : startOfMonth(new Date());
     const endDate = date
       ? endOfMonth(new Date(date.year, date.month))

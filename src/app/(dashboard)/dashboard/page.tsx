@@ -42,7 +42,10 @@ const Dashboard = async () => {
             </p>
           </div>
         </div>
-        <MonthlyWorkoutView workouts={userMonthlyWorkouts} />
+        <MonthlyWorkoutView
+          userId={session.user.sub}
+          initialWorkouts={userMonthlyWorkouts}
+        />
       </Container>
     </Section>
   );

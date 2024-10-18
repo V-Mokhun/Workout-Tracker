@@ -1,21 +1,31 @@
 "use client";
 
 import { Workout } from "@/db";
+import { useIsMobile, useMonthlyWorkouts } from "@/shared/lib/hooks";
 import { Button } from "@/shared/ui";
 import { Calendar as CalendarIcon, List } from "lucide-react";
-import { useCallback, useMemo, useState, useEffect } from "react";
-import { MonthlyWorkoutViewHeader } from "./monthly-workout-view-header";
-import { ListItem } from "./list-item";
+import { useCallback, useMemo, useState } from "react";
 import { CalendarView } from "./calendar-view";
-import { useIsMobile } from "@/shared/lib/hooks";
+import { ListItem } from "./list-item";
+import { MonthlyWorkoutViewHeader } from "./monthly-workout-view-header";
 
 type ViewType = "calendar" | "list";
 type Direction = "prev" | "next";
 
-export const MonthlyWorkoutView = ({ workouts }: { workouts: Workout[] }) => {
+export const MonthlyWorkoutView = ({
+  initialWorkouts,
+  userId,
+}: {
+  initialWorkouts: Workout[];
+  userId: string;
+}) => {
   const [viewType, setViewType] = useState<ViewType>("list");
   const [currentDate, setCurrentDate] = useState(new Date());
   const isMobile = useIsMobile();
+  const { workouts, isLoading, error } = useMonthlyWorkouts(
+    currentDate,
+    initialWorkouts
+  );
 
   const handleViewChange = useCallback(
     (newView: ViewType) => {
@@ -26,9 +36,11 @@ export const MonthlyWorkoutView = ({ workouts }: { workouts: Workout[] }) => {
     [isMobile]
   );
 
-  const handleMonthChange = useCallback((direction: Direction) => {
+  const handleMonthChange = useCallback(async (direction: Direction) => {
+    let newDate;
+
     setCurrentDate((prevDate) => {
-      const newDate = new Date(prevDate);
+      newDate = new Date(prevDate);
       newDate.setMonth(newDate.getMonth() + (direction === "next" ? 1 : -1));
       return newDate;
     });
@@ -39,7 +51,10 @@ export const MonthlyWorkoutView = ({ workouts }: { workouts: Workout[] }) => {
     currentDate.getFullYear() === new Date().getFullYear();
 
   const sortedWorkouts = useMemo(() => {
-    return [...workouts].sort((a, b) => b.date.getTime() - a.date.getTime());
+    return [...workouts].sort((a, b) => {
+      console.log(a.date, b.date, a.name, b.name);
+      return b.date.getTime() - a.date.getTime();
+    });
   }, [workouts]);
 
   const renderListView = () => (
