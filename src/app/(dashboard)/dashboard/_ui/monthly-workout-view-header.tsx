@@ -30,7 +30,7 @@ export const MonthlyWorkoutViewHeader = ({
         >
           <ChevronLeft className="h-6 w-6 sm:h-8 sm:w-8" />
         </Button>
-        <Heading tag="h3" className="text-center min-w-60">
+        <Heading tag="h3" className="text-center min-w-48 sm:min-w-60">
           {currentDate.toLocaleString("en-US", {
             month: "long",
             year: "numeric",

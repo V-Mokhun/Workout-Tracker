@@ -15,10 +15,12 @@ export async function GET(req: NextRequest) {
     }
 
     const date = req.nextUrl.searchParams.get("date");
+    const [year, month] = date?.split("-") || [];
+
     const dateObj = date
       ? {
-          year: parseInt(date.split("-")[0]),
-          month: parseInt(date.split("-")[1]) - 1,
+          year: parseInt(year),
+          month: parseInt(month) - 1,
         }
       : undefined;
 

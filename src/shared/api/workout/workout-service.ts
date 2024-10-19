@@ -24,7 +24,9 @@ class WorkoutService {
       ),
     });
 
-    return workouts;
+    return workouts.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
   }
 }
 

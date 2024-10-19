@@ -1,24 +1,22 @@
 "use client";
 
 import { Workout } from "@/db";
-import useSWR from "swr";
-import { fetcher } from "../fetcher";
 import { format } from "date-fns";
+import useSWR from "swr";
+import { fetcher, FetcherError } from "../fetcher";
 
-export const useMonthlyWorkouts = (
-  date: Date,
-  initialWorkouts: Workout[] = []
-) => {
-  const { data, isLoading, error } = useSWR<
-    { data: Workout[] },
-    { error: Error }
-  >(`/api/workout/monthly?date=${format(date, "yyyy-MM")}`, fetcher, {
-    fallbackData: { data: initialWorkouts },
-  });
+export const useMonthlyWorkouts = (date: Date) => {
+  const { data, isLoading, error } = useSWR<{ data: Workout[] }, FetcherError>(
+    `/api/workout/monthly?date=${format(date, "yyyy-MM")}`,
+    fetcher,
+    {
+      keepPreviousData: true,
+    }
+  );
 
   return {
-    workouts: data ? data.data : initialWorkouts,
+    workouts: data?.data,
     isLoading,
-    error: error?.error,
+    error,
   };
 };
