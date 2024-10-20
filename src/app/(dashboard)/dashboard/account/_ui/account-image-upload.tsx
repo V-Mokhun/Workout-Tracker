@@ -52,8 +52,11 @@ export const AccountImageUpload = ({ avatar }: AccountImageUploadProps) => {
       onError={(err, { close }) => {
         toast({
           title: "Something went wrong",
-          // @ts-ignore
-          description: `${err?.statusText ?? "Please try again later."}`,
+          description: `${
+            typeof err === "string"
+              ? err
+              : err?.statusText ?? "Please try again later."
+          }`,
           variant: "destructive",
         });
 

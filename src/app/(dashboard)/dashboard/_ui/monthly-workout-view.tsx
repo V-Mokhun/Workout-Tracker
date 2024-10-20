@@ -104,7 +104,10 @@ export const MonthlyWorkoutView = () => {
       />
 
       {isLoading ? (
-        <SkeletonLoader viewType={effectiveViewType} currentDate={currentDate} />
+        <SkeletonLoader
+          viewType={effectiveViewType}
+          currentDate={currentDate}
+        />
       ) : (
         <>
           <div className="bg-white border rounded-lg p-4 mb-6 shadow-sm">

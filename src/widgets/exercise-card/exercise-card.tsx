@@ -17,7 +17,7 @@ export const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
   return (
     <li className="h-full" key={exercise.id}>
       <Link
-        href={`${SINGLE_EXERCISE_ROUTE}/${exercise.slug}`}
+        href={SINGLE_EXERCISE_ROUTE(exercise.slug)}
         className="flex flex-col group bg-muted rounded-md shadow-sm h-full"
       >
         <div className="relative after:block after:inset-0 after:absolute after:rounded-t-md after:bg-transparent after:transition-colors group-hover:after:bg-black/20">

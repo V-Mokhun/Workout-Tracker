@@ -27,7 +27,7 @@ export const ExerciseCard = <T extends SearchExercise>({
             {index + 1}
           </span>
           <Link
-            href={`${SINGLE_EXERCISE_ROUTE}/${exercise.slug}`}
+            href={SINGLE_EXERCISE_ROUTE(exercise.slug)}
             className="flex items-center gap-3"
           >
             <Image

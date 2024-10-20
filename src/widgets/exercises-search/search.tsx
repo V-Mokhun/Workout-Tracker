@@ -103,7 +103,7 @@ const SearchInner = <T extends SearchExercise>(
             ) : (
               <Link
                 className="flex items-center gap-3 p-2 transition-colors hover:bg-muted"
-                href={SINGLE_EXERCISE_ROUTE + `/${exercise.slug}`}
+                href={SINGLE_EXERCISE_ROUTE(exercise.slug)}
               >
                 {renderExercise(exercise)}
               </Link>
