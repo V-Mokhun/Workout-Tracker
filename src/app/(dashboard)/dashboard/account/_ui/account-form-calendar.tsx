@@ -60,7 +60,7 @@ export const AccountFormCalendar = ({ control }: AccountFormCalendarProps) => {
               value={field.value ? `${field.value.getFullYear()}` : undefined}
             >
               <FormControl>
-                <SelectTrigger className="h-10 text-sm hover:bg-accent data-[state='open']:bg-accent data-[placeholder]:text-muted-foreground transition-colors">
+                <SelectTrigger className="h-10">
                   <SelectValue placeholder="Pick a year" />
                 </SelectTrigger>
               </FormControl>

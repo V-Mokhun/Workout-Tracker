@@ -122,3 +122,78 @@ export const BEST_EXERCISES = [
     equipment: { name: "Bodyweight" },
   },
 ];
+
+export const EXERCISE_EXPERIENCES = [
+  "Beginner",
+  "Intermediate",
+  "Advanced",
+] as const;
+
+export const EXERCISE_MUSCLE_GROUPS = [
+  "Abductors",
+  "Abs",
+  "Adductors",
+  "Biceps",
+  "Calves",
+  "Chest",
+  "Forearms",
+  "Glutes",
+  "Hamstrings",
+  "Hip Flexors",
+  "IT Band",
+  "Lats",
+  "Lower Back",
+  "Middle Back",
+  "Neck",
+  "Obliques",
+  "Quads",
+  "Shoulders",
+  "Traps",
+  "Triceps",
+] as const;
+
+export const EXERCISE_EQUIPMENTS = [
+  "Dumbbell",
+  "Barbell",
+  "Cable",
+  "Machine",
+  "Bodyweight",
+  "Other",
+  "Trap Bar",
+  "Landmine",
+  "Kettle Bells",
+  "Chains",
+  "Bench",
+  "Bands",
+  "Medicine Ball",
+  "Box",
+  "Sled",
+  "Exercise Ball",
+  "Rings",
+  "Safety Bar",
+  "Jump Rope",
+  "Rope",
+  "EZ Bar",
+  "Fat Bar",
+  "Valslide",
+  "Tire",
+  "Hip Thruster",
+  "Lacrosse Ball",
+  "Tiger Tail",
+  "Foam Roll",
+] as const;
+
+export const EXERCISE_TYPES = [
+  "Strength",
+  "Warmup",
+  "Plyometrics",
+  "Activation",
+  "Olympic Weightlifting",
+  "Powerlifting",
+  "Conditioning",
+  "SMR",
+  "Strongman",
+  "Stretching",
+] as const;
+
+export const EXERCISE_MECHANICS = ["Compound", "Isolation"] as const;

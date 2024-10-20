@@ -17,7 +17,7 @@ export const ThemePicker = ({}: ThemePickerProps) => {
 
   return (
     <Select onValueChange={(theme) => setTheme(theme)} defaultValue={theme}>
-      <SelectTrigger>
+      <SelectTrigger className="text-base">
         <SelectValue placeholder="Select a theme" />
       </SelectTrigger>
       <SelectContent>

@@ -59,14 +59,14 @@ export const AddExerciseImageUpload = ({
           </FormLabel>
           <FormControl>
             <div
-              className="relative w-96 h-96 cursor-pointer group overflow-hidden rounded-md"
+              className="relative w-96 h-64 cursor-pointer group overflow-hidden rounded-md"
               onClick={handleImageClick}
             >
               <Image
                 src={previewUrl}
                 alt="Exercise preview"
                 fill
-                className="rounded-md object-cover transition-transform duration-300 group-hover:scale-110"
+                className="rounded-md object-cover transition-transform duration-300 group-hover:scale-110 aspect-[8/5]"
               />
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
                 <span className="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">

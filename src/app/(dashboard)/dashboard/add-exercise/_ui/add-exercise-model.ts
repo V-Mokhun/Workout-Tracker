@@ -18,9 +18,9 @@ export const addExerciseFormSchema = z.object({
       )}`
     )
     .optional(),
-  targetMuscle: z.number().int().optional(),
-  type: z.number().int().optional(),
-  equipment: z.number().int().optional(),
+  targetMuscle: z.string().optional(),
+  type: z.string().optional(),
+  equipment: z.string().optional(),
   mechanics: z.string().optional(),
   forceType: z.string().optional(),
   experienceLevel: exerciseExperienceSchema.optional(),

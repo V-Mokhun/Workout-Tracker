@@ -6,3 +6,4 @@ export * from "./dates";
 export * from "./time";
 export * from "./fetcher";
 export * from "./file";
+export * from "./slugify";
