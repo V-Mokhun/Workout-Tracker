@@ -1,6 +1,8 @@
-import { EXERCISE_TYPES } from "@/shared/consts";
+"use client";
+
 import { slugify } from "@/shared/lib";
 import {
+  Button,
   FormControl,
   FormItem,
   FormLabel,
@@ -11,6 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui";
+import { EraserIcon } from "lucide-react";
+import { useState } from "react";
 
 interface AddExerciseSelectProps {
   label: string;
@@ -27,16 +31,36 @@ export const AddExerciseSelect = ({
   onChange,
   placeholder,
 }: AddExerciseSelectProps) => {
+  const [key, setKey] = useState(+new Date());
   return (
     <FormItem>
       <FormLabel>{label}</FormLabel>
-      <Select onValueChange={onChange} defaultValue={value}>
+      <Select
+        value={value}
+        onValueChange={onChange}
+        defaultValue={value}
+        key={key}
+      >
         <FormControl>
           <SelectTrigger className="h-10">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
         </FormControl>
         <SelectContent>
+          {value && (
+            <Button
+              className="w-full px-2 py-1.5 text-base justify-start"
+              variant="ghost"
+              onClick={(e) => {
+                e.stopPropagation();
+                onChange("");
+                setKey(+new Date());
+              }}
+            >
+              <EraserIcon className="w-4 h-4 mr-2" />
+              Clear
+            </Button>
+          )}
           {options.map((option) => (
             <SelectItem key={option} value={slugify(option)}>
               {option}
