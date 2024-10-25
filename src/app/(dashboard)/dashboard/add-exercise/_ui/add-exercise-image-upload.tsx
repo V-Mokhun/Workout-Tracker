@@ -55,7 +55,7 @@ export const AddExerciseImageUpload = ({
       render={({ field: { value, onChange, ...fieldProps } }) => (
         <FormItem>
           <FormLabel className="text-lg" htmlFor="exercise-image">
-            Image*
+            Image
           </FormLabel>
           <FormControl>
             <div

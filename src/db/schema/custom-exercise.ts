@@ -29,11 +29,21 @@ export const customExercise = pgTable(
     name: text("name").notNull(),
     slug: text("slug").notNull(),
     image: text("image"),
-    targetMuscleId: integer("target_muscle_id").references(
-      () => exerciseTargetMuscle.id
+    targetMuscleSlug: text("target_muscle_slug").references(
+      () => exerciseTargetMuscle.slug,
+      {
+        onUpdate: "cascade",
+      }
     ),
-    typeId: integer("type_id").references(() => exerciseType.id),
-    equipmentId: integer("equipment_id").references(() => exerciseEquipment.id),
+    typeSlug: text("type_slug").references(() => exerciseType.slug, {
+      onUpdate: "cascade",
+    }),
+    equipmentSlug: text("equipment_slug").references(
+      () => exerciseEquipment.slug,
+      {
+        onUpdate: "cascade",
+      }
+    ),
     mechanics: text("mechanics"),
     forceType: text("force_type"),
     experienceLevel: exerciseExperience("experience_level"),
@@ -78,16 +88,16 @@ export const customExerciseRelations = relations(
     }),
     workoutExercises: many(workoutExercise),
     targetMuscle: one(exerciseTargetMuscle, {
-      fields: [customExercise.targetMuscleId],
-      references: [exerciseTargetMuscle.id],
+      fields: [customExercise.targetMuscleSlug],
+      references: [exerciseTargetMuscle.slug],
     }),
     type: one(exerciseType, {
-      fields: [customExercise.typeId],
-      references: [exerciseType.id],
+      fields: [customExercise.typeSlug],
+      references: [exerciseType.slug],
     }),
     equipment: one(exerciseEquipment, {
-      fields: [customExercise.equipmentId],
-      references: [exerciseEquipment.id],
+      fields: [customExercise.equipmentSlug],
+      references: [exerciseEquipment.slug],
     }),
   })
 );

@@ -1,29 +1,5 @@
 "use client";
 
-import { useTransition } from "react";
-import { useForm } from "react-hook-form";
-import {
-  addExerciseFormSchema,
-  AddExerciseFormSchema,
-} from "./add-exercise-model";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { addExercise } from "./actions";
-import { useToast, Form, Button } from "@/shared/ui";
-import { AddExerciseImageUpload } from "./add-exercise-image-upload";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  Input,
-  Textarea,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/ui";
 import {
   EXERCISE_EQUIPMENTS,
   EXERCISE_EXPERIENCES,
@@ -31,7 +7,27 @@ import {
   EXERCISE_MUSCLE_GROUPS,
   EXERCISE_TYPES,
 } from "@/shared/consts";
-import { slugify } from "@/shared/lib";
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Textarea,
+  useToast,
+} from "@/shared/ui";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { addExercise } from "./actions";
+import { AddExerciseImageUpload } from "./add-exercise-image-upload";
+import {
+  addExerciseFormSchema,
+  AddExerciseFormSchema,
+} from "./add-exercise-model";
 import { AddExerciseSelect } from "./add-exercise-select";
 
 interface AddExerciseFormProps {
@@ -60,9 +56,17 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
   });
   const { toast } = useToast();
 
-  function onSubmit(values: AddExerciseFormSchema) {
+  async function onSubmit(values: AddExerciseFormSchema) {
+    const formData = new FormData();
+    if (values.image) {
+      formData.append("image", values.image);
+    }
+
     startTransition(() => {
-      addExercise(values, userId).then((state) => {
+      addExercise(
+        { ...values, image: values.image ? formData : undefined },
+        userId
+      ).then((state) => {
         toast({
           title: state.message,
           variant: state.isError ? "destructive" : "success",

@@ -2,16 +2,20 @@
 
 import { cn, getPublicIdFromUrl } from "@/shared/lib";
 import { useToast } from "@/shared/ui";
+import { CloudUploadIcon } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { deleteOldAvatar, updateAccountAvatar } from "./actions";
-import { CloudUploadIcon } from "lucide-react";
 
 interface AccountImageUploadProps {
   avatar: string;
+  userId: string;
 }
 
-export const AccountImageUpload = ({ avatar }: AccountImageUploadProps) => {
+export const AccountImageUpload = ({
+  avatar,
+  userId,
+}: AccountImageUploadProps) => {
   const { toast } = useToast();
 
   return (
@@ -20,7 +24,7 @@ export const AccountImageUpload = ({ avatar }: AccountImageUploadProps) => {
       options={{
         multiple: false,
         folder: "users/avatars",
-        tags: ["users", "avatars"],
+        tags: ["users", "avatars", userId],
         resourceType: "image",
         maxImageFileSize: 2_500_000, //? 2.5MB
         singleUploadAutoClose: false,
@@ -29,16 +33,16 @@ export const AccountImageUpload = ({ avatar }: AccountImageUploadProps) => {
         // @ts-ignore
         const url: string = result.info.secure_url;
 
-        const { message, isError } = await deleteOldAvatar(
-          getPublicIdFromUrl(avatar) ?? ""
-        );
-        if (isError) {
-          toast({
-            title: message,
-            variant: "destructive",
-          });
-
-          return;
+        const publicId = getPublicIdFromUrl(avatar);
+        if (publicId) {
+          const { message, isError } = await deleteOldAvatar(publicId);
+          if (isError) {
+            toast({
+              title: message,
+              variant: "destructive",
+            });
+            return;
+          }
         }
 
         const response = await updateAccountAvatar(url);

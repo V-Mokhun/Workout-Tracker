@@ -2,16 +2,16 @@
 
 import { user as dbUser } from "@/db";
 import { db } from "@/db/database";
+import { ActionFormState } from "@/shared/api";
 import {
   calculateImperialFromMetric,
   calculateMetricFromImperial,
 } from "@/shared/lib";
+import { getCloudinary } from "@/shared/lib/cloudinary/setup";
 import { getSession, updateSession } from "@auth0/nextjs-auth0";
-import { v2 as cloudinary } from "cloudinary";
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
 import { AccountFormSchema, accountFormSchema } from "./account-form-model";
-import { ActionFormState } from "@/shared/api";
 
 export async function updateAccountSettings(
   values: AccountFormSchema,
@@ -143,11 +143,7 @@ export async function deleteOldAvatar(
   avatarPublicId: string
 ): Promise<ActionFormState> {
   try {
-    cloudinary.config({
-      cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
-    });
+    const cloudinary = getCloudinary();
 
     await cloudinary.uploader.destroy(avatarPublicId, {
       invalidate: true,
