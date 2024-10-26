@@ -17,9 +17,9 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Textarea,
   useToast,
 } from "@/shared/ui";
+import { Editor } from "@/widgets";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -31,7 +31,6 @@ import {
   AddExerciseFormSchema,
 } from "./add-exercise-model";
 import { AddExerciseSelect } from "./add-exercise-select";
-import { Editor } from "@/widgets";
 
 interface AddExerciseFormProps {
   userId: string;
@@ -86,9 +85,11 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="flex items-start gap-6">
-          <AddExerciseImageUpload control={form.control} />
-          <div className="flex-1 space-y-4">
+        <div className="flex flex-col md:flex-row items-start gap-6">
+          <div className="w-full md:w-auto mb-4 md:mb-0">
+            <AddExerciseImageUpload control={form.control} />
+          </div>
+          <div className="flex-1 space-y-4 w-full">
             <FormField
               control={form.control}
               name="name"
@@ -102,85 +103,91 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="targetMuscle"
-              render={({ field }) => (
-                <AddExerciseSelect
-                  label="Target Muscle"
-                  options={EXERCISE_MUSCLE_GROUPS}
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder="Select exercise target muscle"
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <AddExerciseSelect
-                  label="Type"
-                  options={EXERCISE_TYPES}
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder="Select exercise type"
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="equipment"
-              render={({ field }) => (
-                <AddExerciseSelect
-                  label="Equipment"
-                  options={EXERCISE_EQUIPMENTS}
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder="Select equipment needed"
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="mechanics"
-              render={({ field }) => (
-                <AddExerciseSelect
-                  label="Mechanics"
-                  options={EXERCISE_MECHANICS}
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder="Select exercise mechanics"
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="forceType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Force Type</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Force type" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="experienceLevel"
-              render={({ field }) => (
-                <AddExerciseSelect
-                  label="Experience Level"
-                  options={EXERCISE_EXPERIENCES}
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder="Select exercise experience level"
-                  slugify={false}
-                />
-              )}
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="targetMuscle"
+                render={({ field }) => (
+                  <AddExerciseSelect
+                    label="Target Muscle"
+                    options={EXERCISE_MUSCLE_GROUPS}
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="Select exercise target muscle"
+                  />
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <AddExerciseSelect
+                    label="Type"
+                    options={EXERCISE_TYPES}
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="Select exercise type"
+                  />
+                )}
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="equipment"
+                render={({ field }) => (
+                  <AddExerciseSelect
+                    label="Equipment"
+                    options={EXERCISE_EQUIPMENTS}
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="Select equipment needed"
+                  />
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="mechanics"
+                render={({ field }) => (
+                  <AddExerciseSelect
+                    label="Mechanics"
+                    options={EXERCISE_MECHANICS}
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="Select exercise mechanics"
+                  />
+                )}
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="forceType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Force Type</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Force type" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="experienceLevel"
+                render={({ field }) => (
+                  <AddExerciseSelect
+                    label="Experience Level"
+                    options={EXERCISE_EXPERIENCES}
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="Select exercise experience level"
+                    slugify={false}
+                  />
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="secondaryMuscles"
@@ -197,88 +204,34 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
           </div>
         </div>
         <div className="space-y-4">
-          <FormField
-            control={form.control}
-            name="notes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Notes</FormLabel>
-                <FormControl>
-                  <Editor
-                    editorProps={{
-                      content: field.value,
-                      onUpdate: ({ editor }) => {
-                        field.onChange(editor.getHTML());
-                      },
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="overview"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Overview</FormLabel>
-                <FormControl>
-                  <Editor
-                    editorProps={{
-                      content: field.value,
-                      onUpdate: ({ editor }) => {
-                        field.onChange(editor.getHTML());
-                      },
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="instructions"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Instructions</FormLabel>
-                <FormControl>
-                  <Editor
-                    editorProps={{
-                      content: field.value,
-                      onUpdate: ({ editor }) => {
-                        field.onChange(editor.getHTML());
-                      },
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="tips"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tips</FormLabel>
-                <FormControl>
-                  <Editor
-                    editorProps={{
-                      content: field.value,
-                      onUpdate: ({ editor }) => {
-                        field.onChange(editor.getHTML());
-                      },
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {["notes", "overview", "instructions", "tips"].map((fieldName) => (
+            <FormField
+              key={fieldName}
+              control={form.control}
+              name={fieldName as keyof AddExerciseFormSchema}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}
+                  </FormLabel>
+                  <FormControl>
+                    <Editor
+                      editorProps={{
+                        content: field.value as string,
+                        onUpdate: ({ editor }) => {
+                          field.onChange(editor.getHTML());
+                        },
+                        immediatelyRender: false,
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
         </div>
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending} className="w-full sm:w-auto">
           {isPending ? "Adding..." : "Add Exercise"}
         </Button>
       </form>

@@ -53,25 +53,26 @@ export const AddExerciseImageUpload = ({
       control={control}
       name="image"
       render={({ field: { value, onChange, ...fieldProps } }) => (
-        <FormItem>
+        <FormItem className="w-full">
           <FormLabel className="text-lg" htmlFor="exercise-image">
             Image
           </FormLabel>
           <FormControl>
             <div
-              className="relative w-96 h-64 cursor-pointer group overflow-hidden rounded-md"
+              className="relative w-full max-w-80 md:w-80 lg:w-96 h-56 md:h-64 cursor-pointer group overflow-hidden rounded-md"
               onClick={handleImageClick}
             >
               <Image
                 src={previewUrl}
                 alt="Exercise preview"
                 fill
-                className="rounded-md object-cover transition-transform duration-300 group-hover:scale-110 aspect-[8/5]"
+                className="rounded-md object-cover transition-transform duration-300 group-hover:scale-110 aspect-auto md:aspect-[8/5]"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
-                  <UploadCloudIcon className="w-8 h-8" />
-                  Click to upload
+              <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
+                <span className="text-white text-base md:text-lg font-semibold md:opacity-0 opacity-100 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
+                  <UploadCloudIcon className="w-6 h-6 md:w-8 md:h-8" />
+                  <span className="hidden md:inline">Click to upload</span>
+                  <span className="md:hidden">Upload</span>
                 </span>
               </div>
               {previewUrl !== DEFAULT_EXERCISE_IMAGE && (
@@ -83,7 +84,7 @@ export const AddExerciseImageUpload = ({
                     handleDeleteImage(onChange);
                   }}
                 >
-                  <XCircleIcon className="w-6 h-6 text-inherit" />
+                  <XCircleIcon className="w-5 h-5 sm:w-6 sm:h-6 text-inherit" />
                 </button>
               )}
               <Input
