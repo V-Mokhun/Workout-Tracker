@@ -80,35 +80,37 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               priority
             />
           </div>
-          <div className="space-y-6 content md:text-lg">
+          <div className="space-y-6">
             <ExerciseDetails exercise={exercise} />
-            {exercise.overview && (
-              <div>
-                <Heading className="mb-2">Overview</Heading>
-                <div
-                  className="space-y-2"
-                  dangerouslySetInnerHTML={{ __html: exercise.overview }}
-                />
-              </div>
-            )}
-            {exercise.instructions && (
-              <div>
-                <Heading className="mb-2">Instructions</Heading>
-                <div
-                  className="space-y-2"
-                  dangerouslySetInnerHTML={{ __html: exercise.instructions }}
-                />
-              </div>
-            )}
-            {exercise.tips && (
-              <div>
-                <Heading className="mb-2">Tips</Heading>
-                <div
-                  className="space-y-2"
-                  dangerouslySetInnerHTML={{ __html: exercise.tips }}
-                />
-              </div>
-            )}
+            <div className="prose prose-sm sm:prose mx-auto max-w-none sm:max-w-none">
+              {exercise.overview && (
+                <div>
+                  <Heading className="mb-2">Overview</Heading>
+                  <div
+                    className="space-y-2"
+                    dangerouslySetInnerHTML={{ __html: exercise.overview }}
+                  />
+                </div>
+              )}
+              {exercise.instructions && (
+                <div>
+                  <Heading className="mb-2">Instructions</Heading>
+                  <div
+                    className="space-y-2"
+                    dangerouslySetInnerHTML={{ __html: exercise.instructions }}
+                  />
+                </div>
+              )}
+              {exercise.tips && (
+                <div>
+                  <Heading className="mb-2">Tips</Heading>
+                  <div
+                    className="space-y-2"
+                    dangerouslySetInnerHTML={{ __html: exercise.tips }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </Container>
       </Section>

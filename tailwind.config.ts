@@ -89,13 +89,13 @@ const config = {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
       fontSize: {
-        "clamp-heading-big": "clamp(2rem, 6.5vw, 3rem)",
-        "clamp-heading": "clamp(1.75rem, 5vw, 2.25rem)",
-        "clamp-heading-sm": "clamp(1.375rem, 5vw, 1.75rem)",
+        "clamp-heading-big": "clamp(2rem, 6vw, 2.5rem)",
+        "clamp-heading": "clamp(1.5rem, 5vw, 2rem)",
+        "clamp-heading-sm": "clamp(1.25rem, 4.5vw, 1.5rem)",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
 
 export default config;

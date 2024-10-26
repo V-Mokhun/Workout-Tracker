@@ -8,6 +8,7 @@ import {
 } from "@/shared/lib";
 import {
   Button,
+  buttonVariants,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -31,7 +32,8 @@ import {
 } from "./add-workout-model";
 import { addWorkout } from "./actions";
 import { useRouter, useSearchParams } from "next/navigation";
-import { DASHBOARD_ROUTE } from "@/shared/consts";
+import { ADD_EXERCISE_ROUTE, DASHBOARD_ROUTE } from "@/shared/consts";
+import Link from "next/link";
 
 interface AddWorkoutFormProps {
   units: Units;
@@ -183,13 +185,17 @@ export const AddWorkoutForm = ({ units, userId }: AddWorkoutFormProps) => {
             searchContent={
               <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-2 text-sm mt-4">
                 <p>Don&apos;t see the exercise you want to add?</p>
-                <Button
-                  variant="link"
-                  size="sm"
-                  className="underline hover:no-underline justify-start px-0 md:px-3"
+                <Link
+                  className={buttonVariants({
+                    variant: "link",
+                    className:
+                      "underline hover:no-underline justify-start px-0 md:px-2",
+                    size: "sm",
+                  })}
+                  href={ADD_EXERCISE_ROUTE}
                 >
-                  Add your custom exercise
-                </Button>
+                  Add your exercise
+                </Link>
               </div>
             }
           />

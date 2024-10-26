@@ -24,7 +24,7 @@ export const ExerciseDetails = ({ exercise }: ExerciseDetailsProps) => {
       <Heading tag="h3" className="mb-2 pl-2 md:pl-4">
         Exercise Details
       </Heading>
-      <Table className="xs:text-base lg:text-lg">
+      <Table className="xs:text-base">
         <TableBody>
           <TableRow>
             <TableCell className="md:w-1/3">Target Muscle</TableCell>
@@ -33,7 +33,7 @@ export const ExerciseDetails = ({ exercise }: ExerciseDetailsProps) => {
                 href={`${EXERCISES_ROUTE}/muscles/${exercise.targetMuscle.slug}`}
                 className={linkVariants({
                   className:
-                    "text-sm xs:text-base lg:text-lg underline hover:no-underline",
+                    "text-sm xs:text-base underline hover:no-underline",
                 })}
               >
                 {exercise.targetMuscle.name}
@@ -51,7 +51,7 @@ export const ExerciseDetails = ({ exercise }: ExerciseDetailsProps) => {
                 href={`${EXERCISES_ROUTE}/equipments/${exercise.equipment.slug}`}
                 className={linkVariants({
                   className:
-                    "text-sm xs:text-base lg:text-lg underline hover:no-underline",
+                    "text-sm xs:text-base underline hover:no-underline",
                 })}
               >
                 {exercise.equipment.name}

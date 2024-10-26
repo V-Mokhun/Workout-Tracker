@@ -31,6 +31,7 @@ import {
   AddExerciseFormSchema,
 } from "./add-exercise-model";
 import { AddExerciseSelect } from "./add-exercise-select";
+import { Editor } from "@/widgets";
 
 interface AddExerciseFormProps {
   userId: string;
@@ -203,7 +204,14 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
               <FormItem>
                 <FormLabel>Notes</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Additional notes" {...field} />
+                  <Editor
+                    editorProps={{
+                      content: field.value,
+                      onUpdate: ({ editor }) => {
+                        field.onChange(editor.getHTML());
+                      },
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -216,7 +224,14 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
               <FormItem>
                 <FormLabel>Overview</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Exercise overview" {...field} />
+                  <Editor
+                    editorProps={{
+                      content: field.value,
+                      onUpdate: ({ editor }) => {
+                        field.onChange(editor.getHTML());
+                      },
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -229,7 +244,14 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
               <FormItem>
                 <FormLabel>Instructions</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Exercise instructions" {...field} />
+                  <Editor
+                    editorProps={{
+                      content: field.value,
+                      onUpdate: ({ editor }) => {
+                        field.onChange(editor.getHTML());
+                      },
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -242,7 +264,14 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
               <FormItem>
                 <FormLabel>Tips</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Exercise tips" {...field} />
+                  <Editor
+                    editorProps={{
+                      content: field.value,
+                      onUpdate: ({ editor }) => {
+                        field.onChange(editor.getHTML());
+                      },
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
