@@ -35,14 +35,14 @@ export const ExerciseCard = <T extends SearchExercise>({
               height={70}
               alt={exercise.name}
               src={exercise.image ?? DEFAULT_EXERCISE_IMAGE}
-              className="h-auto w-24 object-cover rounded-md"
+              className="h-auto w-24 max-h-16 object-cover rounded-md"
             />
             <div className="space-y-0.5">
               <h3 className="text-base md:text-lg leading-tight font-semibold">
                 {exercise.name}
               </h3>
               <p className="text-sm text-muted-foreground">
-                {exercise.targetMuscle.name}
+                {exercise?.targetMuscle?.name}
               </p>
             </div>
           </Link>

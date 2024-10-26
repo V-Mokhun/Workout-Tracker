@@ -1,5 +1,6 @@
 import { exercise } from "@/db";
 import { exerciseService } from "@/shared/api";
+import { getSession } from "@auth0/nextjs-auth0";
 import { and, eq, ilike } from "drizzle-orm";
 
 export async function POST(req: Request) {
@@ -14,6 +15,15 @@ export async function POST(req: Request) {
       );
     }
 
+    const session = await getSession();
+    if (!session) {
+      return Response.json(
+        { error: new Error("Unauthorized") },
+        { status: 401 }
+      );
+    }
+
+    const userId = session.user.sub;
     const where = [ilike(exercise.name, `%${searchValue}%`)];
 
     if (whereOptions.targetMuscleSlug) {
@@ -24,8 +34,10 @@ export async function POST(req: Request) {
       where.push(eq(exercise.equipmentSlug, whereOptions.equipmentSlug));
     }
 
-    //TODO: search also in user's custom created exercises
-    const exercises = await exerciseService.searchExercises(and(...where)!);
+    const exercises = await exerciseService.searchExercises({
+      whereClause: and(...where)!,
+      userId,
+    });
 
     return Response.json(
       { data: exercises, message: "OK" },

@@ -1,9 +1,14 @@
-import { DASHBOARD_ROUTE, EXERCISES_ROUTE } from "@/shared/consts";
+import {
+  ADD_WORKOUT_ROUTE,
+  DASHBOARD_ROUTE,
+  EXERCISES_ROUTE,
+} from "@/shared/consts";
 import { getSession } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { HeaderProfile } from "./header-profile";
-import { Container, linkVariants } from "@/shared/ui";
+import { Container, linkVariants, Button, buttonVariants } from "@/shared/ui";
 import { AuthUser } from "@/shared/api";
+import { Dumbbell } from "lucide-react";
 
 export const Header = async () => {
   const session = await getSession();
@@ -27,7 +32,17 @@ export const Header = async () => {
               </li>
             </ul>
           </nav>
-          <HeaderProfile user={session.user as AuthUser} />
+          <div className="flex items-center gap-4">
+            <Link
+              className={buttonVariants({ variant: "ghost", size: "icon" })}
+              title="New Workout"
+              href={ADD_WORKOUT_ROUTE}
+            >
+              <Dumbbell className="h-6 w-6" />
+              <span className="sr-only">New Workout</span>
+            </Link>
+            <HeaderProfile user={session.user as AuthUser} />
+          </div>
         </div>
       </Container>
     </header>

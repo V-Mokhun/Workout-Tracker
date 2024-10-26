@@ -3,8 +3,8 @@
 import { AuthUser } from "@/shared/api";
 import {
   DEFAULT_PROFILE_IMAGE,
-  USER_EXERCISES_ROUTE,
   PROFILE_ROUTE,
+  USER_EXERCISES_ROUTE,
 } from "@/shared/consts";
 import {
   Popover,
@@ -13,7 +13,7 @@ import {
   Separator,
   ThemePicker,
 } from "@/shared/ui";
-import { Dumbbell, LogOut, UserRound } from "lucide-react";
+import { BookmarkIcon, LogOut, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -51,7 +51,7 @@ export const HeaderProfile = ({ user }: HeaderProfileProps) => {
               href={USER_EXERCISES_ROUTE}
               className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted transition-colors"
             >
-              <Dumbbell className="w-4 h-4" />
+              <BookmarkIcon className="w-4 h-4" />
               <span>Your Exercises</span>
             </Link>
           </li>

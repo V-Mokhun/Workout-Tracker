@@ -74,14 +74,14 @@ const SearchInner = <T extends SearchExercise>(
           height={50}
           alt={exercise.name}
           src={exercise.image ?? DEFAULT_EXERCISE_IMAGE}
-          className="h-auto w-20 object-cover"
+          className="h-auto w-20 max-h-12 object-cover"
         />
         <div className="space-y-0.5">
           <h3 className="text-base md:text-lg leading-tight font-semibold">
             {exercise.name}
           </h3>
           <p className="text-sm text-muted-foreground">
-            {exercise.targetMuscle.name}
+            {exercise?.targetMuscle?.name}
           </p>
         </div>
       </>

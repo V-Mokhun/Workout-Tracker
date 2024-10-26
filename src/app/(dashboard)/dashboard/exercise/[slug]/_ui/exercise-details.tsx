@@ -1,12 +1,15 @@
-import { Exercise, FullExercise } from "@/db";
-import { EXERCISES_ROUTE } from "@/shared/consts";
+import { Exercise } from "@/db";
+import {
+  EXERCISE_EQUIPMENT_ROUTE,
+  EXERCISE_MUSCLE_ROUTE,
+} from "@/shared/consts";
 import {
   Heading,
+  linkVariants,
   Table,
   TableBody,
   TableCell,
   TableRow,
-  linkVariants,
 } from "@/shared/ui";
 import Link from "next/link";
 
@@ -30,7 +33,7 @@ export const ExerciseDetails = ({ exercise }: ExerciseDetailsProps) => {
             <TableCell className="md:w-1/3">Target Muscle</TableCell>
             <TableCell>
               <Link
-                href={`${EXERCISES_ROUTE}/muscles/${exercise.targetMuscle.slug}`}
+                href={EXERCISE_MUSCLE_ROUTE(exercise.targetMuscle.slug)}
                 className={linkVariants({
                   className:
                     "text-sm xs:text-base underline hover:no-underline",
@@ -48,7 +51,7 @@ export const ExerciseDetails = ({ exercise }: ExerciseDetailsProps) => {
             <TableCell className="md:w-1/3">Equipment Required</TableCell>
             <TableCell>
               <Link
-                href={`${EXERCISES_ROUTE}/equipments/${exercise.equipment.slug}`}
+                href={EXERCISE_EQUIPMENT_ROUTE(exercise.equipment.slug)}
                 className={linkVariants({
                   className:
                     "text-sm xs:text-base underline hover:no-underline",
