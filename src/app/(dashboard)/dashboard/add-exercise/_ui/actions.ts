@@ -6,12 +6,13 @@ import {
   AddExerciseFormSchema,
 } from "./add-exercise-model";
 import { db } from "@/db/database";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { customExercise, user as dbUser } from "@/db";
 import type { UploadApiResponse } from "cloudinary";
 import { getCloudinary } from "@/shared/lib/cloudinary/setup";
 import { slugify } from "@/shared/lib";
 
+//? Add image as form data because you can't pass a file to a server action
 export async function addExercise(
   values: Omit<AddExerciseFormSchema, "image"> & { image?: FormData },
   userId: string
@@ -85,12 +86,34 @@ export async function addExercise(
     }
   }
 
-  await db.insert(customExercise).values({
-    ...parsed.data,
-    slug: slugify(parsed.data.name),
-    image: imageUrl,
-    userId,
-  });
+  try {
+    const existingExercise = await db.query.customExercise.findFirst({
+      where: and(
+        eq(customExercise.userId, userId),
+        eq(customExercise.slug, slugify(parsed.data.name))
+      ),
+    });
+
+    if (existingExercise) {
+      return {
+        message:
+          "Exercise with this name already exists. Please choose another name or edit the existing exercise.",
+        isError: true,
+      };
+    }
+
+    await db.insert(customExercise).values({
+      ...parsed.data,
+      slug: slugify(parsed.data.name),
+      image: imageUrl,
+      userId,
+    });
+  } catch (error) {
+    return {
+      message: "Error adding exercise",
+      isError: true,
+    };
+  }
 
   return {
     message: "Your exercise has been added successfully",

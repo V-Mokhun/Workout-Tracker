@@ -5,7 +5,7 @@ import {
   HOME_ROUTE,
 } from "@/shared/consts";
 import { Container, Heading, Section } from "@/shared/ui";
-import { getSession } from "@auth0/nextjs-auth0";
+import { getSession, updateSession } from "@auth0/nextjs-auth0";
 import { eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { db } from "@/db/database";
@@ -40,6 +40,18 @@ const Page = async () => {
       email: session.user.email,
       name: userName,
       avatar: userPicture,
+    });
+
+    await updateSession({
+      ...session,
+      user: {
+        ...session.user,
+        user_metadata: {
+          picture: userPicture,
+          name: userName,
+          units: "metric",
+        },
+      },
     });
   }
 

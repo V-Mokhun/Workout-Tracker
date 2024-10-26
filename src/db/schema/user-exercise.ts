@@ -15,10 +15,16 @@ export const userExercise = pgTable(
   {
     exerciseId: integer("exercise_id")
       .notNull()
-      .references(() => exercise.id, { onDelete: "cascade" }),
+      .references(() => exercise.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
     userId: text("user_id")
       .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
+      .references(() => user.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
     userNotes: text("user_notes"),
     isFavorite: boolean("is_favorite").default(false),
     createdAt: timestamp("created_at", { mode: "date", precision: 3 })

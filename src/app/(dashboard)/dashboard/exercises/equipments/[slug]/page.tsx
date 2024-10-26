@@ -38,7 +38,7 @@ const Page = async ({
   }
 
   const exercises = await db.query.exercise.findMany({
-    where: eq(exercise.equipmentId, equipmentGroup.id),
+    where: eq(exercise.equipmentSlug, equipmentGroup.slug),
     with: {
       targetMuscle: {
         columns: {
@@ -62,7 +62,7 @@ const Page = async ({
   const [totalExercises] = await db
     .select({ count: count() })
     .from(exercise)
-    .where(eq(exercise.equipmentId, equipmentGroup.id));
+    .where(eq(exercise.equipmentSlug, equipmentGroup.slug));
 
   const totalPages = Math.ceil(totalExercises.count / DEFAULT_EXERCISE_LIMIT);
 
@@ -91,7 +91,7 @@ const Page = async ({
           </p>
           <ExercisesSearch
             whereOptions={{
-              equipmentId: equipmentGroup.id,
+              equipmentSlug: equipmentGroup.slug,
             }}
           />
 

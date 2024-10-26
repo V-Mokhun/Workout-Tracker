@@ -3,29 +3,32 @@ import {
   index,
   integer,
   pgTable,
-  serial,
   text,
   timestamp,
+  unique,
 } from "drizzle-orm/pg-core";
+import { createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 import { exerciseExperience } from "./enums";
+import { ExerciseEquipment, exerciseEquipment } from "./exercise-equipment";
 import {
   ExerciseTargetMuscle,
   exerciseTargetMuscle,
 } from "./exercise-target-muscle";
 import { ExerciseType, exerciseType } from "./exercise-type";
-import { workoutExercise } from "./workout-exercise";
-import { ExerciseEquipment, exerciseEquipment } from "./exercise-equipment";
-import { z } from "zod";
-import { createSelectSchema } from "drizzle-zod";
 import { user } from "./user";
+import { workoutExercise } from "./workout-exercise";
 
 export const customExercise = pgTable(
   "custom_exercises",
   {
-    id: serial("id").primaryKey(),
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
     userId: text("user_id")
       .notNull()
-      .references(() => user.id),
+      .references(() => user.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
     name: text("name").notNull(),
     slug: text("slug").notNull(),
     image: text("image"),
@@ -63,6 +66,7 @@ export const customExercise = pgTable(
   (table) => {
     return {
       nameIndex: index().on(table.name),
+      userIdSlugUnique: unique().on(table.userId, table.slug),
     };
   }
 );

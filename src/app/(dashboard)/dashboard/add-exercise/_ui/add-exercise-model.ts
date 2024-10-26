@@ -8,8 +8,8 @@ export const addExerciseFormSchema = z.object({
   image: z
     .instanceof(File)
     .refine(
-      (file) => file.size <= 1024 * 1024 * 10,
-      "Image must be less than 10MB"
+      (file) => file.size <= 1024 * 1024 * 6,
+      "Image must be less than 6MB"
     )
     .refine(
       validateImage,

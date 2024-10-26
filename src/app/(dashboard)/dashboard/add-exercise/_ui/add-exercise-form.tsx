@@ -6,6 +6,7 @@ import {
   EXERCISE_MECHANICS,
   EXERCISE_MUSCLE_GROUPS,
   EXERCISE_TYPES,
+  USER_EXERCISES_ROUTE,
 } from "@/shared/consts";
 import {
   Button,
@@ -20,6 +21,7 @@ import {
   useToast,
 } from "@/shared/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { addExercise } from "./actions";
@@ -55,6 +57,7 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
     },
   });
   const { toast } = useToast();
+  const router = useRouter();
 
   async function onSubmit(values: AddExerciseFormSchema) {
     const formData = new FormData();
@@ -71,6 +74,10 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
           title: state.message,
           variant: state.isError ? "destructive" : "success",
         });
+
+        if (!state.isError) {
+          router.push(USER_EXERCISES_ROUTE);
+        }
       });
     });
   }
@@ -169,6 +176,7 @@ export const AddExerciseForm = ({ userId }: AddExerciseFormProps) => {
                   value={field.value}
                   onChange={field.onChange}
                   placeholder="Select exercise experience level"
+                  slugify={false}
                 />
               )}
             />

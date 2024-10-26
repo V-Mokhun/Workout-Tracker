@@ -37,9 +37,9 @@ export async function seedExercises(db: DB) {
 
       return {
         ...restExercise,
-        typeId: foundType.id,
-        targetMuscleId: foundTargetMuscle.id,
-        equipmentId: foundEquipment.id,
+        typeSlug: foundType.slug,
+        targetMuscleSlug: foundTargetMuscle.slug,
+        equipmentSlug: foundEquipment.slug,
         experienceLevel: ex.experienceLevel as ExerciseExperience,
       };
     })

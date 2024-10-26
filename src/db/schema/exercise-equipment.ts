@@ -1,11 +1,11 @@
 import { relations } from "drizzle-orm";
-import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
-import { exercise } from "./exercise";
+import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
+import { exercise } from "./exercise";
 
 export const exerciseEquipment = pgTable("exercise_equipments", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   name: text("name").notNull().unique(),
   slug: text("slug").notNull().unique(),
   image: text("image").notNull(),

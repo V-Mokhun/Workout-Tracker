@@ -1,18 +1,22 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, serial, timestamp } from "drizzle-orm/pg-core";
+import { integer, pgTable, timestamp } from "drizzle-orm/pg-core";
 import { exercise } from "./exercise";
 import { workout } from "./workout";
 import { workoutExerciseSet } from "./workout-exercise-set";
 
 export const workoutExercise = pgTable("workout_exercises", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   workoutId: integer("workout_id")
     .references(() => workout.id, {
       onDelete: "cascade",
+      onUpdate: "cascade",
     })
     .notNull(),
   exerciseId: integer("exercise_id")
-    .references(() => exercise.id)
+    .references(() => exercise.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    })
     .notNull(),
   position: integer("position").notNull(),
   createdAt: timestamp("created_at", { mode: "date", precision: 3 })

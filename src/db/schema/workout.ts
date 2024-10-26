@@ -1,22 +1,18 @@
 import { relations } from "drizzle-orm";
-import {
-  date,
-  integer,
-  pgTable,
-  serial,
-  text,
-  timestamp,
-} from "drizzle-orm/pg-core";
-import { user } from "./user";
-import { workoutExercise } from "./workout-exercise";
+import { date, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
+import { user } from "./user";
+import { workoutExercise } from "./workout-exercise";
 
 export const workout = pgTable("workouts", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   userId: text("user_id")
     .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
+    .references(() => user.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
   name: text("name").notNull(),
   date: date("date", { mode: "date" }).notNull(),
   notes: text("notes"),

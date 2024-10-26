@@ -27,7 +27,9 @@ export const HeaderProfile = ({ user }: HeaderProfileProps) => {
       <PopoverTrigger>
         <Image
           className="aspect-square h-10 w-10 rounded-full shrink-0 overflow-hidden"
-          src={user.user_metadata.picture ?? DEFAULT_PROFILE_IMAGE}
+          src={
+            user.user_metadata.picture ?? user.picture ?? DEFAULT_PROFILE_IMAGE
+          }
           alt="Profile"
           width={40}
           height={40}

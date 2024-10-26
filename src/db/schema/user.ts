@@ -6,13 +6,14 @@ import {
   real,
   text,
   timestamp,
-  varchar
+  varchar,
 } from "drizzle-orm/pg-core";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { gender, units } from "./enums";
 import { userExercise } from "./user-exercise";
 import { workout } from "./workout";
+import { customExercise } from "./custom-exercise";
 
 export const user = pgTable("users", {
   id: text("id").primaryKey(),
@@ -45,4 +46,5 @@ export type User = z.infer<typeof selectUserSchema>;
 export const userRelations = relations(user, ({ one, many }) => ({
   workouts: many(workout),
   userExercises: many(userExercise),
+  customExercises: many(customExercise),
 }));

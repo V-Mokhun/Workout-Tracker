@@ -14,7 +14,7 @@ export default async function Page() {
     <Section>
       <Container>
         <Heading className="mb-8" tag="h1" as="h2">
-          Add Your Exercise
+          Add Exercise
         </Heading>
         <AddExerciseForm userId={userId} />
       </Container>
@@ -36,4 +36,3 @@ Overview - WYSIWYG or markdown
 Instructions - WYSIWYG
 Tips - WYSIWYG
 */
-

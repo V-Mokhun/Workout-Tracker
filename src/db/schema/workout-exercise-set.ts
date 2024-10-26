@@ -1,22 +1,16 @@
-import {
-  foreignKey,
-  integer,
-  pgTable,
-  real,
-  serial,
-  timestamp,
-} from "drizzle-orm/pg-core";
-import { workoutExercise } from "./workout-exercise";
 import { relations } from "drizzle-orm";
+import { integer, pgTable, real, timestamp } from "drizzle-orm/pg-core";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { exerciseSetType } from "./enums";
+import { workoutExercise } from "./workout-exercise";
 
 export const workoutExerciseSet = pgTable("workout_exercise_sets", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   workoutExerciseId: integer("workout_exercise_id")
     .references(() => workoutExercise.id, {
       onDelete: "cascade",
+      onUpdate: "cascade",
     })
     .notNull(),
   type: exerciseSetType("type").notNull().default("Normal"),

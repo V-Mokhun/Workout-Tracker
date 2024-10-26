@@ -22,6 +22,7 @@ interface AddExerciseSelectProps {
   value: string | undefined;
   onChange: (value: string) => void;
   placeholder: string;
+  slugify?: boolean;
 }
 
 export const AddExerciseSelect = ({
@@ -30,6 +31,7 @@ export const AddExerciseSelect = ({
   value,
   onChange,
   placeholder,
+  slugify: isSlugify = true,
 }: AddExerciseSelectProps) => {
   const [key, setKey] = useState(+new Date());
   return (
@@ -62,7 +64,10 @@ export const AddExerciseSelect = ({
             </Button>
           )}
           {options.map((option) => (
-            <SelectItem key={option} value={slugify(option)}>
+            <SelectItem
+              key={option}
+              value={isSlugify ? slugify(option) : option}
+            >
               {option}
             </SelectItem>
           ))}

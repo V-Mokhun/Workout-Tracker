@@ -1,13 +1,9 @@
 import { relations } from "drizzle-orm";
-import {
-  index,
-  integer,
-  pgTable,
-  serial,
-  text,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import { index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 import { exerciseExperience } from "./enums";
+import { ExerciseEquipment, exerciseEquipment } from "./exercise-equipment";
 import {
   ExerciseTargetMuscle,
   exerciseTargetMuscle,
@@ -15,26 +11,29 @@ import {
 import { ExerciseType, exerciseType } from "./exercise-type";
 import { userExercise } from "./user-exercise";
 import { workoutExercise } from "./workout-exercise";
-import { ExerciseEquipment, exerciseEquipment } from "./exercise-equipment";
-import { z } from "zod";
-import { createSelectSchema } from "drizzle-zod";
 
 export const exercise = pgTable(
   "exercises",
   {
-    id: serial("id").primaryKey(),
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
     name: text("name").notNull(),
     slug: text("slug").notNull().unique(),
     image: text("image"),
-    targetMuscleId: integer("target_muscle_id")
+    targetMuscleSlug: text("target_muscle_slug")
       .notNull()
-      .references(() => exerciseTargetMuscle.id),
-    typeId: integer("type_id")
+      .references(() => exerciseTargetMuscle.slug, {
+        onUpdate: "cascade",
+      }),
+    typeSlug: text("type_slug")
       .notNull()
-      .references(() => exerciseType.id),
-    equipmentId: integer("equipment_id")
+      .references(() => exerciseType.slug, {
+        onUpdate: "cascade",
+      }),
+    equipmentSlug: text("equipment_slug")
       .notNull()
-      .references(() => exerciseEquipment.id),
+      .references(() => exerciseEquipment.slug, {
+        onUpdate: "cascade",
+      }),
     mechanics: text("mechanics"),
     forceType: text("force_type"),
     experienceLevel: exerciseExperience("experience_level"),
@@ -70,15 +69,15 @@ export const exerciseRelations = relations(exercise, ({ one, many }) => ({
   workoutExercises: many(workoutExercise),
   userExercises: many(userExercise),
   targetMuscle: one(exerciseTargetMuscle, {
-    fields: [exercise.targetMuscleId],
-    references: [exerciseTargetMuscle.id],
+    fields: [exercise.targetMuscleSlug],
+    references: [exerciseTargetMuscle.slug],
   }),
   type: one(exerciseType, {
-    fields: [exercise.typeId],
-    references: [exerciseType.id],
+    fields: [exercise.typeSlug],
+    references: [exerciseType.slug],
   }),
   equipment: one(exerciseEquipment, {
-    fields: [exercise.equipmentId],
-    references: [exerciseEquipment.id],
+    fields: [exercise.equipmentSlug],
+    references: [exerciseEquipment.slug],
   }),
 }));

@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1728229773408,
-      "tag": "0000_shiny_dagger",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1728312989800,
-      "tag": "0001_quick_cerise",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1729890968858,
-      "tag": "0002_flippant_puppet_master",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1729891160917,
-      "tag": "0003_abandoned_ender_wiggin",
+      "when": 1729955670691,
+      "tag": "0000_military_ezekiel_stane",
       "breakpoints": true
     }
   ]

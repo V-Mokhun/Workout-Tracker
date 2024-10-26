@@ -5,7 +5,7 @@ import { and, eq, ilike } from "drizzle-orm";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { searchValue, targetMuscleId } = data;
+    const { searchValue, ...whereOptions } = data;
 
     if (!searchValue) {
       return Response.json(
@@ -14,16 +14,18 @@ export async function POST(req: Request) {
       );
     }
 
-    let whereClause = ilike(exercise.name, `%${searchValue}%`);
+    const where = [ilike(exercise.name, `%${searchValue}%`)];
 
-    if (targetMuscleId) {
-      whereClause = and(
-        whereClause,
-        eq(exercise.targetMuscleId, targetMuscleId)
-      )!;
+    if (whereOptions.targetMuscleSlug) {
+      where.push(eq(exercise.targetMuscleSlug, whereOptions.targetMuscleSlug));
     }
+
+    if (whereOptions.equipmentSlug) {
+      where.push(eq(exercise.equipmentSlug, whereOptions.equipmentSlug));
+    }
+
     //TODO: search also in user's custom created exercises
-    const exercises = await exerciseService.searchExercises(whereClause);
+    const exercises = await exerciseService.searchExercises(and(...where)!);
 
     return Response.json(
       { data: exercises, message: "OK" },
