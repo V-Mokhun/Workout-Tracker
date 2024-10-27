@@ -1,4 +1,5 @@
-import { exercise, exerciseEquipment } from "@/db";
+import { exercise, exerciseEquipment, userExercise } from "@/db";
+import { db } from "@/db/database";
 import {
   DASHBOARD_ROUTE,
   DEFAULT_EXERCISE_LIMIT,
@@ -11,9 +12,9 @@ import {
   ExercisesSearch,
   Pagination,
 } from "@/widgets";
+import { getSession } from "@auth0/nextjs-auth0";
 import { count, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
-import { db } from "@/db/database";
 
 const Page = async ({
   params,
@@ -23,6 +24,7 @@ const Page = async ({
   searchParams: { page?: string };
 }) => {
   const equipmentSlug = params.slug;
+  const session = await getSession();
 
   const equipmentGroup = await db.query.exerciseEquipment.findFirst({
     where: eq(exerciseEquipment.slug, equipmentSlug),
@@ -53,6 +55,12 @@ const Page = async ({
       type: {
         columns: {
           name: true,
+        },
+      },
+      userExercises: {
+        where: eq(userExercise.userId, session?.user?.sub ?? ""),
+        columns: {
+          isFavorite: true,
         },
       },
     },

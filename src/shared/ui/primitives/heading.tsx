@@ -21,8 +21,7 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
             "text-clamp-heading-big": as == "h1",
             "text-clamp-heading": as == "h2",
             "text-clamp-heading-sm": as == "h3",
-            "text-xl md:text-2xl": as == "h4",
-            "text-lg md:text-xl": as == "h5",
+            "text-lg md:text-xl": as == "h4" || as == "h5",
             "text-base md:text-lg": as == "h6",
           },
           className

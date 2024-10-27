@@ -3,10 +3,30 @@ import { BEST_EXERCISES, EXERCISES_ROUTE } from "@/shared/consts";
 import { Container, Heading, Section, Separator } from "@/shared/ui";
 import { ExerciseCard, ExercisesSearch } from "@/widgets";
 import { ExerciseCategoryCard } from "./_ui";
+import { getSession } from "@auth0/nextjs-auth0";
+import { and, eq, inArray } from "drizzle-orm";
+import { userExercise } from "@/db";
 
 const Page = async () => {
   const muscleGroups = await db.query.exerciseTargetMuscle.findMany();
   const equipments = await db.query.exerciseEquipment.findMany();
+
+  const session = await getSession();
+  const userId = session?.user?.sub;
+
+  const bestUserExercises = await db.query.userExercise.findMany({
+    where: and(
+      eq(userExercise.userId, userId ?? ""),
+      inArray(
+        userExercise.exerciseId,
+        BEST_EXERCISES.map((exercise) => exercise.id)
+      )
+    ),
+    columns: {
+      exerciseId: true,
+      isFavorite: true,
+    },
+  });
 
   return (
     <Section>
@@ -47,7 +67,15 @@ const Page = async () => {
             </p>
             <ul className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4">
               {BEST_EXERCISES.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} />
+                <ExerciseCard
+                  key={exercise.id}
+                  exercise={{
+                    ...exercise,
+                    userExercises: bestUserExercises.filter(
+                      (userExercise) => userExercise.exerciseId === exercise.id
+                    ),
+                  }}
+                />
               ))}
             </ul>
           </div>

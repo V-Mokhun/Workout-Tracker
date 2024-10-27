@@ -9,6 +9,8 @@ import {
 import { exercise } from "./exercise";
 import { user } from "./user";
 import { relations } from "drizzle-orm";
+import { createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const userExercise = pgTable(
   "user_exercises",
@@ -26,7 +28,7 @@ export const userExercise = pgTable(
         onUpdate: "cascade",
       }),
     userNotes: text("user_notes"),
-    isFavorite: boolean("is_favorite").default(false),
+    isFavorite: boolean("is_favorite").notNull().default(false),
     createdAt: timestamp("created_at", { mode: "date", precision: 3 })
       .notNull()
       .defaultNow(),
@@ -41,6 +43,9 @@ export const userExercise = pgTable(
     };
   }
 );
+
+const selectUserExerciseSchema = createSelectSchema(userExercise);
+export type UserExercise = z.infer<typeof selectUserExerciseSchema>;
 
 export const userExerciseRelations = relations(userExercise, ({ one }) => ({
   user: one(user, { fields: [userExercise.userId], references: [user.id] }),
