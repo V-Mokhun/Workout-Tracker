@@ -1,39 +1,39 @@
 "use client";
 
-import { Button, useToast } from "@/shared/ui";
-import { Star } from "lucide-react";
-import { useTransition, useState } from "react";
+import { ApiResponse } from "@/shared/api";
 import { cn } from "@/shared/lib";
-import { toggleExerciseFavorite } from "@/shared/api/exercise/actions";
+import { Button } from "@/shared/ui";
+import { Star } from "lucide-react";
+import useSWRMutation from "swr/mutation";
 
 interface FavoriteButtonProps {
   exerciseId: number;
   initialIsFavorite: boolean;
 }
 
+const toggleExerciseFavorite = async (
+  url: string,
+  { arg }: { arg: number }
+) => {
+  const res = await fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify({ exerciseId: arg }),
+  });
+
+  return res.json() as Promise<ApiResponse<boolean>>;
+};
+
 export const FavoriteButton = ({
   exerciseId,
   initialIsFavorite,
 }: FavoriteButtonProps) => {
-  const [isPending, startTransition] = useTransition();
-  const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
-  const { toast } = useToast();
+  const { trigger, isMutating, data } = useSWRMutation(
+    `/api/exercise/toggle-favorite`,
+    toggleExerciseFavorite
+  );
 
-  const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    startTransition(async () => {
-      const prevIsFavorite = isFavorite;
-      setIsFavorite((prev) => !prev);
-      const { success } = await toggleExerciseFavorite(exerciseId);
-      if (!success) {
-        setIsFavorite(prevIsFavorite);
-        toast({
-          title: `Failed to ${isFavorite ? "remove from" : "add to"} favorites`,
-          variant: "destructive",
-        });
-      }
-    });
-  };
+  const isFavorite =
+    data === undefined || "error" in data ? initialIsFavorite : data.data;
 
   return (
     <Button
@@ -41,8 +41,13 @@ export const FavoriteButton = ({
       variant="ghost"
       size="icon"
       className="shrink-0 bg-slate-200 hover:bg-slate-300"
-      onClick={handleFavoriteClick}
-      disabled={isPending}
+      onClick={async () => {
+        await trigger(exerciseId, {
+          optimisticData: !isFavorite,
+          rollbackOnError: true,
+        });
+      }}
+      disabled={isMutating}
     >
       <Star
         className={cn(

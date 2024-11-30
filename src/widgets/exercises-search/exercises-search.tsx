@@ -23,6 +23,7 @@ export const ExercisesSearch = forwardRef<
   const [error, setError] = useState("");
   const [exercises, setExercises] = useState<SearchExercise[]>([]);
 
+  // TODO: use useSWR
   const onSearchExercises = (value: string) => {
     setLoading(true);
     fetch("/api/exercise/search", {

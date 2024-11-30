@@ -16,14 +16,16 @@ import {
 import { BookmarkIcon, LogOut, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useState } from "react";
 interface HeaderProfileProps {
   user: AuthUser;
 }
 
 export const HeaderProfile = ({ user }: HeaderProfileProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger>
         <Image
           className="aspect-square h-10 w-10 rounded-full shrink-0 overflow-hidden"
@@ -41,6 +43,7 @@ export const HeaderProfile = ({ user }: HeaderProfileProps) => {
             <Link
               href={PROFILE_ROUTE}
               className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted transition-colors"
+              onClick={() => setIsOpen(false)}
             >
               <UserRound className="w-4 h-4" />
               <span>Profile</span>
@@ -50,6 +53,7 @@ export const HeaderProfile = ({ user }: HeaderProfileProps) => {
             <Link
               href={USER_EXERCISES_ROUTE}
               className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted transition-colors"
+              onClick={() => setIsOpen(false)}
             >
               <BookmarkIcon className="w-4 h-4" />
               <span>Your Exercises</span>

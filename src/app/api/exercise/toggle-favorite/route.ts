@@ -1,18 +1,19 @@
-"use server";
-
 import { userExercise } from "@/db";
 import { db } from "@/db/database";
 import { getSession } from "@auth0/nextjs-auth0";
 import { and, eq } from "drizzle-orm";
 
-export async function toggleExerciseFavorite(exerciseId: number) {
+export async function PATCH(req: Request) {
+  const { exerciseId } = await req.json();
+
+  if (!exerciseId) {
+    return Response.json({ error: "Exercise ID is required" }, { status: 400 });
+  }
+
   const session = await getSession();
   const userId = session?.user?.sub;
   if (!userId) {
-    return {
-      success: false,
-      error: "Unauthorized",
-    };
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
@@ -30,10 +31,10 @@ export async function toggleExerciseFavorite(exerciseId: number) {
         isFavorite: true,
       });
 
-      return {
-        success: true,
-        isFavorite: true,
-      };
+      return Response.json({
+        data: true,
+        message: "Exercise added to favorites",
+      });
     }
 
     await db
@@ -46,14 +47,14 @@ export async function toggleExerciseFavorite(exerciseId: number) {
         )
       );
 
-    return {
-      success: true,
-      isFavorite: !existingRecord.isFavorite,
-    };
+    return Response.json({
+      data: !existingRecord.isFavorite,
+      message: "Exercise added to favorites",
+    });
   } catch (error) {
-    return {
-      success: false,
-      error: "Failed to toggle exercise favorite",
-    };
+    return Response.json(
+      { error: "Failed to toggle exercise favorite" },
+      { status: 500 }
+    );
   }
 }
