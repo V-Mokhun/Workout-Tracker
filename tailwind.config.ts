@@ -89,7 +89,7 @@ const config = {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
       fontSize: {
-        "clamp-heading-big": "clamp(2rem, 6vw, 2.5rem)",
+        "clamp-heading-big": "clamp(1.75rem, 5.5vw, 2.5rem)",
         "clamp-heading": "clamp(1.5rem, 5vw, 2rem)",
         "clamp-heading-sm": "clamp(1.25rem, 4.5vw, 1.5rem)",
       },

@@ -66,12 +66,13 @@ const Page = async () => {
               Check out the most popular exercises.
             </p>
             <ul className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4">
+              {/* TODO: Fetch from DB, BEST_EXERCISES do array of slugs */}
               {BEST_EXERCISES.map((exercise) => (
                 <ExerciseCard
                   key={exercise.id}
                   exercise={{
                     ...exercise,
-                    userExercises: bestUserExercises.filter(
+                    userExercise: bestUserExercises.find(
                       (userExercise) => userExercise.exerciseId === exercise.id
                     ),
                   }}

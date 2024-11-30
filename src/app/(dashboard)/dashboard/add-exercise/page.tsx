@@ -1,6 +1,6 @@
-import { Container, Heading, Section, TooltipProvider } from "@/shared/ui";
-import { notFound } from "next/navigation";
+import { Container, Heading, Section } from "@/shared/ui";
 import { getSession } from "@auth0/nextjs-auth0";
+import { notFound } from "next/navigation";
 import { AddExerciseForm } from "./_ui";
 
 export default async function Page() {
@@ -21,18 +21,3 @@ export default async function Page() {
     </Section>
   );
 }
-/*
-
-Image   |   Name   
-        |   Target Muscle
-        |   Type
-        |   Equipment
-        |   Mechanics
-        |   Force Type
-        |   Experience Level
-        |   Secondary Muscles
-
-Overview - WYSIWYG or markdown
-Instructions - WYSIWYG
-Tips - WYSIWYG
-*/

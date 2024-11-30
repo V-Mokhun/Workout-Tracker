@@ -108,7 +108,13 @@ const Page = async ({
             <Heading className="mb-6 md:mb-8">Browse All</Heading>
             <ul className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4">
               {exercises.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} />
+                <ExerciseCard
+                  key={exercise.id}
+                  exercise={{
+                    ...exercise,
+                    userExercise: exercise.userExercises?.[0],
+                  }}
+                />
               ))}
             </ul>
           </div>
@@ -117,7 +123,6 @@ const Page = async ({
             disablePrevious={page === 1}
             disableNext={page === totalPages}
             currentPage={page}
-            href={`${EXERCISES_ROUTE}/muscles/${muscleSlug}`}
           />
         </Container>
       </Section>

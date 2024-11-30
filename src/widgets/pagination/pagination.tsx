@@ -1,12 +1,14 @@
+"use client";
+
 import { cn } from "@/shared/lib";
 import { PaginationPrimitive } from "@/shared/ui";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
   disablePrevious: boolean;
   disableNext: boolean;
-  href: string;
 }
 
 export const Pagination = ({
@@ -14,8 +16,20 @@ export const Pagination = ({
   disableNext,
   disablePrevious,
   totalPages,
-  href,
 }: PaginationProps) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createPageUrl = (pageNumber: number) => {
+    const params = new URLSearchParams(searchParams);
+    if (pageNumber === 1) {
+      params.delete("page");
+    } else {
+      params.set("page", pageNumber.toString());
+    }
+    return `${pathname}?${params.toString()}`;
+  };
+
   return (
     <PaginationPrimitive.Pagination>
       <PaginationPrimitive.PaginationContent>
@@ -25,13 +39,13 @@ export const Pagination = ({
               "mr-3": true,
               "opacity-50 pointer-events-none": disablePrevious,
             })}
-            href={`${href}?page=${currentPage - 1}`}
+            href={createPageUrl(currentPage - 1)}
           />
         </PaginationPrimitive.PaginationItem>
 
         {currentPage > 2 && (
           <PaginationPrimitive.PaginationItem>
-            <PaginationPrimitive.PaginationLink href={`${href}?page=1`}>
+            <PaginationPrimitive.PaginationLink href={createPageUrl(1)}>
               1
             </PaginationPrimitive.PaginationLink>
           </PaginationPrimitive.PaginationItem>
@@ -46,7 +60,7 @@ export const Pagination = ({
         {currentPage > 1 && (
           <PaginationPrimitive.PaginationItem>
             <PaginationPrimitive.PaginationLink
-              href={`${href}?page=${currentPage - 1}`}
+              href={createPageUrl(currentPage - 1)}
             >
               {currentPage - 1}
             </PaginationPrimitive.PaginationLink>
@@ -62,7 +76,7 @@ export const Pagination = ({
         {currentPage < totalPages && (
           <PaginationPrimitive.PaginationItem>
             <PaginationPrimitive.PaginationLink
-              href={`${href}?page=${currentPage + 1}`}
+              href={createPageUrl(currentPage + 1)}
             >
               {currentPage + 1}
             </PaginationPrimitive.PaginationLink>
@@ -78,7 +92,7 @@ export const Pagination = ({
         {currentPage < totalPages - 1 && (
           <PaginationPrimitive.PaginationItem>
             <PaginationPrimitive.PaginationLink
-              href={`${href}?page=${totalPages}`}
+              href={createPageUrl(totalPages)}
             >
               {totalPages}
             </PaginationPrimitive.PaginationLink>
@@ -91,7 +105,7 @@ export const Pagination = ({
               "ml-3": true,
               "opacity-50 pointer-events-none": disableNext,
             })}
-            href={`${href}?page=${currentPage + 1}`}
+            href={createPageUrl(currentPage + 1)}
           />
         </PaginationPrimitive.PaginationItem>
       </PaginationPrimitive.PaginationContent>
