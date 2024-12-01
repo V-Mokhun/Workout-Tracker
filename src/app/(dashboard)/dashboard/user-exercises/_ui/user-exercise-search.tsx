@@ -7,17 +7,28 @@ import { useEffect, useState } from "react";
 
 interface UserExerciseSearchProps {
   onSearch: (query: string) => void;
+  onClear: () => void;
+  defaultValue?: string;
 }
 
-export function UserExerciseSearch({ onSearch }: UserExerciseSearchProps) {
-  const [value, setValue] = useState("");
+export function UserExerciseSearch({
+  onSearch,
+  onClear,
+  defaultValue = "",
+}: UserExerciseSearchProps) {
+  const [value, setValue] = useState<string>(defaultValue);
   const [debouncedValue] = useDebouncedValue(value, 500);
 
   useEffect(() => {
-    if (debouncedValue.trim().length === 0) return;
+    if (!debouncedValue.trim()) {
+      onClear();
+      return;
+    }
+
+    console.log("debouncedValue", debouncedValue);
 
     onSearch(debouncedValue);
-  }, [debouncedValue, onSearch]);
+  }, [debouncedValue, onSearch, onClear]);
 
   return (
     <div className="relative">

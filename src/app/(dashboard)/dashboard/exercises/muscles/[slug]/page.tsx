@@ -119,9 +119,9 @@ const Page = async ({
             </ul>
           </div>
           <Pagination
-            totalPages={totalPages}
+            totalPages={totalPages || 1}
             disablePrevious={page === 1}
-            disableNext={page === totalPages}
+            disableNext={page === (totalPages || 1)}
             currentPage={page}
           />
         </Container>

@@ -3,8 +3,7 @@
 import { ExerciseEquipment, ExerciseTargetMuscle } from "@/db";
 import { useUserCustomExercises } from "@/shared/lib/hooks";
 import { Pagination } from "@/widgets";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { UserExerciseFilters } from "./user-exercise-filters";
 import { UserExerciseList } from "./user-exercise-list";
 import { UserExerciseSearch } from "./user-exercise-search";
@@ -18,13 +17,14 @@ export const UserExerciseContent = ({
   muscleGroups,
   equipments,
 }: UserExerciseContentProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = parseInt(searchParams.get("page") ?? "1", 10);
 
-  const [fetchUrl, setFetchUrl] = useState(
-    `/api/exercise/user-custom?page=${currentPage}`
+  const { data, isLoading } = useUserCustomExercises(
+    `/api/exercise/user-custom?${searchParams.toString()}`
   );
-  const { data, isLoading } = useUserCustomExercises(fetchUrl);
 
   return (
     <div className="grid gap-6 md:grid-cols-[240px_1fr] flex-1">
@@ -53,21 +53,28 @@ export const UserExerciseContent = ({
               params.delete("equipment");
             }
 
-            setFetchUrl(`/api/exercise/user-custom?${params.toString()}`);
+            router.push(`${pathname}?${params.toString()}`);
           }}
         />
       </aside>
 
       <div className="space-y-6 h-full flex flex-col">
         <UserExerciseSearch
+          defaultValue={searchParams.get("query") ?? ""}
           onSearch={(query) => {
             const params = new URLSearchParams(searchParams);
-            if (query.trim()) {
+            if (query.trim().length > 0) {
               params.set("query", query.trim());
             } else {
               params.delete("query");
             }
-            setFetchUrl(`/api/exercise/user-custom?${params.toString()}`);
+
+            router.push(`${pathname}?${params.toString()}`);
+          }}
+          onClear={() => {
+            const params = new URLSearchParams(searchParams);
+            params.delete("query");
+            router.push(`${pathname}?${params.toString()}`);
           }}
         />
 
@@ -77,9 +84,9 @@ export const UserExerciseContent = ({
         />
 
         <Pagination
-          totalPages={data?.totalPages ?? 1}
+          totalPages={data?.totalPages || 1}
           disablePrevious={currentPage === 1}
-          disableNext={currentPage === (data?.totalPages ?? 1)}
+          disableNext={currentPage === (data?.totalPages || 1)}
           currentPage={currentPage}
         />
       </div>
