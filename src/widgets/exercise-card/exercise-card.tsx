@@ -1,5 +1,5 @@
 import { BasicExercise, UserExercise } from "@/db";
-import { SINGLE_EXERCISE_ROUTE } from "@/shared/consts";
+import { CUSTOM_EXERCISES_ROUTE, SINGLE_EXERCISE_ROUTE } from "@/shared/consts";
 import { Heading, Separator } from "@/shared/ui";
 import { Dumbbell, Target, UserCircle } from "lucide-react";
 import Image from "next/image";
@@ -25,7 +25,11 @@ export const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
       key={exercise.id}
     >
       <Link
-        href={SINGLE_EXERCISE_ROUTE(exercise.slug)}
+        href={
+          exercise.isCustom
+            ? CUSTOM_EXERCISES_ROUTE(exercise.slug)
+            : SINGLE_EXERCISE_ROUTE(exercise.slug)
+        }
         className="relative after:block after:inset-0 after:absolute after:rounded-t-md after:bg-transparent after:transition-colors hover:after:bg-black/20"
       >
         <Image

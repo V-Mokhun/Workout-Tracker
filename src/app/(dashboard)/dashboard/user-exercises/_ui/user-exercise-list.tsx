@@ -13,15 +13,15 @@ export const UserExerciseList = ({
   exercises,
   isLoading,
 }: UserExerciseListProps) => {
-  // if (isLoading) {
-  //   return (
-  //     <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 flex-1">
-  //       {Array.from({ length: 6 }).map((_, index) => (
-  //         <ExerciseCardSkeleton key={index} />
-  //       ))}
-  //     </ul>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 flex-1">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <ExerciseCardSkeleton key={index} />
+        ))}
+      </ul>
+    );
+  }
 
   if (exercises.length === 0) {
     return (

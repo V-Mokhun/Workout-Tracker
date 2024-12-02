@@ -12,6 +12,8 @@ export const USER_EXERCISES_ROUTE = createRoute("user-exercises");
 export const EXERCISES_ROUTE = createRoute("exercises");
 export const SINGLE_EXERCISE_ROUTE = (slug: string) =>
   createRoute(`exercise/${slug}`);
+export const CUSTOM_EXERCISES_ROUTE = (slug: string) =>
+  `${USER_EXERCISES_ROUTE}/${slug}`;
 export const EXERCISE_MUSCLE_ROUTE = (slug: string) =>
   `${EXERCISES_ROUTE}/muscles/${slug}`;
 export const EXERCISE_EQUIPMENT_ROUTE = (slug: string) =>

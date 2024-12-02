@@ -20,10 +20,11 @@ interface UserExerciseFiltersProps {
   muscleGroups: ExerciseTargetMuscle[];
   equipments: ExerciseEquipment[];
   onChange?: (filters: UserExerciseFiltersState) => void;
+  initialFilters?: UserExerciseFiltersState;
 }
 
 const userExerciseFiltersType = ["all", "favorite", "custom"] as const;
-type UserExerciseFiltersType = (typeof userExerciseFiltersType)[number];
+export type UserExerciseFiltersType = (typeof userExerciseFiltersType)[number];
 
 export interface UserExerciseFiltersState {
   type: UserExerciseFiltersType;
@@ -88,9 +89,10 @@ export const UserExerciseFilters = ({
   muscleGroups,
   equipments,
   onChange,
+  initialFilters = initialState,
 }: UserExerciseFiltersProps) => {
   const [key, setKey] = useState(+new Date());
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialFilters);
 
   useEffect(() => {
     onChange && onChange(state);
@@ -128,6 +130,7 @@ export const UserExerciseFilters = ({
         </Heading>
         <Select
           key={key}
+          defaultValue={initialFilters.muscleGroup ?? ""}
           value={state.muscleGroup ?? ""}
           onValueChange={(value) => {
             dispatch({
@@ -171,6 +174,7 @@ export const UserExerciseFilters = ({
         </Heading>
         <Select
           key={key}
+          defaultValue={initialFilters.equipment ?? ""}
           value={state.equipment ?? ""}
           onValueChange={(value) => {
             dispatch({
